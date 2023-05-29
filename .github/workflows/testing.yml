@@ -34,8 +34,10 @@ jobs:
         key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
         restore-keys: |
           ${{ runner.os }}-php-
+    - name: validate composer.json and composer.lock
+      run: composer validate
     - name: Install Dependencies
-      run: composer install --no-dev --no-progress --no-suggest --prefer-dist --optimize-autoloader
+      run: composer install --no-dev --no-progress --no-scripts --prefer-dist -a
     - name: Create Database
       run: |
         mkdir -p data
