@@ -83,12 +83,17 @@
         "post-update-cmd": [
             "@auto-scripts"
         ],
+        "analyze": [
+            "phpstan analyse src tests",
+            "php bin/console lint:twig templates",
+            "phpunit"
+        ],
         "prepare-db": [
-        "php bin/console doctrine:schema:drop --force",
-        "php bin/console doctrine:database:create",
-        "php bin/console doctrine:migrations:migrate --no-interaction",
-        "php bin/console doctrine:fixtures:load --no-interaction"
-    ],
+            "php bin/console doctrine:schema:drop --force",
+            "php bin/console doctrine:database:create",
+            "php bin/console doctrine:migrations:migrate --no-interaction",
+            "php bin/console doctrine:fixtures:load --no-interaction"
+        ],
         "prepare-test": [
             "php bin/console doctrine:database:drop --force --env=test",
             "php bin/console doctrine:database:create --env=test",
@@ -106,6 +111,7 @@
         }
     },
     "require-dev": {
+        "phpstan/phpstan": "^1.10",
         "phpunit/phpunit": "^9.5",
         "symfony/browser-kit": "5.4.*",
         "symfony/css-selector": "5.4.*",
