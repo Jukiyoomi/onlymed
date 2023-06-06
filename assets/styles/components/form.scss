@@ -6,9 +6,8 @@ form {
 	&.form_auth {
 		background: vars.$white;
 		max-width: vars.rem(610);
-		@include vars.flexer(start, center);
+		@include vars.flexer(center, center);
 		flex-wrap: wrap;
-		align-items: center;
 		padding: vars.rem(40);
 		gap: vars.rem($input-gap);
 		border-radius: vars.rem(8);
@@ -19,6 +18,7 @@ form {
 		width: 100%;
 		color: vars.$dark-green;
 		text-align: center;
+		text-transform: capitalize;
 	}
 
 	.form_widget {
