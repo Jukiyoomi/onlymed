@@ -1,0 +1,36 @@
+@use '../utils' as vars;
+
+$input-gap: 20;
+
+form {
+	&.form_auth {
+		background: vars.$white;
+		max-width: vars.rem(610);
+		@include vars.flexer(start, center);
+		flex-wrap: wrap;
+		align-items: center;
+		padding: vars.rem(40);
+		gap: vars.rem($input-gap);
+		border-radius: vars.rem(8);
+		margin: 0 auto;
+	}
+
+	.form_title {
+		width: 100%;
+		color: vars.$dark-green;
+		text-align: center;
+	}
+
+	.form_widget {
+		display: flex;
+		flex-direction: column;
+		gap: vars.rem(10);
+		width: 100%;
+	}
+
+	.form_half {
+		$half-gap: calc($input-gap / 2);
+		$half-gap-to-rem: vars.rem($half-gap);
+		width: calc(50% - $half-gap-to-rem);
+	}
+}
