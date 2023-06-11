@@ -16,12 +16,13 @@ class Doctor extends User
 		parent::__construct();
 		$this->roles[] = $this->role;
 		$this->specialities = new ArrayCollection();
+		$this->isVerified = false;
 	}
 
     #[ORM\Column(length: 150)]
     private string $phone;
 
-    #[ORM\Column(options: ['default' => false])]
+    #[ORM\Column]
     private bool $isVerified;
 
 	#[ORM\ManyToMany(targetEntity: Speciality::class, inversedBy: 'doctors')]
