@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Patient;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Service\NameFormatterService;
@@ -17,7 +18,7 @@ class RegistrationController extends AbstractController
     #[Route('/register', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
-        $user = new User();
+        $user = new Patient();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
