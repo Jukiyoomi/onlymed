@@ -3,6 +3,9 @@
 namespace App\Form;
 
 use App\Entity\Doctor;
+use App\Entity\Speciality;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -43,6 +46,19 @@ class DoctorFormType extends AbstractType
 					'autocomplete' => 'email',
 					'placeholder' => 'Enter your email address',
 				],
+			])
+			->add('speciality', EntityType::class, [
+				'label' => 'Speciality',
+				'class' => Speciality::class,
+				'choice_label' => 'name',
+				'required' => true,
+				'multiple' => true,
+				'mapped' => false,
+				'expanded' => false,
+				'query_builder' => function (EntityRepository $er) {
+					return $er->createQueryBuilder('s');
+				},
+
 			])
 			->add('agreeTerms', CheckboxType::class, [
 				'mapped' => false,

@@ -63,6 +63,10 @@ class RegistrationController extends AbstractController
 				)
 			);
 
+			foreach ($form->get('speciality')->getData() as $speciality) {
+				$user->addSpeciality($speciality);
+			}
+
 			$entityManager->persist($user);
 			$entityManager->flush();
 			// do anything else you need here, like send an email

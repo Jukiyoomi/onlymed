@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\DoctorRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: DoctorRepository::class)]
@@ -13,6 +15,7 @@ class Doctor extends User
 	{
 		parent::__construct();
 		$this->roles[] = $this->role;
+		$this->specialities = new ArrayCollection();
 	}
 
     #[ORM\Column(length: 150)]
@@ -20,6 +23,10 @@ class Doctor extends User
 
     #[ORM\Column(options: ['default' => false])]
     private bool $isVerified;
+
+	#[ORM\ManyToMany(targetEntity: Speciality::class, inversedBy: 'doctors')]
+	private Collection $specialities;
+
 
 
     public function getPhone(): ?string
@@ -45,4 +52,25 @@ class Doctor extends User
 
         return $this;
     }
+
+	public function getSpecialities(): Collection
+	{
+		return $this->specialities;
+	}
+
+	public function addSpeciality(Speciality $speciality): self
+	{
+		if (!$this->specialities->contains($speciality)) {
+			$this->specialities[] = $speciality;
+		}
+
+		return $this;
+	}
+
+	public function removeSpeciality(Speciality $speciality): self
+	{
+		$this->specialities->removeElement($speciality);
+
+		return $this;
+	}
 }
