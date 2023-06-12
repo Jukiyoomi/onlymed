@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    {{ form_start(form, { 'attr': {'class': 'form_auth'} }) }}
+        <h1 class="form_title main-title">Register</h1>
+        <div class="form_widget form_half">
+            {{ form_widget(form.firstname) }}
+        </div>
+        <div class="form_widget form_half">
+            {{ form_widget(form.lastname) }}
+        </div>
+        <div class="form_widget">
+            {{ form_widget(form.email) }}
+        </div>
+        <div class="form_widget">
+            {{ form_widget(form.password.first) }}
+        </div>
+        <div class="form_widget">
+            {{ form_widget(form.password.second) }}
+        </div>
+        <div class="form_widget">
+            {{ form_row(form.agreeTerms) }}
+        </div>
+        <button type="submit" class="btn_full btn_primary reg-bold">Register</button>
+    {{ form_end(form) }}
+{% endblock %}
