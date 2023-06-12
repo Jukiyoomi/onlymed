@@ -73,6 +73,7 @@ jobs:
         run: |
           php bin/console -V
           php bin/console about
+          composer prepare-db
           
       # Database
       - name: Create Database
