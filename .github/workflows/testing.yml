@@ -26,19 +26,6 @@ jobs:
           php-version: ${{ matrix.php-versions }}
           extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, dom, filter, gd, iconv, json, mbstring, pdo
 
-      # Composer
-      - name: Get composer cache directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-        # https://help.github.com/en/actions/configuring-and-managing-workflows/caching-dependencies-to-speed-up-workflows
-      - name: Cache composer dependencies
-        uses: actions/cache@v1
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: ${{ runner.os }}-composer-
-
       - name: Install Composer dependencies
         run: composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
 
@@ -81,7 +68,9 @@ jobs:
         run: |
           mkdir -p data
           touch data/database.sqlite
-          composer prepare-db
+          php bin/console doctrine:schema:drop --force
+          php bin/console doctrine:schema:update
+          php bin/console doctrine:fixtures:load --no-interaction
 
       # Tests
       - name: Run unit and functional tests
