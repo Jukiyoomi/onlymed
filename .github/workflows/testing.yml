@@ -75,5 +75,7 @@ jobs:
 
       # Tests
       - name: Run unit and functional tests
+        env:
+          DATABASE_URL: sqlite:///%kernel.project_dir%/data/database.sqlite
         run: |
           php bin/phpunit --stop-on-failure
