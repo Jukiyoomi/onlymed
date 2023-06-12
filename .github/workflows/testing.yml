@@ -73,17 +73,17 @@ jobs:
         run: |
           php bin/console -V
           php bin/console about
-          composer prepare-db
           
       # Database
       - name: Create Database
+        env:
+          DATABASE_URL: sqlite:///%kernel.project_dir%/data/database.sqlite
         run: |
           mkdir -p data
           touch data/database.sqlite
+          composer prepare-db
 
       # Tests
       - name: Run unit and functional tests
-        env:
-          DATABASE_URL: sqlite:///%kernel.project_dir%/data/database.sqlite
         run: |
           php bin/phpunit --stop-on-failure
