@@ -14,13 +14,14 @@ import './bootstrap';
 // Create a react app using React 18 syntax
 import React from 'react';
 import {createRoot} from 'react-dom/client';
+import App from "./app/index";
 
 const root = document.getElementById('root');
 
 if (root) {
 	createRoot(root).render(
 		<React.StrictMode>
-			<h1>Hello World</h1>
+			<App />
 		</React.StrictMode>
 	);
 }
