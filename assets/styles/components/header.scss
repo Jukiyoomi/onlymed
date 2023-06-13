@@ -1,0 +1,46 @@
+@use '../utils' as vars;
+
+header {
+	width: 100%;
+	background: vars.$white;
+	padding: vars.rem(20);
+	@include vars.flexer(center, space-between);
+	position: relative;
+
+
+	.nav_burger {
+		color: vars.$dark-green;
+		transform: scale(1.5);
+		cursor: pointer;
+
+		@include vars.media(phablet) {
+			display: none;
+		}
+	}
+
+	.nav_links {
+		@include vars.flexer(center, start);
+		gap: vars.rem(20);
+		transition: top .5s, opacity .2s;
+		@include vars.media(phablet, max) {
+			width: 100%;
+			opacity: 0;
+			position: absolute;
+			top: 0;
+			left: 0;
+			justify-content: center;
+			background: lightgray;
+			padding: vars.rem(10);
+			//box-shadow: 1px 3px 5px 14px rgba(0,0,0,0.09);
+		}
+	}
+
+	.nav_links.nav_links-open {
+		transition: top .5s, opacity .2s;
+		@include vars.media(phablet, max) {
+			opacity: 1;
+			top: 100%;
+			//box-shadow: 1px 3px 5px 14px rgba(0,0,0,0.09);
+		}
+	}
+}
