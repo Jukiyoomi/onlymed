@@ -26,6 +26,7 @@ Encore
     .addAliases({
         "@pages": path.resolve(__dirname, "assets/app/pages"),
         "@comps": path.resolve(__dirname, "assets/app/components"),
+        "@img": path.resolve(__dirname, "assets/images"),
     })
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
@@ -64,6 +65,7 @@ Encore
 
     // enables Sass/SCSS support
     .enableSassLoader()
+    .enablePostCssLoader()
 
     // uncomment if you use TypeScript
     .enableTypeScriptLoader()

@@ -14,13 +14,28 @@ import './bootstrap';
 // Create a react app using React 18 syntax
 import React from 'react';
 import {createRoot} from 'react-dom/client';
+import App from "./app/index";
+import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
 
 const root = document.getElementById('root');
 
 if (root) {
+	const client = new QueryClient({
+		defaultOptions: {
+			queries: {
+				refetchOnWindowFocus: false,
+				staleTime: 10_000,
+			}
+		}
+	});
+
 	createRoot(root).render(
 		<React.StrictMode>
-			<h1>Hello World</h1>
+			<QueryClientProvider client={client}>
+				<App />
+				<ReactQueryDevtools initialIsOpen={false} />
+			</QueryClientProvider>
 		</React.StrictMode>
 	);
 }

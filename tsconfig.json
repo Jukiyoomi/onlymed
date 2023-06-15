@@ -17,7 +17,9 @@
         "paths": {
             "@pages/*": ["./assets/app/pages/*"],
             "@comps/*": ["./assets/app/components/*"],
-        }
+            "@img/*": ["./assets/images/*"],
+        },
+        "typeRoots" : ["node_modules/@types", "assets/types"]
     },
     "exclude": ["node_modules"]
 }
