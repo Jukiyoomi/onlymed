@@ -1,0 +1,11 @@
+@use '../utils' as vars;
+
+.dashboard {
+	section {
+		width: 100%;
+	}
+
+	&_header {
+		@include vars.flexer(center, space-between);
+	}
+}
