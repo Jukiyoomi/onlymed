@@ -1,19 +1,17 @@
 import React from 'react';
 import Container from "@comps/Container";
 import Button from "@comps/Button";
-import {useQuery} from "@tanstack/react-query";
+import useUserStore, {toString} from "../store/user";
 
 export default function Dashboard() {
-	const {data, isLoading} = useQuery(['user'], () =>  {
-		return fetch('/api/dashboard').then(res => res.json())
-	})
+	const user = useUserStore((state) => state.user);
 
-	if (isLoading) return <div>Loading...</div>
+	console.log(user);
 
 	return (
 		<Container className="dashboard">
 			<section className="dashboard_header">
-				<h1 className="main-title">Compte de John Doe</h1>
+				<h1 className="main-title">Compte de {toString()}</h1>
 				<Button type="secondary">
 					Voir les options
 				</Button>
