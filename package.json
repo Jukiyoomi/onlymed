@@ -1,0 +1,44 @@
+{
+    "devDependencies": {
+        "@babel/core": "^7.17.0",
+        "@babel/preset-env": "^7.16.0",
+        "@babel/preset-react": "^7.0.0",
+        "@hotwired/stimulus": "^3.0.0",
+        "@symfony/stimulus-bridge": "^3.2.0",
+        "@symfony/webpack-encore": "^4.0.0",
+        "@types/react": "^18.2.7",
+        "@types/react-dom": "^18.2.4",
+        "autoprefixer": "^10.4.14",
+        "core-js": "^3.23.0",
+        "postcss": "^8.4.24",
+        "postcss-loader": "^7.3.2",
+        "regenerator-runtime": "^0.13.9",
+        "sass": "^1.62.1",
+        "sass-loader": "^13.0.0",
+        "ts-loader": "^9.0.0",
+        "typescript": "^5.0.4",
+        "webpack": "^5.74.0",
+        "webpack-cli": "^4.10.0",
+        "webpack-notifier": "^1.15.0"
+    },
+    "license": "UNLICENSED",
+    "private": true,
+    "scripts": {
+        "dev-server": "encore dev-server",
+        "dev": "encore dev",
+        "watch": "encore dev --watch",
+        "build": "encore production --progress"
+    },
+    "dependencies": {
+        "@tanstack/react-query": "^4.29.13",
+        "@tanstack/react-query-devtools": "^4.29.13",
+        "classnames": "^2.3.2",
+        "prop-types": "^15.8.1",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "react-icons": "^4.9.0",
+        "react-loader-spinner": "^5.3.4",
+        "react-router-dom": "^6.12.1",
+        "zustand": "^4.3.8"
+    }
+}

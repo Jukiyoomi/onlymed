@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "lib": ["dom", "dom.iterable", "esnext"],
+        "allowJs": true,
+        "skipLibCheck": true,
+        "strict": true,
+        "strictNullChecks": true,
+        "forceConsistentCasingInFileNames": true,
+        "esModuleInterop": true,
+        "module": "esnext",
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "jsx": "preserve",
+        "incremental": true,
+        "paths": {
+            "@pages/*": ["./assets/app/pages/*"],
+            "@comps/*": ["./assets/app/components/*"],
+            "@img/*": ["./assets/images/*"],
+        },
+        "typeRoots" : ["node_modules/@types", "assets/types"]
+    },
+    "exclude": ["node_modules"]
+}

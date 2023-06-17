@@ -1,0 +1,29 @@
+@use '../utils' as vars;
+
+button {
+	@include vars.flexer(center, center);
+	padding: vars.rem(8) vars.rem(10);
+	gap: vars.rem(10);
+	border-radius: vars.rem(6);
+	border: 2px solid transparent;
+	outline: none;
+	cursor: pointer;
+
+	&.btn_full {
+		width: 100%;
+	}
+
+	&.btn_primary {
+		background: vars.$dark-green;
+		color: vars.$white;
+	}
+	&.btn_secondary {
+		color: vars.$dark-green;
+		border-color: vars.$dark-green;
+		background: vars.$white;
+	}
+
+	&.btn_upper {
+		text-transform: capitalize;
+	}
+}
