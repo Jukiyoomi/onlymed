@@ -14,7 +14,7 @@ class SpecialityFixture extends Fixture
 
 		foreach ($data as $line) {
 			$speciality = new Speciality();
-			$speciality->setName($line);
+			$speciality->setName(trim($line));
 			$manager->persist($speciality);
 		}
 		// $product = new Product();
