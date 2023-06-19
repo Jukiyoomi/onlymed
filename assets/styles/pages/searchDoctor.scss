@@ -1,0 +1,44 @@
+@use '../utils' as vars;
+
+.search {
+    section {
+        width: vars.rem(730);
+        @include vars.flexer(center, start, column);
+        gap: vars.rem(25);
+    }
+
+    .search_doctor {
+        width: 100%;
+        background: vars.$white;
+        border-radius: vars.rem(8);
+        @include vars.flexer(start, start);
+        padding: vars.rem(20);
+        gap: vars.rem(10);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+        &_img {
+            border-radius: 50%;
+            width: vars.rem(150);
+            height: vars.rem(150);
+            object-fit: cover;
+        }
+
+        article {
+            flex: 1;
+            @include vars.flexer(start, space-between, column);
+
+            h2 {
+                color: vars.$dark-green;
+            }
+        }
+
+        &_info {
+            width: 100%;
+            @include vars.flexer(start, space-between);
+        }
+
+        &_address {
+            max-width: vars.rem(200);
+        }
+    }
+}

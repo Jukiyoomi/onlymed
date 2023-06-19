@@ -5,6 +5,7 @@ import Layout from "@comps/Layout";
 import {useQuery} from "@tanstack/react-query";
 import Loader from "@comps/Loader";
 import useUserStore from "./store/user";
+import SearchDoctor from "@pages/SearchDoctor";
 
 export default function App() {
 	const setUser = useUserStore((state) => state.setUser);
@@ -22,6 +23,7 @@ export default function App() {
 			{isLoading ? <Loader /> : (
 				<Routes>
 					<Route path="/dashboard" element={<Dashboard />} />
+					<Route path="/search" element={<SearchDoctor />} />
 					<Route path="*" element={<h1>Not Found</h1>} />
 				</Routes>
 			)}
