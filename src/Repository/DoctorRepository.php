@@ -39,6 +39,19 @@ class DoctorRepository extends ServiceEntityRepository
         }
     }
 
+    public function findAllByTerm(string $term, int $limit = 3): array
+    {
+        return $this->createQueryBuilder('d')
+            ->join('d.specialities', 's')
+            ->where('s.name LIKE :term')
+            ->setParameter('term', '%' . $term . '%')
+            ->orderBy('d.id', 'ASC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return Doctor[] Returns an array of Doctor objects
 //     */
