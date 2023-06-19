@@ -40,10 +40,10 @@ class UserController extends AbstractController
 //            ], Response::HTTP_NOT_FOUND);
 //        }
 
-//        $limit = $request->query->get('limit') ?? 20;
+        $offset = $request->query->get('offset');
         $searchTerm = $request->query->get('term');
 
-        $doctors = $doctorRepository->findAllByTerm($searchTerm);
+        $doctors = $doctorRepository->findAllByTerm($searchTerm, $offset);
 
         return $this->json([
             'doctors' => $doctors,
