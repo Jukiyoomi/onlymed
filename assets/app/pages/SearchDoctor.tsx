@@ -17,7 +17,7 @@ export default function SearchDoctor() {
             .then(res => res.json())
     }, {
         getNextPageParam: (lastPage, pages) => {
-            if (lastPage.doctors.length === 0) return undefined;
+            if (lastPage.doctors.length === 0 || lastPage.doctors.length < 10) return undefined;
             return pages.length + 1;
         },
     });
