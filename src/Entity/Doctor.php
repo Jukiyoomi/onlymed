@@ -28,7 +28,8 @@ class Doctor extends User
 	#[ORM\ManyToMany(targetEntity: Speciality::class, inversedBy: 'doctors')]
 	private Collection $specialities;
 
-
+	#[ORM\Column]
+	private ?string $address = null;
 
     public function getPhone(): ?string
     {
@@ -74,4 +75,22 @@ class Doctor extends User
 
 		return $this;
 	}
+
+	/**
+	 * @return string|null
+	 */
+	public function getAddress(): ?string
+	{
+		return $this->address;
+	}
+
+	/**
+	 * @param string|null $address
+	 */
+	public function setAddress(?string $address): void
+	{
+		$this->address = $address;
+	}
+
+
 }
