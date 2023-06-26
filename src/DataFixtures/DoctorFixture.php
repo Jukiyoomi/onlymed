@@ -3,11 +3,11 @@
 namespace App\DataFixtures;
 
 use App\Entity\Doctor;
-use App\Entity\Speciality;
 use App\Repository\SpecialityRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use Faker\Factory;
 
 class DoctorFixture extends Fixture implements DependentFixtureInterface
 {
@@ -21,13 +21,15 @@ class DoctorFixture extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager)
     {
+		$faker = Factory::create();
         for ($i = 0; $i < 30; $i++) {
              $doctor = new Doctor();
-             $doctor->setFirstName('Doctor ' . $i);
-             $doctor->setLastName('Doctor ' . $i);
-             $doctor->setEmail('doctor' . $i . '@gmail.com');
-             $doctor->setPassword('doctor' . $i);
-             $doctor->setPhone('phone ' . $i);
+             $doctor->setFirstName($faker->firstName);
+             $doctor->setLastName($faker->lastName);
+             $doctor->setEmail($faker->email);
+			 $doctor->setAddress($faker->address);
+             $doctor->setPassword($faker->password);
+             $doctor->setPhone($faker->phoneNumber);
              for ($j = 0; $j < 3; $j++) {
                  $doctor->addSpeciality(
                      $this->specialityRepository->findRandom()
