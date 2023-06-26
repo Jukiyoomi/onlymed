@@ -2,7 +2,7 @@ import React from "react";
 import {Oval} from "react-loader-spinner";
 
 export default function Loader() {
-	return <div className="loader_container">
+	return <div className="loader_container loader_dark">
 		<Oval
 			height={80}
 			width={80}
@@ -16,5 +16,11 @@ export default function Loader() {
 			strokeWidthSecondary={2}
 
 		/>
+	</div>;
+}
+
+export function TextLoader() {
+	return <div className="loader_container">
+		<p className="main-title">Chargement...</p>
 	</div>;
 }

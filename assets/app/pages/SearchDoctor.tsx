@@ -31,12 +31,12 @@ export default function SearchDoctor() {
                     data?.pages.map((page, id) => {
                         if (currentPage === id) {
                             return (
-                                <>
+                                <React.Fragment key={id}>
                                     {page.doctors.map((doctor: any) => (
                                             <SearchDoctorItem doctor={doctor} key={doctor.id} />
                                         )
                                     )}
-                                </>
+                                </React.Fragment>
                             )
                         }
                     })
