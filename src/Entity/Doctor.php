@@ -30,7 +30,8 @@ class Doctor extends User
     #[Groups(['doctor:read'])]
 	private Collection $specialities;
 
-
+	#[ORM\Column]
+	private ?string $address = null;
 
     public function getPhone(): ?string
     {
@@ -76,4 +77,22 @@ class Doctor extends User
 
 		return $this;
 	}
+
+	/**
+	 * @return string|null
+	 */
+	public function getAddress(): ?string
+	{
+		return $this->address;
+	}
+
+	/**
+	 * @param string|null $address
+	 */
+	public function setAddress(?string $address): void
+	{
+		$this->address = $address;
+	}
+
+
 }

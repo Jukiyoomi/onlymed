@@ -3,11 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Repository\DoctorRepository;
-use App\Service\DoctorService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
@@ -51,4 +48,35 @@ class UserController extends AbstractController
             'error' => null
         ], Response::HTTP_OK, [], ['groups' => 'doctor:read']);
     }
+
+	#[Route('/address', name: 'app.address.edit', methods: ['PUT'])]
+	public function addAddress(#[CurrentUser] ?Doctor $user, Request $request, EntityManagerInterface $manager): JsonResponse
+	{
+		if (!$user) {
+			return $this->json([
+				'user' => null,
+				'error' => 'User not found'
+			], Response::HTTP_NOT_FOUND);
+		}
+		$payload = json_decode($request->getContent(), true);
+
+		$address = $payload['address'];
+
+		if (!$address) {
+			return $this->json([
+				'user' => null,
+				'error' => 'Address not found'
+			], Response::HTTP_NOT_FOUND);
+		}
+
+		$user = $manager->getRepository(Doctor::class)->find(1);
+		$user->setAddress($address);
+		$manager->persist($user);
+		$manager->flush();
+
+		return $this->json([
+//			'user' => $user,
+			'error' => null
+		], Response::HTTP_OK);
+	}
 }
