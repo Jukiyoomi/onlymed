@@ -26,4 +26,9 @@ button {
 	&.btn_upper {
 		text-transform: capitalize;
 	}
+
+	&.btn_disabled {
+		pointer-events: none;
+		opacity: 0.7;
+	}
 }

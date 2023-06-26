@@ -1,4 +1,4 @@
-import React, {HTMLProps, MouseEventHandler} from "react";
+import React, {HTMLProps} from "react";
 import cn from "classnames";
 
 type Props = {
@@ -10,15 +10,16 @@ type Props = {
 } & HTMLProps<HTMLButtonElement>
 
 export default function Button(props: Props) {
-	const {className, type, ...data} = props
+	const {className, type, uppercase, onClick, disabled, children, ...data} = props
 
 	const classNames = cn({
 		'btn': true,
 		'reg-bold': true,
-		'capitalize': props.uppercase,
-		[`btn_${props.type}`]: props.type,
+		'btn_upper': uppercase,
+		'btn_disabled': disabled,
+		[`btn_${type}`]: type,
 	})
 
 
-	return <button className={classNames} onClick={props.onClick} {...data}>{props.children}</button>;
+	return <button className={classNames} onClick={onClick} {...data}>{children}</button>;
 }
