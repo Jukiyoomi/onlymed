@@ -41,7 +41,7 @@ class DoctorRepository extends ServiceEntityRepository
 
     public function findAllByTerm(string $term, int $offset): array
     {
-        $numItemsPerPage = 3;
+        $numItemsPerPage = 10;
         return $this->createQueryBuilder('d')
             ->join('d.specialities', 's')
             ->where('s.name LIKE :term')
