@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Repository\DoctorRepository;
+use App\Service\DoctorService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,7 +32,7 @@ class UserController extends AbstractController
 	}
 
     #[Route('/search', name: 'app.search', methods: ['GET'])]
-    public function search(#[CurrentUser] ?User $user, Request $request, DoctorRepository $doctorRepository): JsonResponse
+    public function search(#[CurrentUser] ?User $user, Request $request, DoctorService $doctorService): JsonResponse
     {
 //        if (!$user) {
 //            return $this->json([
@@ -43,7 +44,7 @@ class UserController extends AbstractController
         $offset = $request->query->get('offset');
         $searchTerm = $request->query->get('term');
 
-        $doctors = $doctorRepository->findAllByTerm($searchTerm, $offset);
+        $doctors = $doctorService->findAllByTerm($searchTerm, $offset);
 
         return $this->json([
             'doctors' => $doctors,
