@@ -41,4 +41,10 @@
             max-width: vars.rem(200);
         }
     }
+
+    .paginate {
+        @include vars.flexer(center, start, row);
+        gap: vars.rem(25);
+        width: 100%;
+    }
 }

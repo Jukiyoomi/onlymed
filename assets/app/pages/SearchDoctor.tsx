@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useState} from 'react';
 import Container from "@comps/Container";
 import {useInfiniteQuery} from "@tanstack/react-query";
 import {TextLoader} from "@comps/Loader";
@@ -6,7 +6,8 @@ import Button from "@comps/Button";
 import SearchDoctorItem from "@comps/SearchDoctorItem";
 
 export default function SearchDoctor() {
-    const {data, isLoading, fetchNextPage, hasNextPage} = useInfiniteQuery(['search'], ({pageParam = 1}) => {
+    const [currentPage, setCurrentPage] = useState<number>(0);
+    const {data, isLoading, fetchNextPage, hasNextPage, fetchPreviousPage, isPreviousData, } = useInfiniteQuery(['search'], ({pageParam = 1}) => {
         return fetch(`/api/search?term=endoc&offset=${pageParam}`, {
             method: 'GET',
             headers: {
@@ -18,42 +19,47 @@ export default function SearchDoctor() {
         getNextPageParam: (lastPage, pages) => {
             if (lastPage.doctors.length === 0) return undefined;
             return pages.length + 1;
-        }
+        },
     });
-
-    useEffect(() => {
-        let fetching = false;
-        const handleScroll = async () => {
-            const {screenTop, scrollY, innerHeight} = window;
-            if(!fetching && screenTop - scrollY <= innerHeight * 1.2) {
-                fetching = true
-                if(hasNextPage) await fetchNextPage()
-                fetching = false
-            }
-        }
-        document.addEventListener('scroll', handleScroll)
-        return () => {
-            document.removeEventListener('scroll', handleScroll)
-        }
-    }, [fetchNextPage, hasNextPage])
-
 
     if (isLoading) return (<TextLoader />);
 
     return (
         <Container className="search">
-            <Button type="primary" onClick={() => fetchNextPage()}>Load more</Button>
-            <section>
+            <section className="result">
                 {
-                    data?.pages.map((page) => (
-                        <>
-                            {page.doctors.map((doctor: any) => (
-                                <SearchDoctorItem doctor={doctor} key={doctor.id} />
+                    data?.pages.map((page, id) => {
+                        if (currentPage === id) {
+                            return (
+                                <>
+                                    {page.doctors.map((doctor: any) => (
+                                            <SearchDoctorItem doctor={doctor} key={doctor.id} />
+                                        )
+                                    )}
+                                </>
                             )
-                            )}
-                        </>
-                    ))
+                        }
+                    })
                 }
+                <div className="paginate">
+                    <Button
+                        type="primary"
+                        onClick={() => {
+                        fetchPreviousPage().then(r => setCurrentPage(old => old - 1));
+                    }}
+                        disabled={currentPage === 0}
+                        uppercase={true}
+                    >Previous page</Button>
+                    <p className="reg-bold">Page {currentPage + 1}</p>
+                    <Button
+                        type="primary"
+                        onClick={() => {
+                        fetchNextPage().then(r => setCurrentPage(old => old + 1));
+                    }}
+                        disabled={isPreviousData || !hasNextPage}
+                        uppercase={true}
+                    >Next page</Button>
+                </div>
             </section>
         </Container>
     );
