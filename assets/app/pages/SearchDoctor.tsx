@@ -8,11 +8,11 @@ import SearchDoctorBar from "@comps/SearchDoctorBar";
 import useSearchStore from "../store/search";
 
 export default function SearchDoctor() {
-    const search = useSearchStore((state) => state.search);
+    const {search, location} = useSearchStore((state) => ({search: state.search, location: state.location}));
     const [currentPage, setCurrentPage] = useState<number>(0);
 
     const {data, refetch, fetchNextPage, hasNextPage, fetchPreviousPage, isPreviousData, isInitialLoading} = useInfiniteQuery(['search'], ({pageParam = 1}) => {
-        return fetch(`/api/search?term=${search.trim().toLowerCase()}&offset=${pageParam}`, {
+        return fetch(`/api/search?term=${search.trim().toLowerCase()}&zone=${location.trim().toLowerCase()}&offset=${pageParam}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'

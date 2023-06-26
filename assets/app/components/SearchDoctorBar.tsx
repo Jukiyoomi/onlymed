@@ -7,13 +7,16 @@ import useSearchStore from "../store/search";
 
 export default function SearchDoctorBar() {
 	const searchRef = useRef() as React.MutableRefObject<HTMLInputElement>;
-	const [search, setSearch] = useSearchStore((state) => [state.search, state.setSearch]);
+	const locationRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+	const [search, setSearch, location, setLocation] = useSearchStore((state) => [state.search, state.setSearch, state.location, state.setLocation]);
 
 	const handleSearch = async () => {
-		const value = searchRef.current.value.trim();
-		if (value === "") return;
+		const searchValue = searchRef.current.value.trim();
+		const locationValue = locationRef.current.value.trim();
+		if (searchValue === "") return;
 
-		setSearch(value);
+		setSearch(searchValue);
+		setLocation(locationValue);
 
 		console.log(search)
 	}
@@ -29,6 +32,7 @@ export default function SearchDoctorBar() {
 			<div className="form_widget">
 				<img src={pin} alt="Pin SVG" />
 				<input type="text" placeholder="Ville, région"
+					   ref={locationRef}
 					   required />
 			</div>
 			<Button
