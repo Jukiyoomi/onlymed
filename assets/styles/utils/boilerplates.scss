@@ -43,6 +43,11 @@ input, select, textarea {
     border-radius: funcs.rem(4);
 }
 
+input[type="checkbox"] {
+    width: funcs.rem(20);
+    height: funcs.rem(20);
+}
+
 select, textarea {
     resize: none;
     width: 100%;
