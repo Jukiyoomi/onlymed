@@ -13,7 +13,7 @@ export default function SearchDoctorItem({doctor}: Props) {
                <div className="search_doctor_info">
                    <div>
                        <h2 className="second-title">{doctor.firstname} {doctor.lastname}</h2>
-                       <p className="search_doctor_address subtitle">10880 Malibu Point, 90265, Malibu, California</p>
+                       <p className="search_doctor_address subtitle">{doctor.address}</p>
                    </div>
 
                    <div>

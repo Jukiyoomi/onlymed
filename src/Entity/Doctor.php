@@ -31,6 +31,7 @@ class Doctor extends User
 	private Collection $specialities;
 
 	#[ORM\Column]
+	#[Groups(['doctor:read'])]
 	private ?string $address = null;
 
     public function getPhone(): ?string
