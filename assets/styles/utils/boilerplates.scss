@@ -32,6 +32,7 @@ li {
 }
 
 input, select, textarea {
+    width: 100%;
     border: none;
     outline: none;
     font-size: funcs.rem(16);
