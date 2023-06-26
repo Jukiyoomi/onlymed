@@ -1,10 +1,33 @@
 @use '../utils' as vars;
 
 .search {
-    section {
+    .result {
         width: vars.rem(730);
         @include vars.flexer(center, start, column);
         gap: vars.rem(25);
+    }
+
+    .bar {
+        width: vars.rem(730);
+        @include vars.flexer(center, center);
+        padding: vars.rem(10);
+        gap: vars.rem(5);
+        border-radius: 8px;
+        background: vars.$white;
+        box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.10);
+        margin-bottom: vars.rem(50);
+
+        .form_widget {
+            @include vars.flexer(center, center);
+            border: 1px solid vars.$green;
+            border-radius: 4px;
+            flex: 1;
+            padding: 0 vars.rem(4);
+        }
+
+        input {
+            background: transparent;
+        }
     }
 
     .search_doctor {
