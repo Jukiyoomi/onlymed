@@ -19,7 +19,7 @@
 
         .form_widget {
             @include vars.flexer(center, center);
-            border: 1px solid vars.$green;
+            border: 1px solid vars.$dark-green;
             border-radius: 4px;
             flex: 1;
             padding: 0 vars.rem(4);
