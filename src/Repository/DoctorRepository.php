@@ -39,15 +39,20 @@ class DoctorRepository extends ServiceEntityRepository
         }
     }
 
-    public function findAllByTerm(string $term, string $zone, int $numItemsPerPage, int $offset): array
+    public function findAllByTerm(string $term, ?string $zone, int $numItemsPerPage, int $offset): array
     {
         $qb =  $this->createQueryBuilder('d');
 		$qb
             ->join('d.specialities', 's')
             ->where('LOWER(s.name) LIKE :term')
-			->andWhere('LOWER(d.address) LIKE :zone')
-            ->setParameter('term', '%' . $term . '%')
-			->setParameter('zone', '%' . $zone . '%')
+            ->setParameter('term', '%' . $term . '%');
+
+		if ($zone !== null) {
+			$qb
+				->andWhere('LOWER(d.address) LIKE :zone')
+				->setParameter('zone', '%' . $zone . '%');
+		}
+		$qb
             ->orderBy('d.id', 'ASC')
             ->setFirstResult((($offset - 1) * $numItemsPerPage))
             ->setMaxResults($numItemsPerPage)

@@ -13,9 +13,9 @@ class DoctorService
 		$this->doctorRepository = $doctorRepository;
 	}
 
-	public function findAllByTerm(string $term, int $offset): array
+	public function findAllByTerm(string $term, ?string $zone, int $offset): array
 	{
 		$numItemsPerPage = 10;
-		return $this->doctorRepository->findAllByTerm($term, $numItemsPerPage, $offset);
+		return $this->doctorRepository->findAllByTerm($term, $zone, $numItemsPerPage, $offset);
 	}
 }
