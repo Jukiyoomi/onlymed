@@ -8,7 +8,7 @@ import SearchDoctorBar from "@comps/SearchDoctorBar";
 import useSearchStore from "../store/search";
 
 export default function SearchDoctor() {
-    const {search, location} = useSearchStore((state) => ({search: state.search, location: state.location}));
+    const [search, location] = useSearchStore((state) => [state.search, state.location]);
     const [currentPage, setCurrentPage] = useState<number>(0);
 
     const {data, refetch, fetchNextPage, hasNextPage, fetchPreviousPage, isPreviousData, isInitialLoading} = useInfiniteQuery(['search'], ({pageParam = 1}) => {
