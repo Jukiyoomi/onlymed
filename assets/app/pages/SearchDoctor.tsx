@@ -31,7 +31,7 @@ export default function SearchDoctor() {
     useEffect(() => {
         if (search.trim() === "") return;
         refetch();
-    }, [search]);
+    }, [search, location]);
 
 
     return (
