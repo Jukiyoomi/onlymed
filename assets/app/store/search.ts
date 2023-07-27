@@ -3,7 +3,7 @@ import {devtools, persist} from "zustand/middleware";
 
 interface State {
 	search: string;
-	location: string|null;
+	location: string;
 }
 
 interface Actions {
