@@ -11,16 +11,28 @@ export default function SearchDoctor() {
     const [search, location] = useSearchStore((state) => [state.search, state.location]);
     const [currentPage, setCurrentPage] = useState<number>(0);
 
-    const {data, refetch, fetchNextPage, hasNextPage, fetchPreviousPage, isPreviousData, isInitialLoading} = useInfiniteQuery(['search'], ({pageParam = 1}) => {
-        return fetch(`/api/search?term=${search.trim().toLowerCase()}&zone=${location.trim().toLowerCase()}&offset=${pageParam}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        })
+    const {
+        data,
+        refetch,
+        fetchNextPage,
+        hasNextPage,
+        fetchPreviousPage,
+        isPreviousData,
+        isInitialLoading,
+        isFetching
+    } = useInfiniteQuery(
+        ['search', search, location],
+        ({pageParam = 1}) => {
+            const searchTerm = search.trim() !== "" ? search.trim().toLowerCase() : "";
+            const locationTerm = location.trim() !== "" ? location.trim().toLowerCase() : "";
+            return fetch(`/api/search?term=${searchTerm}&zone=${locationTerm}&offset=${pageParam}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
             .then(res => res.json())
     }, {
-
         getNextPageParam: (lastPage, pages) => {
             if (lastPage.doctors.length === 0 || lastPage.doctors.length < 10) return undefined;
             return pages.length + 1;
@@ -39,7 +51,7 @@ export default function SearchDoctor() {
             <SearchDoctorBar />
 
             {
-                isInitialLoading ? <TextLoader /> : (
+                isInitialLoading || isFetching ? <TextLoader /> : (
                     <section className="result">
                         {
                             data?.pages.map((page, id) => {
