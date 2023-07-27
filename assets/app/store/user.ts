@@ -9,16 +9,23 @@ export type User = {
 	roles: string[];
 }
 
-interface UserStore {
+interface State {
 	user: User|null;
+}
+
+interface Actions {
 	setUser: (user: User|null) => void;
 	toString: (user: User|null) => string;
 }
 
-const useUserStore = create<UserStore>()(
+const initialState: State = {
+	user: null,
+}
+
+const useUserStore = create<State & Actions>()(
 	devtools(
-		persist((set) => ({
-			user: null,
+		persist((set, get) => ({
+			...initialState,
 			setUser: (user: unknown) => set({ user: user as User }),
 		}), { name: 'user-storage' })
 	)

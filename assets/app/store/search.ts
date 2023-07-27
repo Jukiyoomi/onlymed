@@ -1,21 +1,30 @@
 import { create } from 'zustand';
 import {devtools, persist} from "zustand/middleware";
 
-interface SearchStore {
+interface State {
 	search: string;
-	location: string;
-	setSearch: (data: string) => void;
-	setLocation: (data: string) => void;
+	location: string|null;
 }
 
-const useSearchStore = create<SearchStore>()(
+interface Actions {
+	setSearch: (data: string) => void;
+	setLocation: (data: string) => void;
+	reset: () => void;
+}
+
+const initialState: State = {
+	search: "",
+	location: "",
+}
+
+const useSearchStore = create<State & Actions>()(
 	devtools(
 		persist((set) => ({
-			search: "",
-			location: "dupont",
+			...initialState,
 			setSearch: (data: string) => set({ search: data }),
 			setLocation: (data: string) => set({ location: data }),
-		}), { name: 'search-storage' })
+			reset: () => set(initialState)
+		}), { name: 'search-storage',  })
 	)
 )
 
