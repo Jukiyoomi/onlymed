@@ -8,6 +8,8 @@ import useUserStore from "./store/user";
 import SearchDoctor from "@pages/SearchDoctor";
 import useSearchStore from "./store/search";
 
+import 'react-loading-skeleton/dist/skeleton.css'
+
 export default function App() {
 	const setUser = useUserStore((state) => state.setUser);
 	const reset = useSearchStore((state) => state.reset);
