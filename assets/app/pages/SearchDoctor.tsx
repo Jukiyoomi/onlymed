@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import Container from "@comps/Container";
 import {useInfiniteQuery} from "@tanstack/react-query";
-import {TextLoader} from "@comps/Loader";
 import Button from "@comps/Button";
-import SearchDoctorItem from "@comps/SearchDoctorItem";
+import SearchDoctorItem, {SearchDoctorLoading} from "@comps/SearchDoctorItem";
 import SearchDoctorBar from "@comps/SearchDoctorBar";
 import useSearchStore from "../store/search";
 
@@ -50,45 +49,51 @@ export default function SearchDoctor() {
         <Container className="search">
             <SearchDoctorBar />
 
-            {
-                isInitialLoading || isFetching ? <TextLoader /> : (
-                    <section className="result">
-                        {
-                            data?.pages.map((page, id) => {
-                                if (currentPage === id) {
-                                    return (
-                                        <React.Fragment key={id}>
-                                            {page.doctors.map((doctor: any) => (
-                                                    <SearchDoctorItem doctor={doctor} key={doctor.id} />
-                                                )
-                                            )}
-                                        </React.Fragment>
-                                    )
-                                }
-                            })
-                        }
-                        <div className="paginate">
-                            <Button
-                                type="primary"
-                                onClick={() => {
-                                    fetchPreviousPage().then(r => setCurrentPage(old => old - 1));
-                                }}
-                                disabled={currentPage === 0}
-                                uppercase={true}
-                            >Previous page</Button>
-                            <p className="reg-bold">Page {currentPage + 1}</p>
-                            <Button
-                                type="primary"
-                                onClick={() => {
-                                    fetchNextPage().then(r => setCurrentPage(old => old + 1));
-                                }}
-                                disabled={isPreviousData || !hasNextPage}
-                                uppercase={true}
-                            >Next page</Button>
-                        </div>
-                    </section>
-                )
-            }
+            <section className="result">
+                {
+                    isInitialLoading || isFetching ? (
+                        Array.from({length: 5}).map((_, id) => (
+                            <SearchDoctorLoading key={id} />
+                        ))
+                        ) : (
+                        <>
+                            {
+                                data?.pages.map((page, id) => {
+                                    if (currentPage === id) {
+                                        return (
+                                            <React.Fragment key={id}>
+                                                {page.doctors.map((doctor: any) => (
+                                                        <SearchDoctorItem doctor={doctor} key={doctor.id} />
+                                                    )
+                                                )}
+                                            </React.Fragment>
+                                        )
+                                    }
+                                })
+                            }
+                            <div className="paginate">
+                                <Button
+                                    type="primary"
+                                    onClick={() => {
+                                        fetchPreviousPage().then(r => setCurrentPage(old => old - 1));
+                                    }}
+                                    disabled={currentPage === 0}
+                                    uppercase={true}
+                                >Previous page</Button>
+                                <p className="reg-bold">Page {currentPage + 1}</p>
+                                <Button
+                                    type="primary"
+                                    onClick={() => {
+                                        fetchNextPage().then(r => setCurrentPage(old => old + 1));
+                                    }}
+                                    disabled={isPreviousData || !hasNextPage}
+                                    uppercase={true}
+                                >Next page {JSON.stringify(isPreviousData)} {JSON.stringify(!hasNextPage)}</Button>
+                            </div>
+                        </>
+                    )
+                }
+            </section>
         </Container>
     );
 }

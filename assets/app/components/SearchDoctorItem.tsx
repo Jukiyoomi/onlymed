@@ -1,5 +1,6 @@
 import RatingStars from "@comps/RatingStars";
-import React from "react";
+import React, {PropsWithChildren} from "react";
+import Skeleton, {SkeletonTheme} from "react-loading-skeleton";
 
 type Props = {
     doctor: any;
@@ -25,4 +26,56 @@ export default function SearchDoctorItem({doctor}: Props) {
            </article>
        </div>
    )
+}
+
+export function SearchDoctorLoading() {
+    return (
+        <SkeletonTheme
+            highlightColor={"#e1e1e1"}
+        >
+            <div className="search_doctor">
+                <Skeleton
+                    circle
+                    height={150}
+                    width={150}
+                    containerClassName="avatar-skeleton"
+                />
+                <article>
+                    <div className="search_doctor_info">
+                        <div>
+                            <p><Skeleton width={250} /></p>
+                            <p><Skeleton count={2} width={200} /></p>
+                        </div>
+
+                        <div>
+                            <p className="reg-bold"><Skeleton width={250} /></p>
+                        </div>
+                    </div>
+
+                    <Skeleton
+                        count={5}
+                        wrapper={StarWrapper}
+                        height="100%"
+                        duration={0.9}
+                    />
+                </article>
+            </div>
+        </SkeletonTheme>
+    )
+}
+
+function StarWrapper({ children }: PropsWithChildren<unknown>) {
+    return (
+        <div
+            style={{
+                display: 'inline-block',
+                clipPath:
+                    'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)',
+                width: '25px',
+                height: '25px'
+            }}
+        >
+            {children}
+        </div>
+    )
 }
