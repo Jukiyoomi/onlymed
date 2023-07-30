@@ -43,11 +43,13 @@ class UserController extends AbstractController
 //        }
 
         $offset = $request->query->get('offset');
+        $zone = $request->query->get('zone') ?? null;
         $searchTerm = $request->query->get('term');
 
-        $doctors = $doctorService->findAllByTerm($searchTerm, $offset);
+        $doctors = $doctorService->findAllByTerm($searchTerm, $zone, $offset);
 
         return $this->json([
+			"count" => count($doctors),
             'doctors' => $doctors,
             'error' => null
         ], Response::HTTP_OK, [], ['groups' => 'doctor:read']);
