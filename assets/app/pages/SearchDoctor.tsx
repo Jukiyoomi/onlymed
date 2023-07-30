@@ -9,6 +9,7 @@ import useSearchStore from "../store/search";
 export default function SearchDoctor() {
     const [search, location] = useSearchStore((state) => [state.search, state.location]);
     const [currentPage, setCurrentPage] = useState<number>(0);
+    const [isFirstDisplay, setIsFirstDisplay] = useState<boolean>(true);
 
     const {
         data,
@@ -24,6 +25,7 @@ export default function SearchDoctor() {
         ({pageParam = 1}) => {
             const searchTerm = search.trim() !== "" ? search.trim().toLowerCase() : "";
             const locationTerm = location.trim() !== "" ? location.trim().toLowerCase() : "";
+            setIsFirstDisplay(false);
             return fetch(`/api/search?term=${searchTerm}&zone=${locationTerm}&offset=${pageParam}`, {
                 method: 'GET',
                 headers: {
@@ -50,12 +52,13 @@ export default function SearchDoctor() {
             <SearchDoctorBar />
 
             <section className="result">
-                {
-                    isInitialLoading || isFetching ? (
+                {isInitialLoading || isFetching ?
+                    (
                         Array.from({length: 5}).map((_, id) => (
                             <SearchDoctorLoading key={id} />
                         ))
-                        ) : (
+                    ) :
+                    (
                         <>
                             {
                                 data?.pages.map((page, id) => {
@@ -71,25 +74,29 @@ export default function SearchDoctor() {
                                     }
                                 })
                             }
-                            <div className="paginate">
-                                <Button
-                                    type="primary"
-                                    onClick={() => {
-                                        fetchPreviousPage().then(r => setCurrentPage(old => old - 1));
-                                    }}
-                                    disabled={currentPage === 0}
-                                    uppercase={true}
-                                >Previous page</Button>
-                                <p className="reg-bold">Page {currentPage + 1}</p>
-                                <Button
-                                    type="primary"
-                                    onClick={() => {
-                                        fetchNextPage().then(r => setCurrentPage(old => old + 1));
-                                    }}
-                                    disabled={isPreviousData || !hasNextPage}
-                                    uppercase={true}
-                                >Next page {JSON.stringify(isPreviousData)} {JSON.stringify(!hasNextPage)}</Button>
-                            </div>
+                            {
+                                !isFirstDisplay && (
+                                    <div className="paginate">
+                                        <Button
+                                            type="primary"
+                                            onClick={() => {
+                                                fetchPreviousPage().then(r => setCurrentPage(old => old - 1));
+                                            }}
+                                            disabled={currentPage === 0}
+                                            uppercase={true}
+                                        >Previous page</Button>
+                                        <p className="reg-bold">Page {currentPage + 1}</p>
+                                        <Button
+                                            type="primary"
+                                            onClick={() => {
+                                                fetchNextPage().then(r => setCurrentPage(old => old + 1));
+                                            }}
+                                            disabled={isPreviousData || !hasNextPage}
+                                            uppercase={true}
+                                        >Next page {JSON.stringify(isPreviousData)} {JSON.stringify(!hasNextPage)}</Button>
+                                    </div>
+                                )
+                            }
                         </>
                     )
                 }
