@@ -47,7 +47,6 @@ export default function SearchDoctor() {
         refetch();
     }, [search, location]);
 
-
     return (
         <Container className="search">
             <SearchDoctorBar />
@@ -61,6 +60,7 @@ export default function SearchDoctor() {
                     ) :
                     (
                         <>
+                        {!isFirstDisplay && <p>{data?.pages[currentPage].count} docteurs trouvés.</p>}
                             {
                                 data?.pages.map((page, id) => {
                                     if (currentPage === id) {
