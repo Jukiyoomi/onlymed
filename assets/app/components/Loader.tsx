@@ -18,9 +18,3 @@ export default function Loader() {
 		/>
 	</div>;
 }
-
-export function TextLoader() {
-	return <div className="loader_container">
-		<p className="main-title">Chargement...</p>
-	</div>;
-}
