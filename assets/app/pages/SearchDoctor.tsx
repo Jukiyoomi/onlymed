@@ -43,6 +43,7 @@ export default function SearchDoctor() {
 
     useEffect(() => {
         if (search.trim() === "") return;
+        setCurrentPage(0);
         refetch();
     }, [search, location]);
 
