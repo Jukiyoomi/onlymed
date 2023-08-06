@@ -87,7 +87,7 @@ export default function SearchDoctor() {
                                 !isFirstDisplay && (
                                     hasFirstResult ? (
                                         <Pagination>
-                                            <Pagination.PreviousAction>
+                                            <Pagination.Action>
                                                 <Button
                                                     type="primary"
                                                     onClick={() => {
@@ -96,9 +96,9 @@ export default function SearchDoctor() {
                                                     disabled={currentPage === 0}
                                                     uppercase={true}
                                                 >Previous page</Button>
-                                            </Pagination.PreviousAction>
-                                            <Pagination.Text><p className="reg-bold">Page {currentPage + 1}</p></Pagination.Text>
-                                            <Pagination.NextAction>
+                                            </Pagination.Action>
+                                            <Pagination.Text as={"p"} className="reg-bold">Page {currentPage + 1}</Pagination.Text>
+                                            <Pagination.Action>
                                                 <Button
                                                     type="primary"
                                                     onClick={() => {
@@ -107,7 +107,7 @@ export default function SearchDoctor() {
                                                     disabled={isPreviousData || !hasNextPage}
                                                     uppercase={true}
                                                 >Next page {JSON.stringify(isPreviousData)} {JSON.stringify(!hasNextPage)}</Button>
-                                            </Pagination.NextAction>
+                                            </Pagination.Action>
                                         </Pagination>
                                     ) : (
                                         <div className="no-result">
