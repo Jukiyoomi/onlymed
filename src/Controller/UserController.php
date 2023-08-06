@@ -35,12 +35,12 @@ class UserController extends AbstractController
     #[Route('/search', name: 'app.search', methods: ['GET'])]
     public function search(#[CurrentUser] ?User $user, Request $request, DoctorService $doctorService): JsonResponse
     {
-//        if (!$user) {
-//            return $this->json([
-//                'user' => null,
-//                'error' => 'User not found'
-//            ], Response::HTTP_NOT_FOUND);
-//        }
+        if (!$user) {
+            return $this->json([
+                'user' => null,
+                'error' => 'User not found'
+            ], Response::HTTP_NOT_FOUND);
+        }
 
         $offset = $request->query->get('offset');
         $zone = $request->query->get('zone') ?? null;
