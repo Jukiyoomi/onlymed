@@ -32,6 +32,7 @@ li {
 }
 
 input, select, textarea {
+    width: 100%;
     border: none;
     outline: none;
     font-size: funcs.rem(16);
@@ -40,6 +41,11 @@ input, select, textarea {
     color: colors.$dark-green;
     padding: funcs.rem(10);
     border-radius: funcs.rem(4);
+}
+
+input[type="checkbox"] {
+    width: funcs.rem(20);
+    height: funcs.rem(20);
 }
 
 select, textarea {
@@ -100,4 +106,8 @@ select option:checked {
 .reg-bold {
     font-weight: 600;
     font-size: funcs.rem(16);
+}
+
+.uppercase {
+    text-transform: capitalize;
 }

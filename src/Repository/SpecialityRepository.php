@@ -39,6 +39,13 @@ class SpecialityRepository extends ServiceEntityRepository
         }
     }
 
+    public function findRandom(): Speciality
+    {
+        $array = $this->findAll();
+        shuffle($array);
+        return $array[0];
+    }
+
 //    /**
 //     * @return Speciality[] Returns an array of Speciality objects
 //     */

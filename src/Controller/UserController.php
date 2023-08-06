@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Doctor;
 use App\Entity\User;
+use App\Service\DoctorService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -30,6 +31,29 @@ class UserController extends AbstractController
 			'error' => null
 		], Response::HTTP_OK);
 	}
+
+    #[Route('/search', name: 'app.search', methods: ['GET'])]
+    public function search(#[CurrentUser] ?User $user, Request $request, DoctorService $doctorService): JsonResponse
+    {
+        if (!$user) {
+            return $this->json([
+                'user' => null,
+                'error' => 'User not found'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        $offset = $request->query->get('offset');
+        $zone = $request->query->get('zone') ?? null;
+        $searchTerm = $request->query->get('term');
+
+        $doctors = $doctorService->findAllByTerm($searchTerm, $zone, $offset);
+
+        return $this->json([
+			"count" => count($doctors),
+            'doctors' => $doctors,
+            'error' => null
+        ], Response::HTTP_OK, [], ['groups' => 'doctor:read']);
+    }
 
 	#[Route('/address', name: 'app.address.edit', methods: ['PUT'])]
 	public function addAddress(#[CurrentUser] ?Doctor $user, Request $request, EntityManagerInterface $manager): JsonResponse
