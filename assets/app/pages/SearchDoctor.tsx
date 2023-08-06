@@ -10,6 +10,7 @@ export default function SearchDoctor() {
     const [search, location] = useSearchStore((state) => [state.search, state.location]);
     const [currentPage, setCurrentPage] = useState<number>(0);
     const [isFirstDisplay, setIsFirstDisplay] = useState<boolean>(true);
+    const [hasFirstResult, setHasFirstResult] = useState<boolean>(false);
 
     const {
         data,
@@ -26,6 +27,7 @@ export default function SearchDoctor() {
             const searchTerm = search.trim() !== "" ? search.trim().toLowerCase() : "";
             const locationTerm = location.trim() !== "" ? location.trim().toLowerCase() : "";
             setIsFirstDisplay(false);
+            setHasFirstResult(false);
             return fetch(`/api/search?term=${searchTerm}&zone=${locationTerm}&offset=${pageParam}`, {
                 method: 'GET',
                 headers: {
@@ -45,6 +47,12 @@ export default function SearchDoctor() {
         if (search.trim() === "") return;
         refetch();
     }, [search, location]);
+
+    useEffect(() => {
+        if (data?.pages[0]?.doctors.length > 0) {
+            setHasFirstResult(true);
+        }
+    }, [data])
 
 
     return (
@@ -76,25 +84,31 @@ export default function SearchDoctor() {
                             }
                             {
                                 !isFirstDisplay && (
-                                    <div className="paginate">
-                                        <Button
-                                            type="primary"
-                                            onClick={() => {
-                                                fetchPreviousPage().then(r => setCurrentPage(old => old - 1));
-                                            }}
-                                            disabled={currentPage === 0}
-                                            uppercase={true}
-                                        >Previous page</Button>
-                                        <p className="reg-bold">Page {currentPage + 1}</p>
-                                        <Button
-                                            type="primary"
-                                            onClick={() => {
-                                                fetchNextPage().then(r => setCurrentPage(old => old + 1));
-                                            }}
-                                            disabled={isPreviousData || !hasNextPage}
-                                            uppercase={true}
-                                        >Next page {JSON.stringify(isPreviousData)} {JSON.stringify(!hasNextPage)}</Button>
-                                    </div>
+                                    hasFirstResult ? (
+                                        <div className="paginate">
+                                            <Button
+                                                type="primary"
+                                                onClick={() => {
+                                                    fetchPreviousPage().then(r => setCurrentPage(old => old - 1));
+                                                }}
+                                                disabled={currentPage === 0}
+                                                uppercase={true}
+                                            >Previous page</Button>
+                                            <p className="reg-bold">Page {currentPage + 1}</p>
+                                            <Button
+                                                type="primary"
+                                                onClick={() => {
+                                                    fetchNextPage().then(r => setCurrentPage(old => old + 1));
+                                                }}
+                                                disabled={isPreviousData || !hasNextPage}
+                                                uppercase={true}
+                                            >Next page {JSON.stringify(isPreviousData)} {JSON.stringify(!hasNextPage)}</Button>
+                                        </div>
+                                    ) : (
+                                        <div className="no-result">
+                                            <p className="reg-bold">No result found.</p>
+                                        </div>
+                                    )
                                 )
                             }
                         </>
