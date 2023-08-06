@@ -5,6 +5,7 @@ import Button from "@comps/Button";
 import SearchDoctorItem, {SearchDoctorLoading} from "@comps/SearchDoctorItem";
 import SearchDoctorBar from "@comps/SearchDoctorBar";
 import useSearchStore from "../store/search";
+import Pagination from "@comps/Pagination";
 
 export default function SearchDoctor() {
     const [search, location] = useSearchStore((state) => [state.search, state.location]);
@@ -85,25 +86,29 @@ export default function SearchDoctor() {
                             {
                                 !isFirstDisplay && (
                                     hasFirstResult ? (
-                                        <div className="paginate">
-                                            <Button
-                                                type="primary"
-                                                onClick={() => {
-                                                    fetchPreviousPage().then(r => setCurrentPage(old => old - 1));
-                                                }}
-                                                disabled={currentPage === 0}
-                                                uppercase={true}
-                                            >Previous page</Button>
-                                            <p className="reg-bold">Page {currentPage + 1}</p>
-                                            <Button
-                                                type="primary"
-                                                onClick={() => {
-                                                    fetchNextPage().then(r => setCurrentPage(old => old + 1));
-                                                }}
-                                                disabled={isPreviousData || !hasNextPage}
-                                                uppercase={true}
-                                            >Next page {JSON.stringify(isPreviousData)} {JSON.stringify(!hasNextPage)}</Button>
-                                        </div>
+                                        <Pagination>
+                                            <Pagination.PreviousAction>
+                                                <Button
+                                                    type="primary"
+                                                    onClick={() => {
+                                                        fetchPreviousPage().then(r => setCurrentPage(old => old - 1));
+                                                    }}
+                                                    disabled={currentPage === 0}
+                                                    uppercase={true}
+                                                >Previous page</Button>
+                                            </Pagination.PreviousAction>
+                                            <Pagination.Text><p className="reg-bold">Page {currentPage + 1}</p></Pagination.Text>
+                                            <Pagination.NextAction>
+                                                <Button
+                                                    type="primary"
+                                                    onClick={() => {
+                                                        fetchNextPage().then(r => setCurrentPage(old => old + 1));
+                                                    }}
+                                                    disabled={isPreviousData || !hasNextPage}
+                                                    uppercase={true}
+                                                >Next page {JSON.stringify(isPreviousData)} {JSON.stringify(!hasNextPage)}</Button>
+                                            </Pagination.NextAction>
+                                        </Pagination>
                                     ) : (
                                         <div className="no-result">
                                             <p className="reg-bold">No result found.</p>
