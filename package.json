@@ -40,6 +40,7 @@
         "react-loader-spinner": "^5.3.4",
         "react-loading-skeleton": "^3.3.1",
         "react-router-dom": "^6.12.1",
+        "wretch": "^2.6.0",
         "zustand": "^4.3.8"
     }
 }
