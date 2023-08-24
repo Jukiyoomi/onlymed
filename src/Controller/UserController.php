@@ -20,15 +20,11 @@ class UserController extends AbstractController
 	public function hello(#[CurrentUser] ?User $user): JsonResponse
 	{
 		if (!$user) {
-			return $this->json([
-				'user' => null,
-				'error' => 'User not found'
-			], Response::HTTP_NOT_FOUND);
+			return new JsonResponse('Logged user not found', Response::HTTP_NOT_FOUND);
 		}
 
 		return $this->json([
 			'user' => $user,
-			'error' => null
 		], Response::HTTP_OK, [], ['groups' => 'user:read']);
 	}
 
@@ -36,11 +32,8 @@ class UserController extends AbstractController
     public function search(#[CurrentUser] ?User $user, Request $request, DoctorService $doctorService): JsonResponse
     {
         if (!$user) {
-            return $this->json([
-                'user' => null,
-                'error' => 'User not found'
-            ], Response::HTTP_NOT_FOUND);
-        }
+			return new JsonResponse('Logged user not found', Response::HTTP_NOT_FOUND);
+		}
 
         $offset = $request->query->get('offset');
         $zone = $request->query->get('zone') ?? null;
