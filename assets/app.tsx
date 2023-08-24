@@ -9,7 +9,6 @@
 import './styles/app.scss';
 
 // start the Stimulus application
-import './bootstrap';
 
 // Create a react app using React 18 syntax
 import React from 'react';
