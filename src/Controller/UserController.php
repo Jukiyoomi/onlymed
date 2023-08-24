@@ -29,7 +29,7 @@ class UserController extends AbstractController
 		return $this->json([
 			'user' => $user,
 			'error' => null
-		], Response::HTTP_OK);
+		], Response::HTTP_OK, [], ['groups' => 'user:read']);
 	}
 
     #[Route('/search', name: 'app.search', methods: ['GET'])]
