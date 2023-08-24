@@ -6,7 +6,7 @@
 	&_content {
 		@include vars.flexer(start, start, column);
 		gap: vars.rem(20);
-		transition: height 0.3s ease-in-out;
+		transition: height 0.3s ease-in-out, margin-top 0.3s ease-in-out;
 		overflow: hidden;
 		height: vars.rem(780);
 		margin-top: vars.rem(20);
