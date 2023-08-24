@@ -17,7 +17,9 @@
         "paths": {
             "@pages/*": ["./assets/app/pages/*"],
             "@comps/*": ["./assets/app/components/*"],
+            "@store/*": ["./assets/app/store/*"],
             "@img/*": ["./assets/images/*"],
+            "@hooks/*": ["./assets/app/hooks/*"],
         },
         "typeRoots" : ["node_modules/@types", "assets/types"]
     },
