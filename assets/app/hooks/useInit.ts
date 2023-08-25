@@ -24,8 +24,9 @@ export default function useInit() {
 				return data;
 			})
 			.catch((e) => {
-				console.log(JSON.parse(e.message));
-				throw e.message;
+				const parsedError = JSON.parse(e.message);
+				console.log(parsedError.error);
+				return parsedError;
 			})
 	});
 }
