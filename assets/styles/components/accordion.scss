@@ -6,9 +6,10 @@
 	&_content {
 		@include vars.flexer(start, start, column);
 		gap: vars.rem(20);
-		transition: height 0.3s ease-in-out, margin-top 0.3s ease-in-out;
-		overflow: hidden;
-		height: vars.rem(780);
+		transition: max-height 0.3s ease-in-out, margin-top 0.3s ease-in-out;
+		overflow-y: scroll;
+		max-height: vars.rem(840);
+		height: auto;
 		margin-top: vars.rem(20);
 	}
 
@@ -28,7 +29,7 @@
 	input {
 		display: none;
 		&:checked ~ .accordion_content {
-			height: 0;
+			max-height: 0;
 			margin-top: 0;
 		}
 		&:checked ~ .accordion_action img {

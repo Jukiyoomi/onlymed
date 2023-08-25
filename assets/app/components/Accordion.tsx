@@ -12,7 +12,7 @@ export default function Accordion({children, as, id, className, ...data}: Props)
 
 	const classes = classNames({
 		"accordion": true,
-		[className as string]: true
+		[className as string]: className !== undefined
 	})
 
 	return (
