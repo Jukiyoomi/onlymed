@@ -64,6 +64,22 @@
 				}
 			}
 		}
+
+		.docs {
+			ul {
+				@include vars.flexer(start, start, column);
+				gap: vars.rem(10);
+			}
+			li {
+				display: flex;
+				width: 100%;
+				padding: vars.rem(15);
+				align-items: center;
+				justify-content: space-between;
+				border-radius: vars.rem(10);
+				background: vars.$half-green;
+			}
+		}
 		
 		h2 {
 			text-transform: capitalize;

@@ -14,9 +14,15 @@ type ApptType = {
 	}
 };
 
-export default function Appts() {
+export default function ApptsSection() {
 	const dateRef = useRef(new Date());
-	const titles = useRef(["À venir", "Passés"]);
+	const labelsRef = useRef([{
+		title: "À venir",
+		filter: (appointment: ApptType) => new Date(appointment.date) > dateRef.current
+	}, {
+		title: "Passés",
+		filter: (appointment: ApptType) => new Date(appointment.date) <= dateRef.current
+	}]);
 	const idRef = useId();
 
 	return (
@@ -30,11 +36,12 @@ export default function Appts() {
 			</Accordion.Action>
 
 			<Accordion.Content>
-				{titles.current.map((title, id) => (
+				{labelsRef.current.map(({title, filter}, id) => (
 					<ApptList
 						key={id}
-						data={data
-							.filter(appointment => new Date(appointment.date) > dateRef.current)}
+						data={data.appointments
+							.filter(filter)
+						}
 						title={title}
 					/>
 				))}
@@ -48,7 +55,7 @@ function ApptList({data, title}: {data: ApptType[], title: string}) {
 
 	return (
 		<div className="accordion_item">
-			<p className="reg-bold">{title}</p>
+			<p className="reg-bold">{title} ({data.length})</p>
 			{data.length === 0 ?
 				<p>Aucun rendez-vous {title.toLowerCase()}</p> :
 				<>

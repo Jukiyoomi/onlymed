@@ -7,7 +7,7 @@
 		@include vars.flexer(start, start, column);
 		gap: vars.rem(20);
 		transition: max-height 0.3s ease-in-out, margin-top 0.3s ease-in-out;
-		overflow-y: scroll;
+		overflow: hidden;
 		max-height: vars.rem(840);
 		height: auto;
 		margin-top: vars.rem(20);
