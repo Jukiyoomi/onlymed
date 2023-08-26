@@ -20,6 +20,7 @@
             "@store/*": ["./assets/app/store/*"],
             "@img/*": ["./assets/images/*"],
             "@hooks/*": ["./assets/app/hooks/*"],
+            "@router/*": ["./assets/app/router/*"],
         },
         "typeRoots" : ["node_modules/@types", "assets/types"]
     },
