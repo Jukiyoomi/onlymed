@@ -65,7 +65,7 @@
 			}
 		}
 
-		.docs {
+		.right {
 			ul {
 				@include vars.flexer(start, start, column);
 				gap: vars.rem(10);
@@ -78,6 +78,13 @@
 				justify-content: space-between;
 				border-radius: vars.rem(10);
 				background: vars.$half-green;
+
+				p {
+					max-width: vars.rem(200);
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
+				}
 			}
 		}
 		

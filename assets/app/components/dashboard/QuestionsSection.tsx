@@ -6,7 +6,7 @@ export default function QuestionsSection() {
 	const idRef = useId();
 
 	return (
-		<Accordion className="docs" as="article" id={idRef}>
+		<Accordion className="questions right" as="article" id={idRef}>
 			<Accordion.Action
 				className="dashboard_content_head"
 				id={idRef}
@@ -14,15 +14,15 @@ export default function QuestionsSection() {
 				<h2 className="second-title">Mes questions</h2>
 			</Accordion.Action>
 			<Accordion.Content>
-				<ul className="accordion_item">
-					{data.questions.length === 0 ?
-						<p>Vous n’avez pas encore posé de questions</p> :
-						data.questions
+				{data.questions.length > 0 ?
+					<p>Vous n’avez pas encore posé de questions</p> :
+					<ul className="accordion_item">
+						{data.questions
 							.map((question) => (
-							<DocItem question={question} key={question.id} />
-						))
-					}
-				</ul>
+							<QuestionItem question={question} key={question.id} />
+						))}
+					</ul>
+				}
 			</Accordion.Content>
 		</Accordion>
 	)
@@ -36,7 +36,7 @@ type Props = {
 	}
 };
 
-function DocItem({question}: Props) {
+function QuestionItem({question}: Props) {
 	return (
 		<li>
 			<p className="reg-bold">{question.question}</p>
