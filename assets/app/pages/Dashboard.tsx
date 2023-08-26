@@ -5,15 +5,18 @@ import {toString} from "@store/user";
 import ApptsSection from "@comps/dashboard/ApptsSection";
 import QuestionsSection from "@comps/dashboard/QuestionsSection";
 import DocsSection from "@comps/dashboard/DocsSection";
+import {Link} from "react-router-dom";
 
 export default function Dashboard() {
 	return (
 		<Container className="dashboard">
 			<section className="dashboard_header">
 				<h1 className="main-title">Compte de {toString()}</h1>
-				<Button type="secondary">
-					Voir les options
-				</Button>
+				<Link to="/dashboard/params">
+					<Button type="secondary">
+						Voir les options
+					</Button>
+				</Link>
 			</section>
 
 			<section className="dashboard_content">
