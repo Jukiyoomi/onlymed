@@ -1,6 +1,6 @@
 import React, {useId, useRef} from "react";
 import data from "@store/dashboard";
-import useToggle from "../../hooks/useToggle";
+import useToggle from "@hooks/useToggle";
 import Accordion from "@comps/Accordion";
 import Button from "@comps/Button";
 

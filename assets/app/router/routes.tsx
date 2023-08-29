@@ -5,12 +5,12 @@ import React from "react";
 
 export default [
 	{
-		path: "/dashboard",
-		component: <Dashboard />
-	},
-	{
 		path: "/search",
 		component: <SearchDoctor />
+	},
+	{
+		path: "/dashboard",
+		component: <Dashboard />
 	},
 	{
 		path: "/dashboard/params",

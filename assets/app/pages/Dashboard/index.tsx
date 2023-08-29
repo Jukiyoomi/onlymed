@@ -2,9 +2,9 @@ import React from 'react';
 import Container from "@comps/Container";
 import Button from "@comps/Button";
 import {toString} from "@store/user";
-import ApptsSection from "@comps/dashboard/ApptsSection";
-import QuestionsSection from "@comps/dashboard/QuestionsSection";
-import DocsSection from "@comps/dashboard/DocsSection";
+import ApptsSection from "./ApptsSection";
+import QuestionsSection from "./QuestionsSection";
+import DocsSection from "./DocsSection";
 import {Link} from "react-router-dom";
 
 export default function Dashboard() {
