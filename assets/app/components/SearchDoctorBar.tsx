@@ -1,8 +1,7 @@
-import loupe from "@img/loupe.svg";
-import pin from "@img/pin.svg";
 import Button from "@comps/Button";
 import React, {useRef} from "react";
 import useSearchStore from "../store/search";
+import {MapPin, Search} from "lucide-react";
 
 
 export default function SearchDoctorBar() {
@@ -22,13 +21,13 @@ export default function SearchDoctorBar() {
 	return (
 		<section className="bar">
 			<div className="form_widget">
-				<img src={loupe} alt="Loupe SVG" />
+				<Search color="#006D77" />
 				<input type="text" placeholder="Nom, Spécialité"
 					   ref={searchRef}
 					   required />
 			</div>
 			<div className="form_widget">
-				<img src={pin} alt="Pin SVG" />
+				<MapPin color="#006D77" />
 				<input type="text" placeholder="Ville, région"
 					   ref={locationRef} />
 			</div>

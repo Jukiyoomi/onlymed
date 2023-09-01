@@ -17,13 +17,12 @@
 		width: 100%;
 	}
 
-	.accordion_action {
-		img {
-			transform: rotate(180deg);
-		}
-		&-instant img {
-			transition: transform 0.3s ease-in-out;
-		}
+	&_img {
+		transform: rotate(180deg);
+	}
+
+	.accordion_action-instant .accordion_img {
+		transition: transform 0.3s ease-in-out;
 	}
 
 	input {
@@ -32,7 +31,7 @@
 			max-height: 0;
 			margin-top: 0;
 		}
-		&:checked ~ .accordion_action img {
+		&:checked ~ .accordion_action .accordion_img {
 			transform: rotate(0);
 		}
 	}

@@ -1,6 +1,6 @@
 import React, {Children, cloneElement, HTMLProps, ReactElement, ReactNode} from 'react';
 import classNames from "classnames";
-import chevron from "@img/chevron-down.svg";
+import {ChevronDownCircle} from "lucide-react";
 
 type Props = {
 	children: ReactNode,
@@ -35,7 +35,7 @@ const Action = ({children, id, className, isInstant = false}: {children: ReactNo
 	return (
 		<label htmlFor={id} className={classes}>
 			{children}
-			<img src={chevron} alt="chevron-down" />
+			<ChevronDownCircle className="accordion_img" />
 		</label>
 	)
 };
