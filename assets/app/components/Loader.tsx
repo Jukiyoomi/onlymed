@@ -2,7 +2,7 @@ import React from "react";
 import {Oval} from "react-loader-spinner";
 
 export default function Loader() {
-	return <div className="loader_container">
+	return <div className="loader_container loader_dark">
 		<Oval
 			height={80}
 			width={80}

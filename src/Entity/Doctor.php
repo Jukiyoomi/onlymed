@@ -6,6 +6,7 @@ use App\Repository\DoctorRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: DoctorRepository::class)]
 class Doctor extends User
@@ -26,9 +27,12 @@ class Doctor extends User
     private bool $isVerified;
 
 	#[ORM\ManyToMany(targetEntity: Speciality::class, inversedBy: 'doctors')]
+    #[Groups(['doctor:read'])]
 	private Collection $specialities;
 
-
+	#[ORM\Column]
+	#[Groups(['doctor:read'])]
+	private ?string $address = null;
 
     public function getPhone(): ?string
     {
@@ -74,4 +78,22 @@ class Doctor extends User
 
 		return $this;
 	}
+
+	/**
+	 * @return string|null
+	 */
+	public function getAddress(): ?string
+	{
+		return $this->address;
+	}
+
+	/**
+	 * @param string|null $address
+	 */
+	public function setAddress(?string $address): void
+	{
+		$this->address = $address;
+	}
+
+
 }
