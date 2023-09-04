@@ -53,6 +53,10 @@
 		box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.10);
 		padding: vars.rem(20);
 
+		&_header {
+			margin-bottom: vars.rem(10);
+		}
+
 		h1 {
 			text-transform: capitalize;
 		}
@@ -64,7 +68,19 @@
 		&_account {
 			@include vars.flexer(start, start, column);
 			gap: vars.rem(10);
-			margin-top: vars.rem(10);
+		}
+
+		&_mail {
+			form {
+				width: 100%;
+
+				.form_half {
+					width: 100%;
+					@include vars.flexer(start, start);
+					gap: vars.rem(15);
+					margin-bottom: vars.rem(50);
+				}
+			}
 		}
 	}
 }
