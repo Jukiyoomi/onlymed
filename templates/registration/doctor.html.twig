@@ -35,5 +35,11 @@
 		Pour des raisons de sécurité, vous devrez vérifier votre statut de médecin avant de pouvoir utiliser Onlymed.
 		Nos experts vus contacteront.
 	</p>
+
+	{% if error %}
+		{% from "components/form_error.html.twig" import form_error %}
+		{{ form_error(error.message) }}
+	{% endif %}
+
 	{{ form_end(form) }}
 {% endblock %}

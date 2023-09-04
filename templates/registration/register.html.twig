@@ -24,5 +24,10 @@
             {{ form_row(form.agreeTerms) }}
         </div>
         <button type="submit" class="btn_full btn_primary reg-bold">Register</button>
+        {% if error %}
+            {% from "components/form_error.html.twig" import form_error %}
+            {{ form_error(error.message) }}
+        {% endif %}
+
     {{ form_end(form) }}
 {% endblock %}
