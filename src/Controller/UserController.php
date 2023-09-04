@@ -4,19 +4,20 @@ namespace App\Controller;
 
 use App\Entity\Doctor;
 use App\Entity\User;
+use App\Repository\UserRepository;
 use App\Service\DoctorService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
-#[Route('/api')]
 class UserController extends AbstractController
 {
-	#[Route('/dashboard', name: 'app.dashboard', methods: ['GET'])]
+	#[Route('/api/dashboard', name: 'app.dashboard', methods: ['GET'])]
 	public function hello(#[CurrentUser] ?User $user): JsonResponse
 	{
 		if (!$user) {
@@ -28,7 +29,7 @@ class UserController extends AbstractController
 		], Response::HTTP_OK, [], ['groups' => 'user:read']);
 	}
 
-    #[Route('/search', name: 'app.search', methods: ['GET'])]
+    #[Route('/api/search', name: 'app.search', methods: ['GET'])]
     public function search(#[CurrentUser] ?User $user, Request $request, DoctorService $doctorService): JsonResponse
     {
         if (!$user) {
@@ -48,7 +49,18 @@ class UserController extends AbstractController
         ], Response::HTTP_OK, [], ['groups' => 'doctor:read']);
     }
 
-	#[Route('/address', name: 'app.address.edit', methods: ['PUT'])]
+	#[Route('/user/delete', name: 'app.user.delete', methods: ['GET', 'DELETE'])]
+	public function deleteAccount(#[CurrentUser] ?User $user, UserRepository $repository): Response
+	{
+		$session = new Session();
+		$session->invalidate();
+
+		$repository->remove($user, true);
+
+		return $this->redirectToRoute('app_login');
+	}
+
+	#[Route('/api/address', name: 'app.address.edit', methods: ['PUT'])]
 	public function addAddress(#[CurrentUser] ?Doctor $user, Request $request, EntityManagerInterface $manager): JsonResponse
 	{
 		if (!$user) {
