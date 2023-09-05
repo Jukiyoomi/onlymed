@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Doctor;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Service\DoctorService;
@@ -60,34 +59,33 @@ class UserController extends AbstractController
 		return $this->redirectToRoute('app_login');
 	}
 
-	#[Route('/api/address', name: 'app.address.edit', methods: ['PUT'])]
-	public function addAddress(#[CurrentUser] ?Doctor $user, Request $request, EntityManagerInterface $manager): JsonResponse
+	#[Route('/api/user/email', name: 'app.user.email.edit', methods: ['PUT'])]
+	public function editEmail(#[CurrentUser] ?User $user, Request $request, EntityManagerInterface $manager): JsonResponse
 	{
-		if (!$user) {
-			return $this->json([
-				'user' => null,
-				'error' => 'User not found'
-			], Response::HTTP_NOT_FOUND);
-		}
-		$payload = json_decode($request->getContent(), true);
+		$parameters = json_decode($request->getContent(), true);
 
-		$address = $payload['address'];
+		$oldMail = $parameters['oldMail'];
+		$newMail = $parameters['newMail'];
 
-		if (!$address) {
-			return $this->json([
-				'user' => null,
-				'error' => 'Address not found'
-			], Response::HTTP_NOT_FOUND);
+		if ($oldMail !== $user->getEmail()) {
+			return new JsonResponse([
+				'error' => 'Old mail is not correct',
+				"path" => "oldMail"
+			], Response::HTTP_BAD_REQUEST);
 		}
 
-		$user = $manager->getRepository(Doctor::class)->find(1);
-		$user->setAddress($address);
-		$manager->persist($user);
+		if ($oldMail === $newMail) {
+			return new JsonResponse([
+				'error' => 'Old mail and new mail are the same',
+				"path" => "newMail"
+			], Response::HTTP_BAD_REQUEST);
+		}
+
+		$user->setEmail($newMail);
 		$manager->flush();
 
 		return $this->json([
-//			'user' => $user,
-			'error' => null
-		], Response::HTTP_OK);
+			'user' => $user,
+		], Response::HTTP_OK, [], ['groups' => 'user:read']);
 	}
 }
