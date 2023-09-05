@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
@@ -82,6 +83,50 @@ class UserController extends AbstractController
 		}
 
 		$user->setEmail($newMail);
+		$manager->flush();
+
+		return $this->json([
+			'user' => $user,
+		], Response::HTTP_OK, [], ['groups' => 'user:read']);
+	}
+
+	#[Route('/api/user/password', name: 'app.user.password.edit', methods: ['PUT'])]
+	public function editPassword(#[CurrentUser] ?User $user, Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $userPasswordHasher): JsonResponse
+	{
+		$parameters = json_decode($request->getContent(), true);
+
+		$oldPassword = $parameters['oldPassword'];
+		$newPassword = $parameters['newPassword'];
+		$confirmPassword = $parameters['confirmPassword'];
+
+		if (!$userPasswordHasher->isPasswordValid($user, $oldPassword)) {
+			return new JsonResponse([
+				'error' => 'Old password is not correct.',
+				"path" => "oldPassword"
+			], Response::HTTP_BAD_REQUEST);
+		}
+
+		if ($oldPassword === $newPassword) {
+			return new JsonResponse([
+				'error' => 'Old password and new password must not be identical.',
+				"path" => "newPassword"
+			], Response::HTTP_BAD_REQUEST);
+		}
+
+		if ($newPassword !== $confirmPassword) {
+			return new JsonResponse([
+				'error' => 'New password and confirm password must be identical.',
+				"path" => "confirmPassword"
+			], Response::HTTP_BAD_REQUEST);
+		}
+
+		$user->setPassword(
+			$userPasswordHasher->hashPassword(
+				$user,
+				$newPassword
+			)
+		);
+
 		$manager->flush();
 
 		return $this->json([
