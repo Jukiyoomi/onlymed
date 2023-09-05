@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import Container from "@comps/Container";
-import Sidebar from "@pages/Params/Sidebar";
-import Settings from "@pages/Params/Settings";
+import Sidebar from "./Sidebar";
+import Settings from "./Settings";
 
 export default function Params() {
 	const [currentLink, setCurrentLink] = useState<string>("general");
