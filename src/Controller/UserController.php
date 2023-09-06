@@ -133,4 +133,27 @@ class UserController extends AbstractController
 			'user' => $user,
 		], Response::HTTP_OK, [], ['groups' => 'user:read']);
 	}
+
+	#[Route('/api/user/general', name: 'app.user.general.edit', methods: ['PUT'])]
+	public function edit(#[CurrentUser] ?User $user, Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $userPasswordHasher): JsonResponse
+	{
+		$parameters = json_decode($request->getContent(), true);
+
+		$firstname = $parameters['firstname'];
+		$lastname = $parameters['lastname'];
+
+		if (isset($firstname) && $firstname !== $user->getFirstname()) {
+			$user->setFirstname($firstname);
+		}
+
+		if (isset($lastname) && $lastname !== $user->getLastname()) {
+			$user->setLastname($lastname);
+		}
+
+		$manager->flush();
+
+		return $this->json([
+			'user' => $user,
+		], Response::HTTP_OK, [], ['groups' => 'user:read']);
+	}
 }
