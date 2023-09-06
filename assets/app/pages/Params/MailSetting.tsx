@@ -79,14 +79,14 @@ function Form() {
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
 			<div className="form_half">
-				<div className="form_widget">
+				<div className="form_widget form_half_item">
 					<label htmlFor="oldMail">Ancienne Adresse E-mail</label>
 					<input
 						type="email"
 						{...register('oldMail', {required: true})}
 					/>
 				</div>
-				<div className="form_widget">
+				<div className="form_widget form_half_item">
 					<label htmlFor="newMail">Nouvelle Adresse E-mail</label>
 					<input
 						type="email"

@@ -70,17 +70,12 @@
 			gap: vars.rem(10);
 		}
 
-		&_mail {
-			form {
-				width: 100%;
+		form {
+			width: 100%;
+		}
 
-				.form_half {
-					width: 100%;
-					@include vars.flexer(start, start);
-					gap: vars.rem(15);
-					margin-bottom: vars.rem(50);
-				}
-			}
+		button {
+			margin-top: vars.rem(20);
 		}
 	}
 }

@@ -76,15 +76,15 @@ function Form() {
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
 			<div className="form_half">
-				<div className="form_widget">
-					<label htmlFor="oldMail">Nom</label>
+				<div className="form_widget form_half_item">
+					<label htmlFor="firstname">Nom</label>
 					<input
 						type="email"
 						{...register('firstname', {required: true})}
 					/>
 				</div>
-				<div className="form_widget">
-					<label htmlFor="newMail">Prénom</label>
+				<div className="form_widget form_half_item">
+					<label htmlFor="lastname">Prénom</label>
 					<input
 						type="email"
 						{...register('lastname', {required: true})}
