@@ -87,23 +87,26 @@ function Form() {
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
 			<div className="form_widget">
-				<label htmlFor="oldMail">Ancien Mot de Passe</label>
+				<label htmlFor="oldPassword" className="reg-bold">Ancien Mot de Passe</label>
 				<input
 					type="password"
+					id="oldPassword"
 					{...register('oldPassword', {required: true})}
 				/>
 			</div>
 			<div className="form_widget">
-				<label htmlFor="newMail">Nouveau Mot de Passe</label>
+				<label htmlFor="newPassword" className="reg-bold">Nouveau Mot de Passe</label>
 				<input
 					type="password"
+					id="newPassword"
 					{...register('newPassword', {required: true})}
 				/>
 			</div>
 			<div className="form_widget">
-				<label htmlFor="newMail">Confirmez le Mot de Passe</label>
+				<label htmlFor="confirmPassword" className="reg-bold">Confirmez le Mot de Passe</label>
 				<input
 					type="password"
+					id="confirmPassword"
 					{...register('confirmPassword', {required: true})}
 				/>
 			</div>

@@ -68,6 +68,7 @@ function Form() {
 			});
 			return;
 		}
+
 		wretch("/api/user/general")
 			.put({
 				firstname: Boolean(data.firstname) ? data.firstname : null,
@@ -92,17 +93,19 @@ function Form() {
 		<form onSubmit={handleSubmit(onSubmit)}>
 			<div className="form_half">
 				<div className="form_widget form_half_item">
-					<label htmlFor="firstname">Nom</label>
+					<label htmlFor="firstname" className="reg-bold">Nom</label>
 					<input
 						type="text"
+						id="firstname"
 						defaultValue={user?.firstname}
 						{...register('firstname')}
 					/>
 				</div>
 				<div className="form_widget form_half_item">
-					<label htmlFor="lastname">Prénom</label>
+					<label htmlFor="lastname" className="reg-bold">Prénom</label>
 					<input
 						type="text"
+						id="lastname"
 						defaultValue={user?.lastname}
 						{...register('lastname')}
 					/>
