@@ -7,9 +7,9 @@
 
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.scss';
+import 'react-loading-skeleton/dist/skeleton.css'
 
 // start the Stimulus application
-import './bootstrap';
 
 // Create a react app using React 18 syntax
 import React from 'react';

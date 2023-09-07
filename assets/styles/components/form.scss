@@ -29,8 +29,14 @@ form {
 	}
 
 	.form_half {
-		$half-gap: calc($input-gap / 2);
-		$half-gap-to-rem: vars.rem($half-gap);
-		width: calc(50% - $half-gap-to-rem);
+		width: 100%;
+		@include vars.flexer(start, start);
+		flex-wrap: wrap;
+		gap: vars.rem(15);
+	}
+
+	.form_half_item {
+		width: auto;
+		flex: 1;
 	}
 }

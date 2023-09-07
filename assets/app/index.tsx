@@ -1,26 +1,13 @@
 import React, {useEffect} from "react";
-import {Routes, Route} from "react-router-dom";
-import Dashboard from "@pages/Dashboard";
 import Layout from "@comps/Layout";
-import {useQuery} from "@tanstack/react-query";
 import Loader from "@comps/Loader";
-import useUserStore from "./store/user";
-import SearchDoctor from "@pages/SearchDoctor";
-import useSearchStore from "./store/search";
-
-import 'react-loading-skeleton/dist/skeleton.css'
+import useSearchStore from "@store/search";
+import Router from "@router/Router";
+import useInit from "@hooks/useInit";
 
 export default function App() {
-	const setUser = useUserStore((state) => state.setUser);
 	const reset = useSearchStore((state) => state.reset);
-	const { isLoading} = useQuery(['user'], async () => {
-		return fetch('/api/dashboard')
-			.then(res => res.json())
-			.then(data => {
-				setUser(data.user);
-				return data;
-			})
-	});
+	const { isLoading} = useInit();
 
 	useEffect(() => {
 		reset();
@@ -28,13 +15,10 @@ export default function App() {
 
 	return (
 		<Layout>
-			{isLoading ? <Loader /> : (
-				<Routes>
-					<Route path="/dashboard" element={<Dashboard />} />
-					<Route path="/search" element={<SearchDoctor />} />
-					<Route path="*" element={<h1>Not Found</h1>} />
-				</Routes>
-			)}
+			{isLoading ?
+				<Loader /> :
+				<Router />
+			}
 		</Layout>
 	);
 }

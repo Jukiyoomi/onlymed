@@ -1,0 +1,38 @@
+@use '../utils' as vars;
+
+.accordion {
+	height: auto;
+
+	&_content {
+		@include vars.flexer(start, start, column);
+		gap: vars.rem(20);
+		transition: max-height 0.3s ease-in-out, margin-top 0.3s ease-in-out;
+		overflow: hidden;
+		max-height: vars.rem(840);
+		height: auto;
+		margin-top: vars.rem(20);
+	}
+
+	&_item {
+		width: 100%;
+	}
+
+	&_img {
+		transform: rotate(180deg);
+	}
+
+	.accordion_action-instant .accordion_img {
+		transition: transform 0.3s ease-in-out;
+	}
+
+	input {
+		display: none;
+		&:checked ~ .accordion_content {
+			max-height: 0;
+			margin-top: 0;
+		}
+		&:checked ~ .accordion_action .accordion_img {
+			transform: rotate(0);
+		}
+	}
+}

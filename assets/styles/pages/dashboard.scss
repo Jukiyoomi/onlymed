@@ -8,4 +8,89 @@
 	&_header {
 		@include vars.flexer(center, space-between);
 	}
+
+	&_content {
+		@include vars.flexer(start, center);
+		gap: vars.rem(20);
+		flex-wrap: wrap;
+		width: 100%;
+
+		article {
+			width: 100%;
+			background: vars.$white;
+			box-shadow: 3px 4px 5px 0 rgba(0, 0, 0, 0.10);
+			padding: vars.rem(20);
+			gap: vars.rem(20);
+			border-radius: vars.rem(10);
+			min-width: vars.rem(300);
+		}
+		&_head {
+			@include vars.flexer(center, space-between);
+			gap: vars.rem(10);
+		}
+
+		aside {
+			@include vars.flexer(start, start, column);
+			flex: 1 0 30%;
+			gap: vars.rem(20);
+		}
+
+		ul {
+			margin-top: vars.rem(10);
+			overflow-y: scroll;
+			max-height: vars.rem(330);
+		}
+
+		.appts {
+			flex: 1 0 55%;
+
+			li {
+				@include vars.flexer(start, space-between);
+				background: vars.$half-green;
+				border-radius: vars.rem(10);
+				margin-bottom: vars.rem(10);
+				padding: vars.rem(20);
+
+				& > div {
+					@include vars.flexer(start, center);
+					gap: vars.rem(10);
+				}
+
+				img {
+					width: vars.rem(60);
+					height: vars.rem(60);
+					border-radius: 50%;
+					object-fit: cover;
+				}
+			}
+		}
+
+		.right {
+			ul {
+				@include vars.flexer(start, start, column);
+				gap: vars.rem(10);
+			}
+			li {
+				display: flex;
+				width: 100%;
+				padding: vars.rem(15);
+				align-items: center;
+				justify-content: space-between;
+				border-radius: vars.rem(10);
+				background: vars.$half-green;
+
+				p {
+					max-width: vars.rem(200);
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
+				}
+			}
+		}
+		
+		h2 {
+			text-transform: capitalize;
+		}
+	}
 }
+

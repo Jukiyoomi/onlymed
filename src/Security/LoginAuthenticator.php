@@ -42,7 +42,8 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-         return new RedirectResponse($this->urlGenerator->generate('app_default'));
+		$home = $this->urlGenerator->generate('app_default');
+         return new RedirectResponse($home . 'dashboard');
     }
 
     protected function getLoginUrl(Request $request): string

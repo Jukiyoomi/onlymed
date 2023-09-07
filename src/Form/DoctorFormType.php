@@ -30,6 +30,7 @@ class DoctorFormType extends AbstractType
 					'autocomplete' => 'given-name',
 					'placeholder' => 'Enter your first name',
 				],
+				"error_bubbling" => true,
 			])
 			->add('lastname', TextType::class, [
 				'label' => 'Last name',
@@ -38,6 +39,7 @@ class DoctorFormType extends AbstractType
 					'autocomplete' => 'given-name',
 					'placeholder' => 'Enter your last name',
 				],
+				"error_bubbling" => true,
 			])
 			->add('email', EmailType::class, [
 				'label' => 'Email address',
@@ -46,6 +48,7 @@ class DoctorFormType extends AbstractType
 					'autocomplete' => 'email',
 					'placeholder' => 'Enter your email address',
 				],
+				"error_bubbling" => true,
 			])
 			->add('speciality', EntityType::class, [
 				'label' => 'Speciality',
@@ -58,7 +61,7 @@ class DoctorFormType extends AbstractType
 				'query_builder' => function (EntityRepository $er) {
 					return $er->createQueryBuilder('s');
 				},
-
+				"error_bubbling" => true,
 			])
 			->add('agreeTerms', CheckboxType::class, [
 				'mapped' => false,
@@ -67,6 +70,7 @@ class DoctorFormType extends AbstractType
 						'message' => 'You should agree to our terms.',
 					]),
 				],
+				"error_bubbling" => true,
 			])
 			->add('phone', TextType::class, [
 				'label' => 'Phone number',
@@ -75,6 +79,7 @@ class DoctorFormType extends AbstractType
 					'autocomplete' => 'tel',
 					'placeholder' => 'Enter your phone number',
 				],
+				"error_bubbling" => true,
 			])
 			->add('password', RepeatedType::class, [
 				// instead of being set onto the object directly,
@@ -86,12 +91,13 @@ class DoctorFormType extends AbstractType
 				'required' => true,
 				'first_options'  => ['label' => 'Password', 'attr' => ['placeholder' => 'Password']],
 				'second_options' => ['label' => 'Repeat Password', 'attr' => ['placeholder' => 'Repeat Password']],
+				"error_bubbling" => true,
 				'constraints' => [
 					new NotBlank([
 						'message' => 'Please enter a password',
 					]),
 					new Length([
-						'min' => 6,
+						'min' => 8,
 						'minMessage' => 'Your password should be at least {{ limit }} characters',
 						// max length allowed by Symfony for security reasons
 						'max' => 4096,

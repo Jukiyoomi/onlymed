@@ -23,27 +23,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-	#[Groups(['doctor:read'])]
+	#[Groups(['doctor:read', 'user:read'])]
     private ?int $id = null;
 
 	#[ORM\Column]
 	#[Assert\NotBlank]
-    #[Groups(['doctor:read'])]
+    #[Groups(['doctor:read', 'user:read', 'appt:read'])]
     private string $firstname;
 
 	#[ORM\Column]
 	#[Assert\NotBlank]
-    #[Groups(['doctor:read'])]
+    #[Groups(['doctor:read', 'user:read', 'appt:read'])]
     private string $lastname;
 
     #[ORM\Column(length: 180, unique: true)]
 	#[Assert\NotBlank]
 	#[Assert\Email]
-    #[Groups(['doctor:read'])]
+    #[Groups(['user:read'])]
     private string $email;
 
     #[ORM\Column]
-    protected array $roles = [];
+	#[Groups(['user:read'])]
+	protected array $roles = [];
 
 	public function __construct()
 	{
