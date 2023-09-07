@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
-use App\Service\DoctorService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -28,26 +27,6 @@ class UserController extends AbstractController
 			'user' => $user,
 		], Response::HTTP_OK, [], ['groups' => 'user:read']);
 	}
-
-    #[Route('/api/search', name: 'app.search', methods: ['GET'])]
-    public function search(#[CurrentUser] ?User $user, Request $request, DoctorService $doctorService): JsonResponse
-    {
-        if (!$user) {
-			return new JsonResponse('Logged user not found', Response::HTTP_NOT_FOUND);
-		}
-
-        $offset = $request->query->get('offset');
-        $zone = $request->query->get('zone') ?? null;
-        $searchTerm = $request->query->get('term');
-
-        $doctors = $doctorService->findAllByTerm($searchTerm, $zone, $offset);
-
-        return $this->json([
-			"count" => count($doctors),
-            'doctors' => $doctors,
-            'error' => null
-        ], Response::HTTP_OK, [], ['groups' => 'doctor:read']);
-    }
 
 	#[Route('/user/delete', name: 'app.user.delete', methods: ['GET', 'DELETE'])]
 	public function deleteAccount(#[CurrentUser] ?User $user, UserRepository $repository): Response
