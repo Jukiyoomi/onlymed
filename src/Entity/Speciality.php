@@ -17,7 +17,7 @@ class Speciality
 	#[Groups(['appt:read'])]
 	private ?int $id = null;
 
-    #[ORM\Column(length: 150)]
+    #[ORM\Column(length: 190)]
     #[Groups(['doctor:read', 'appt:read'])]
     private ?string $name = null;
 
