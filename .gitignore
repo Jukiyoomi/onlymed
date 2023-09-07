@@ -19,6 +19,12 @@
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
 
+###> IDEs configs ###
+/.idea
+/.phpstorm.meta.php
+/.vscode
+###< IDEs configs ###
+
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
 /public/build/
