@@ -1,6 +1,6 @@
 import React from 'react';
 import Container from "@comps/Container";
-import SearchDoctorBar from "@comps/SearchDoctorBar";
+import SearchDoctorBar from "./SearchDoctorBar";
 import Results from "./Results";
 
 export default function SearchDoctor() {

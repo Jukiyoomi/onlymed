@@ -1,6 +1,6 @@
 import Button from "@comps/Button";
 import React, {useRef} from "react";
-import useSearchStore from "../store/search";
+import useSearchStore from "@store/search";
 import {MapPin, Search} from "lucide-react";
 
 

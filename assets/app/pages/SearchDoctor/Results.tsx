@@ -1,4 +1,4 @@
-import SearchDoctorItem, {SearchDoctorLoading} from "@comps/SearchDoctorItem";
+import SearchDoctorItem, {SearchDoctorLoading} from "./SearchDoctorItem";
 import React, {useEffect, useState} from "react";
 import Pagination from "@comps/Pagination";
 import Button from "@comps/Button";
