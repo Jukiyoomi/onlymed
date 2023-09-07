@@ -14,7 +14,7 @@ export default function QuestionsSection() {
 				<h2 className="second-title">Mes questions</h2>
 			</Accordion.Action>
 			<Accordion.Content>
-				{data.questions.length > 0 ?
+				{data.questions.length <= 0 ?
 					<p>Vous n’avez pas encore posé de questions</p> :
 					<ul className="accordion_item">
 						{data.questions
