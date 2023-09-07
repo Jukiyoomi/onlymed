@@ -30,16 +30,22 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "@hookform/error-message": "^2.0.1",
+        "@hookform/resolvers": "^3.3.1",
         "@tanstack/react-query": "^4.29.13",
         "@tanstack/react-query-devtools": "^4.29.13",
         "classnames": "^2.3.2",
+        "lucide-react": "^0.269.0",
         "prop-types": "^15.8.1",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
+        "react-hook-form": "^7.46.0",
         "react-icons": "^4.9.0",
         "react-loader-spinner": "^5.3.4",
         "react-loading-skeleton": "^3.3.1",
         "react-router-dom": "^6.12.1",
+        "wretch": "^2.6.0",
+        "zod": "^3.22.2",
         "zustand": "^4.3.8"
     }
 }

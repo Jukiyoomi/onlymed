@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
@@ -15,7 +16,8 @@ class SecurityController extends AbstractController
     public function login(AuthenticationUtils $authenticationUtils, #[CurrentUser] ?User $user): Response
     {
          if ($user) {
-             return $this->redirectToRoute('app_default');
+			 $home = $this->generateUrl('app_default');
+             return new RedirectResponse($home . 'dashboard');
          }
 
         // get the login error if there is one

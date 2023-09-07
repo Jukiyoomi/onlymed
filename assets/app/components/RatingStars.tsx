@@ -1,6 +1,5 @@
-import emptyStar from "@img/star_empty.svg";
-import fullStar from "@img/star_full.svg";
 import React, {useRef} from "react";
+import {Star} from "lucide-react";
 
 export default function RatingStars({rating}: {rating: number}) {
     const totalStars = useRef<number>(5);
@@ -15,9 +14,9 @@ export default function RatingStars({rating}: {rating: number}) {
 }
 
 function EmptyStar() {
-    return <img src={emptyStar} alt="Full Star"/>
+    return 	<Star color="#006D77" />
 }
 
 function FullStar() {
-    return <img src={fullStar} alt="Empty Star"/>
+    return <Star fill="#006D77" color="#006D77" />
 }

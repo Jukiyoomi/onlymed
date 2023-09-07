@@ -27,6 +27,9 @@ Encore
         "@pages": path.resolve(__dirname, "assets/app/pages"),
         "@comps": path.resolve(__dirname, "assets/app/components"),
         "@img": path.resolve(__dirname, "assets/images"),
+        "@store": path.resolve(__dirname, "assets/app/store"),
+        "@hooks": path.resolve(__dirname, "assets/app/hooks"),
+        "@router": path.resolve(__dirname, "assets/app/router"),
     })
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)

@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import logo from "@img/logo.svg";
-import {GiHamburgerMenu} from "react-icons/gi";
 import cn from "classnames";
 import {Link} from "react-router-dom";
+import {Menu} from "lucide-react";
 
 export default function Header() {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -29,7 +29,7 @@ export default function Header() {
 				</div>
 
 				<div onClick={() => setIsOpen(curr => !curr)}>
-					<GiHamburgerMenu className="nav_burger" />
+					<Menu className="nav_burger" />
 				</div>
 			</nav>
 		</header>
