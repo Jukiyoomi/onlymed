@@ -110,7 +110,7 @@ class UserController extends AbstractController
 	}
 
 	#[Route('/api/user/general', name: 'app.user.general.edit', methods: ['PUT'])]
-	public function edit(#[CurrentUser] ?User $user, Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $userPasswordHasher): JsonResponse
+	public function edit(#[CurrentUser] ?User $user, Request $request, EntityManagerInterface $manager): JsonResponse
 	{
 		$parameters = json_decode($request->getContent(), true);
 
