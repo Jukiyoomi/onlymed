@@ -7,7 +7,6 @@ use App\Entity\Patient;
 use App\Entity\User;
 use App\Form\DoctorFormType;
 use App\Form\RegistrationFormType;
-use App\Service\NameFormatterService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,14 +29,12 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-			$user->setFirstname(NameFormatterService::formatName($form->get('firstname')->getData()));
-
 			$user->setPassword(
-                $userPasswordHasher->hashPassword(
-                    $user,
-                    $form->get('password')->getData()
-                )
-            );
+				$userPasswordHasher->hashPassword(
+					$user,
+					$form->get('password')->getData()
+				)
+			);
 
 			$entityManager->persist($user);
             $entityManager->flush();
@@ -60,8 +57,6 @@ class RegistrationController extends AbstractController
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid()) {
-			$user->setFirstname(NameFormatterService::formatName($form->get('firstname')->getData()));
-
 			$user->setPassword(
 				$userPasswordHasher->hashPassword(
 					$user,
