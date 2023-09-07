@@ -18,6 +18,7 @@ class Doctor extends User
 		$this->roles[] = $this->role;
 		$this->specialities = new ArrayCollection();
 		$this->isVerified = false;
+	 $this->appointments = new ArrayCollection();
 	}
 
     #[ORM\Column(length: 150)]
@@ -27,12 +28,15 @@ class Doctor extends User
     private bool $isVerified;
 
 	#[ORM\ManyToMany(targetEntity: Speciality::class, inversedBy: 'doctors')]
-    #[Groups(['doctor:read'])]
+	#[Groups(['doctor:read'])]
 	private Collection $specialities;
 
 	#[ORM\Column]
 	#[Groups(['doctor:read'])]
 	private ?string $address = null;
+
+    #[ORM\OneToMany(mappedBy: 'doctor', targetEntity: Appointment::class)]
+    private Collection $appointments;
 
     public function getPhone(): ?string
     {
@@ -79,21 +83,40 @@ class Doctor extends User
 		return $this;
 	}
 
-	/**
-	 * @return string|null
-	 */
 	public function getAddress(): ?string
 	{
 		return $this->address;
 	}
 
-	/**
-	 * @param string|null $address
-	 */
 	public function setAddress(?string $address): void
-	{
-		$this->address = $address;
-	}
+               	{
+               		$this->address = $address;
+               	}
 
+    public function getAppointments(): Collection
+    {
+        return $this->appointments;
+    }
 
+    public function addAppointment(Appointment $appointment): self
+    {
+        if (!$this->appointments->contains($appointment)) {
+            $this->appointments->add($appointment);
+            $appointment->setDoctor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAppointment(Appointment $appointment): self
+    {
+        if ($this->appointments->removeElement($appointment)) {
+            // set the owning side to null (unless already changed)
+            if ($appointment->getDoctor() === $this) {
+                $appointment->setDoctor(null);
+            }
+        }
+
+        return $this;
+    }
 }
