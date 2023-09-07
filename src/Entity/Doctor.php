@@ -18,7 +18,7 @@ class Doctor extends User
 		$this->roles[] = $this->role;
 		$this->specialities = new ArrayCollection();
 		$this->isVerified = false;
-	 $this->appointments = new ArrayCollection();
+	 	$this->appointments = new ArrayCollection();
 	}
 
     #[ORM\Column(length: 150)]
@@ -28,11 +28,11 @@ class Doctor extends User
     private bool $isVerified;
 
 	#[ORM\ManyToMany(targetEntity: Speciality::class, inversedBy: 'doctors')]
-	#[Groups(['doctor:read'])]
+	#[Groups(['doctor:read', 'doctor:read:one', 'appt:read'])]
 	private Collection $specialities;
 
 	#[ORM\Column]
-	#[Groups(['doctor:read'])]
+	#[Groups(['doctor:read', 'doctor:read:one', 'appt:read'])]
 	private ?string $address = null;
 
     #[ORM\OneToMany(mappedBy: 'doctor', targetEntity: Appointment::class)]

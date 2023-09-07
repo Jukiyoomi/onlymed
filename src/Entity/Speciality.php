@@ -14,10 +14,11 @@ class Speciality
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+	#[Groups(['appt:read'])]
+	private ?int $id = null;
 
     #[ORM\Column(length: 150)]
-    #[Groups(['doctor:read'])]
+    #[Groups(['doctor:read', 'appt:read'])]
     private ?string $name = null;
 
 	#[ORM\ManyToMany(targetEntity: Doctor::class, mappedBy: 'specialities')]

@@ -28,18 +28,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
 	#[ORM\Column]
 	#[Assert\NotBlank]
-    #[Groups(['doctor:read', 'user:read'])]
+    #[Groups(['doctor:read', 'user:read', 'appt:read'])]
     private string $firstname;
 
 	#[ORM\Column]
 	#[Assert\NotBlank]
-    #[Groups(['doctor:read', 'user:read'])]
+    #[Groups(['doctor:read', 'user:read', 'appt:read'])]
     private string $lastname;
 
     #[ORM\Column(length: 180, unique: true)]
 	#[Assert\NotBlank]
 	#[Assert\Email]
-    #[Groups(['doctor:read', 'user:read'])]
+    #[Groups(['user:read'])]
     private string $email;
 
     #[ORM\Column]

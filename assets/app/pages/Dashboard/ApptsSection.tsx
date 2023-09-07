@@ -1,29 +1,50 @@
 import React, {useId, useRef} from "react";
-import data from "@store/dashboard";
 import useToggle from "@hooks/useToggle";
 import Accordion from "@comps/Accordion";
 import Button from "@comps/Button";
+import {useQuery} from "@tanstack/react-query";
+import wretch from "wretch";
 
 type ApptType = {
 	id: number,
-	date: string,
+	plannedAt: string,
 	doctor: {
 		firstname: string,
 		lastname: string,
-		address: string
+		address: string,
+		specialities: {
+			id: number,
+			name: string
+		}[]
 	}
 };
+
 
 export default function ApptsSection() {
 	const dateRef = useRef(new Date());
 	const labelsRef = useRef([{
 		title: "À venir",
-		filter: (appointment: ApptType) => new Date(appointment.date) > dateRef.current
+		filter: (appointment: ApptType) => new Date(appointment.plannedAt) > dateRef.current
 	}, {
 		title: "Passés",
-		filter: (appointment: ApptType) => new Date(appointment.date) <= dateRef.current
+		filter: (appointment: ApptType) => new Date(appointment.plannedAt) <= dateRef.current
 	}]);
 	const idRef = useId();
+
+	const {isLoading, data} = useQuery<ApptType[]>(["appointments", "all"], () => {
+		return wretch()
+			.get('/api/appointments')
+			.res(async (res) => {
+				const data = await res.json();
+				console.log(data.appointments);
+				return data.appointments;
+			})
+			.catch((e) => {
+				const parsedError = JSON.parse(e.message);
+				console.log(parsedError.error);
+				return parsedError;
+			})
+	});
 
 	return (
 		<Accordion className="appts" as="article" id={idRef}>
@@ -36,12 +57,12 @@ export default function ApptsSection() {
 			</Accordion.Action>
 
 			<Accordion.Content>
-				{labelsRef.current.map(({title, filter}, id) => (
+				{isLoading ?
+					<p>Loading...</p> :
+					labelsRef.current.map(({title, filter}, id) => (
 					<ApptList
 						key={id}
-						data={data.appointments
-							.filter(filter)
-						}
+						data={data!.filter(filter)}
 						title={title}
 					/>
 				))}
@@ -71,7 +92,7 @@ function ApptList({data, title}: {data: ApptType[], title: string}) {
 											<p className="subtitle">{appointment.doctor.address}</p>
 										</div>
 									</div>
-									<p className="reg-bold">{appointment.date}</p>
+									<p className="reg-bold">{(new Date(appointment.plannedAt)).toLocaleDateString()}</p>
 								</li>
 							))}
 					</ul>

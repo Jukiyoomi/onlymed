@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\AppointmentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: AppointmentRepository::class)]
 class Appointment
@@ -11,9 +12,11 @@ class Appointment
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+	#[Groups(['appt:read'])]
+	private ?int $id = null;
 
     #[ORM\Column]
+	#[Groups(['appt:read'])]
     private ?\DateTimeImmutable $plannedAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'appointments')]
@@ -22,6 +25,7 @@ class Appointment
 
     #[ORM\ManyToOne(inversedBy: 'appointments')]
 	#[ORM\JoinColumn(nullable: false)]
+	#[Groups(['appt:read'])]
 	private ?Doctor $doctor = null;
 
     public function getId(): ?int
