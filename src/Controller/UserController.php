@@ -19,10 +19,6 @@ class UserController extends AbstractController
 	#[Route('/api/dashboard', name: 'app.dashboard', methods: ['GET'])]
 	public function hello(#[CurrentUser] ?User $user): JsonResponse
 	{
-		if (!$user) {
-			return new JsonResponse('Logged user not found', Response::HTTP_NOT_FOUND);
-		}
-
 		return $this->json([
 			'user' => $user,
 		], Response::HTTP_OK, [], ['groups' => 'user:read']);
