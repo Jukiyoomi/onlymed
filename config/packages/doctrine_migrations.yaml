@@ -4,3 +4,10 @@ doctrine_migrations:
         # as migrations classes should NOT be autoloaded
         'DoctrineMigrations': '%kernel.project_dir%/migrations'
     enable_profiler: false
+    storage:
+        table_storage:
+            version_column_length: 190
+        # You can also use PDO storage
+        # pdo_connection: 'doctrine.dbal.default_connection'
+        # The name of the table will be the one configured in your db
+        # table_name: 'doctrine_migration_versions'
