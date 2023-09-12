@@ -10,7 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Range;
 
-class DoctorFormType extends RegistrationFormType
+class DoctorFormType extends UserRegistrationFormType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

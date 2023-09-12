@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-abstract class RegistrationFormType extends AbstractType
+abstract class UserRegistrationFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -52,15 +52,6 @@ abstract class RegistrationFormType extends AbstractType
                     new IsTrue([
                         'message' => 'You should agree to our terms.',
                     ]),
-                ],
-                "error_bubbling" => true,
-            ])
-            ->add('phone', TextType::class, [
-                'label' => 'Phone number',
-                'required' => true,
-                'attr' => [
-                    'autocomplete' => 'tel',
-                    'placeholder' => 'Enter your phone number',
                 ],
                 "error_bubbling" => true,
             ])
