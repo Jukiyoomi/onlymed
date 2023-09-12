@@ -5,8 +5,9 @@ namespace App\Controller;
 use App\Entity\Doctor;
 use App\Entity\Patient;
 use App\Entity\User;
-use App\Form\DoctorFormType;
-use App\Form\RegistrationFormType;
+use App\Form\Auth\DoctorFormType;
+use App\Form\Auth\PatientFormType;
+use App\Service\SpecialityService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +26,7 @@ class RegistrationController extends AbstractController
 		}
 
         $user = new Patient();
-        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form = $this->createForm(PatientFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -50,10 +51,12 @@ class RegistrationController extends AbstractController
     }
 
 	#[Route('/doctor', name: 'app_register_doctor')]
-	public function newDoctor(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+	public function newDoctor(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, SpecialityService $service): Response
 	{
 		$user = new Doctor();
-		$form = $this->createForm(DoctorFormType::class, $user);
+		$form = $this->createForm(DoctorFormType::class, $user, [
+            'specialities' => $service->findAll(),
+        ]);
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid()) {
