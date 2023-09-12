@@ -18,8 +18,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[InheritanceType('SINGLE_TABLE')]
 #[DiscriminatorColumn(name: 'discr', type: 'string')]
 #[DiscriminatorMap(['doctor' => Doctor::class, 'patient' => Patient::class])]
+#[ORM\HasLifecycleCallbacks]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    use TimestampTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
