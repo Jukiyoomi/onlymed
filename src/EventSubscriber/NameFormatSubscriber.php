@@ -6,13 +6,11 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class NameFormatSubscriber implements EventSubscriberInterface
 {
 	public function __construct(
 		private LoggerInterface $logger,
-		private TokenStorageInterface $tokenStorage
 	){}
 
 	public function onKernelController(ControllerEvent $event): void
