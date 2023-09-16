@@ -13,9 +13,9 @@ export default function DocsSection() {
 				<h2 className="second-title">Mes documents</h2>
 			</Accordion.Action>
 			<Accordion.Content>
-				<ul className="accordion_item">
-					<p>Cette section n'est pas encore disponible. Patientez.</p>
-				</ul>
+				<div className="accordion_item">
+					Cette section n'est pas encore disponible. Patientez.
+				</div>
 			</Accordion.Content>
 		</Accordion>
 	)
