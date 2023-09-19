@@ -1,6 +1,6 @@
 @use '../utils' as vars;
 
-header {
+header.default {
 	width: 100%;
 	background: vars.$white;
 	padding: vars.rem(20);
