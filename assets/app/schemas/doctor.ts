@@ -14,4 +14,4 @@ const doctorSchema = z.object({
 });
 
 export default doctorSchema;
-export type DoctorType = z.infer<typeof doctorSchema>;
+export type Doctor = z.infer<typeof doctorSchema>;
