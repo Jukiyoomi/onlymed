@@ -7,7 +7,6 @@ const userSchema = z.object({
         lastname: z.string(),
         email: z.string(),
         roles: z.array(z.string()),
-        username: z.string(),
     })
 });
 
