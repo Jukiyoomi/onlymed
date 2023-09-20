@@ -2,7 +2,11 @@
 
 namespace App\Service;
 
+use App\Entity\Appointment;
+use App\Entity\Doctor;
+use App\Entity\Patient;
 use App\Repository\AppointmentRepository;
+use DateTimeImmutable;
 
 class AppointmentService
 {
@@ -19,4 +23,17 @@ class AppointmentService
 			'patient' => $userId
 		]);
 	}
+
+    public function create(Patient $patient, Doctor $doctor, string $date): Appointment
+    {
+        $newAppt = new Appointment();
+
+        $newAppt->setPatient($patient);
+        $newAppt->setDoctor($doctor);
+        $newAppt->setPlannedAt(new DateTimeImmutable($date));
+
+        $this->appointmentRepository->save($newAppt, true);
+
+        return $newAppt;
+    }
 }
