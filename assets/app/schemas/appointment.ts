@@ -7,7 +7,7 @@ const apptSchema = z.object({
     doctor: doctorSchema.shape.doctor
 })
 
-const singleApptSchema = z.object({
+export const singleApptSchema = z.object({
     appointment: apptSchema
 })
 
