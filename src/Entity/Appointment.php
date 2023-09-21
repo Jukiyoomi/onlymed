@@ -8,6 +8,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: AppointmentRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#[ORM\UniqueConstraint(name: 'unique_appointment_doctor', columns: ['planned_at', 'doctor_id'])]
 class Appointment
 {
     use TimestampTrait;
