@@ -7,6 +7,7 @@ use App\Entity\Doctor;
 use App\Entity\Patient;
 use App\Repository\AppointmentRepository;
 use DateTimeImmutable;
+use Exception;
 
 class AppointmentService
 {
@@ -24,15 +25,19 @@ class AppointmentService
 		]);
 	}
 
-    public function create(Patient $patient, Doctor $doctor, string $date): Appointment
+    public function create(Patient $patient, Doctor $doctor, string $date): string|Appointment
     {
         $newAppt = new Appointment();
 
         $newAppt->setPatient($patient);
         $newAppt->setDoctor($doctor);
-        $newAppt->setPlannedAt(new DateTimeImmutable($date));
 
-        $this->appointmentRepository->save($newAppt, true);
+        try {
+            $newAppt->setPlannedAt(new DateTimeImmutable($date));
+            $this->appointmentRepository->save($newAppt, true);
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
 
         return $newAppt;
     }

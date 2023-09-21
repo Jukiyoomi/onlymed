@@ -44,6 +44,10 @@ class AppointmentController extends AbstractController
 
         $newAppt = $appointmentService->create($patient, $doctor, $date);
 
+        if (is_string($newAppt)) {
+            return $this->json($newAppt, Response::HTTP_BAD_REQUEST);
+        }
+
 		return $this->json([
 			'appointment' => $newAppt,
 			'error' => null
