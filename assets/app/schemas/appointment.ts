@@ -7,6 +7,10 @@ const apptSchema = z.object({
     doctor: doctorSchema.shape.doctor
 })
 
+const singleApptSchema = z.object({
+    appointment: apptSchema
+})
+
 const apptListSchema = z.object({
     appointments: z.array(apptSchema)
 })

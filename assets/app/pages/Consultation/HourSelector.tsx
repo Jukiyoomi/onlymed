@@ -2,34 +2,31 @@ import React, {useEffect, useState} from "react";
 import DatePicker from "react-date-picker";
 import {CalendarCheck, X} from "lucide-react";
 import Button from "@comps/Button";
-import wretch from "wretch";
-import {useMutation} from "@tanstack/react-query";
+import useAction from "@pages/Consultation/action";
+import {useNavigate} from "react-router-dom";
 
 type Props = {
     disabledDates: number[],
     doctorId: number
 }
-
 export default function HourSelector({disabledDates, doctorId}: Props) {
     const [date, setDate] = React.useState<Date>(new Date());
     const [selectedHour, setSelectedHour] = useState<number | null>(null);
+    const {mutateAsync, isLoading, error} = useAction();
+    const navigate = useNavigate();
+
     const selectedDateRef =
         !!selectedHour ? (new Date(selectedHour * 1000)).toISOString().slice(0, 19).replace('T', ' ') :
-        null
+        ""
     ;
 
     const onDateSelect = (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
         setSelectedHour(Number(e.currentTarget.dataset.timestamp));
     }
 
-    const {mutateAsync, data, isLoading} = useMutation(() => {
-        return wretch("/api/appointments")
-            .post({
-                date: selectedDateRef,
-                doctorId,
-            })
-            .json(async (res) => res)
-    })
+    const onClick = () => {
+        mutateAsync({doctorId, date: selectedDateRef}).then(() => navigate("/dashboard"));
+    }
 
     return (
         <>
@@ -50,11 +47,13 @@ export default function HourSelector({disabledDates, doctorId}: Props) {
             }
             <Button
                 type="primary"
-                onClick={() => mutateAsync()}
+                onClick={onClick}
                 disabled={isLoading || !selectedDateRef}
             >
                 {isLoading ? "Chargement..." : "Valider"}
             </Button>
+
+            {!!error && <p>{error as string}</p>}
         </>
     )
 }
