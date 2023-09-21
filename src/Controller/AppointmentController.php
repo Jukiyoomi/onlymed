@@ -34,10 +34,7 @@ class AppointmentController extends AbstractController
         $date = $content['date'];
 
         if (!isset($doctorId) || !isset($date)) {
-            return $this->json([
-                'appointment' => null,
-                'error' => 'Missing required fields'
-            ], Response::HTTP_BAD_REQUEST);
+            return $this->json('Missing required fields', Response::HTTP_BAD_REQUEST);
         }
 
         $doctor = $doctorService->findOneById($doctorId);
@@ -48,9 +45,6 @@ class AppointmentController extends AbstractController
             return $this->json($newAppt, Response::HTTP_BAD_REQUEST);
         }
 
-		return $this->json([
-			'appointment' => $newAppt,
-			'error' => null
-		], Response::HTTP_OK, [], ['groups' => 'appt:read']);
+		return $this->json($newAppt, Response::HTTP_OK, [], ['groups' => 'appt:read']);
 	}
 }
