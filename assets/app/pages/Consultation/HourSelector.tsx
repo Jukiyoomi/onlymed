@@ -9,6 +9,18 @@ type Props = {
     disabledDates: number[],
     doctorId: number
 }
+
+type HoursProps = {
+    selectedDate: string,
+    disabledDates: number[],
+    onDateSelect: (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => void
+}
+
+type DisplayHour = {
+    date: number;
+    label: string;
+}
+
 export default function HourSelector({disabledDates, doctorId}: Props) {
     const [date, setDate] = React.useState<Date>(new Date());
     const [selectedHour, setSelectedHour] = useState<number | null>(null);
@@ -57,18 +69,6 @@ export default function HourSelector({disabledDates, doctorId}: Props) {
         </>
     )
 }
-
-type HoursProps = {
-    selectedDate: string,
-    disabledDates: number[],
-    onDateSelect: (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => void
-}
-
-type DisplayHour = {
-    date: number;
-    label: string;
-}
-
 const Hours = ({selectedDate, disabledDates, onDateSelect}: HoursProps) => {
     const [hours, setHours] = useState<DisplayHour[]>([]);
     const formattedDateRef = selectedDate.split("/").reverse().join("-"); // Format date using hyphens
