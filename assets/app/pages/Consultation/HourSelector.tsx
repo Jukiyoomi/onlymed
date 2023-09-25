@@ -47,31 +47,43 @@ export default function HourSelector({disabledDates, doctorId}: Props) {
             <section className="doctor_detail_date">
                 <h2 className="second-title">Ce médecin vous convient ?</h2>
                 <h3 className="reg-bold">N'hésitez plus !</h3>
-                <p>Sélectionnez la date et l'heure de rendez-vous souhaités</p>
-                <DatePicker
-                    value={date}
-                    onChange={(date) => setDate(new Date(date as Date))}
-                    minDate={new Date()}
-                    calendarIcon={<CalendarCheck />}
-                    clearIcon={<X />}
-                    format="dd/MM/yyyy"
-                />
-
-                <Hours selectedDate={date.toLocaleDateString()} disabledDates={disabledDates} onDateSelect={onDateSelect} />
 
                 {
-                    !!selectedDateRef ? <p>Vous avez sélectionné {selectedDateRef}</p> :
-                        <p>Veuillez sélectionner une date et une heure</p>
-                }
-                <Button
-                    type="primary"
-                    onClick={onClick}
-                    disabled={isLoading || !selectedDateRef}
-                >
-                    {isLoading ? "Chargement..." : "Valider"}
-                </Button>
+                    isActive ? (
+                        <>
+                            <p>Sélectionnez la date et l'heure de rendez-vous souhaités</p>
+                            <DatePicker
+                                value={date}
+                                onChange={(date) => setDate(new Date(date as Date))}
+                                minDate={new Date()}
+                                calendarIcon={<CalendarCheck />}
+                                clearIcon={<X />}
+                                format="dd/MM/yyyy"
+                            />
 
-                {!!error && <p>{error as string}</p>}
+                            <Hours selectedDate={date.toLocaleDateString()} disabledDates={disabledDates} onDateSelect={onDateSelect} />
+
+                            {
+                                !!selectedDateRef ? <p>Vous avez sélectionné {selectedDateRef}</p> :
+                                    <p>Veuillez sélectionner une date et une heure</p>
+                            }
+                            <Button
+                                type="primary"
+                                onClick={onClick}
+                                disabled={isLoading || !selectedDateRef}
+                            >
+                                {isLoading ? "Chargement..." : "Valider"}
+                            </Button>
+
+                            {!!error && <p>{error as string}</p>}
+                        </>
+                    ) : (
+                        <Button type="primary" onClick={() => setIsActive(true)}>
+                            Prendre rendez-vous
+                        </Button>
+                    )
+                }
+
             </section>
         </>
     )
