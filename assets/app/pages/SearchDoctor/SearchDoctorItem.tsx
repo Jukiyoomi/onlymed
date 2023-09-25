@@ -30,7 +30,7 @@ export default function SearchDoctorItem({doctor}: Props) {
                    </div>
                </div>
 
-               <RatingStars rating={Math.round(Math.random() * 5)} />
+               <RatingStars rating={Math.round(Math.random() * 5)} isWhite={false} />
            </article>
        </div>
    )
