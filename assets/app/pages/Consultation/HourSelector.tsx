@@ -4,6 +4,7 @@ import {CalendarCheck, X} from "lucide-react";
 import Button from "@comps/Button";
 import useAction from "@pages/Consultation/action";
 import {useNavigate} from "react-router-dom";
+import classNames from "classnames";
 
 type Props = {
     disabledDates: number[],
@@ -42,30 +43,35 @@ export default function HourSelector({disabledDates, doctorId}: Props) {
 
     return (
         <>
-            <DatePicker
-                value={date}
-                onChange={(date) => setDate(new Date(date as Date))}
-                minDate={new Date()}
-                calendarIcon={<CalendarCheck />}
-                clearIcon={<X />}
-                format="dd/MM/yyyy"
-            />
+            <section className="doctor_detail_date">
+                <h2 className="second-title">Ce médecin vous convient ?</h2>
+                <h3 className="reg-bold">N'hésitez plus !</h3>
+                <p>Sélectionnez la date et l'heure de rendez-vous souhaités</p>
+                <DatePicker
+                    value={date}
+                    onChange={(date) => setDate(new Date(date as Date))}
+                    minDate={new Date()}
+                    calendarIcon={<CalendarCheck />}
+                    clearIcon={<X />}
+                    format="dd/MM/yyyy"
+                />
 
-            <Hours selectedDate={date.toLocaleDateString()} disabledDates={disabledDates} onDateSelect={onDateSelect} />
+                <Hours selectedDate={date.toLocaleDateString()} disabledDates={disabledDates} onDateSelect={onDateSelect} />
 
-            {
-                !!selectedDateRef ? <p>Vous avez sélectionné {selectedDateRef}</p> :
-                    <p>Veuillez sélectionner une date et une heure</p>
-            }
-            <Button
-                type="primary"
-                onClick={onClick}
-                disabled={isLoading || !selectedDateRef}
-            >
-                {isLoading ? "Chargement..." : "Valider"}
-            </Button>
+                {
+                    !!selectedDateRef ? <p>Vous avez sélectionné {selectedDateRef}</p> :
+                        <p>Veuillez sélectionner une date et une heure</p>
+                }
+                <Button
+                    type="primary"
+                    onClick={onClick}
+                    disabled={isLoading || !selectedDateRef}
+                >
+                    {isLoading ? "Chargement..." : "Valider"}
+                </Button>
 
-            {!!error && <p>{error as string}</p>}
+                {!!error && <p>{error as string}</p>}
+            </section>
         </>
     )
 }
@@ -94,21 +100,27 @@ const Hours = ({selectedDate, disabledDates, onDateSelect}: HoursProps) => {
     }, [selectedDate]);
 
     return (
-        <ul>
+        <ul className="doctor_detail_hours">
             {hours.map((hour, index) => (
-                <li
-                    key={index}
-                    onClick={onDateSelect}
-                    data-timestamp={hour.date}
-                    style={{
-                        backgroundColor: disabledDates.includes(hour.date) ? "red" : "blue",
-                        pointerEvents: disabledDates.includes(hour.date) ? "none" : "auto",
-                        opacity: disabledDates.includes(hour.date) ? 0.6 : 1,
-                    }}
-                >
-                    {hour.label} - {disabledDates.includes(hour.date) ? "Indisponible" : "Disponible"}
-                </li>
+                <Hour key={index} hour={hour} disabled={disabledDates.includes(hour.date)} onDateSelect={onDateSelect} />
             ))}
         </ul>
     );
+}
+
+function Hour({hour, disabled, onDateSelect}: {hour: DisplayHour, disabled: boolean, onDateSelect: (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => void}) {
+    const classes = classNames({
+        "reg-bold": true,
+        "disabled": disabled
+    });
+
+    return (
+        <li
+            onClick={onDateSelect}
+            data-timestamp={hour.date}
+            className={classes}
+        >
+            {hour.label} - 5PM
+        </li>
+    )
 }

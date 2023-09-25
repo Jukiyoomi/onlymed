@@ -24,17 +24,40 @@ export default function Consultation() {
 
     return (
 		<Container className="doctor_detail">
-			<header>
+			<header className="doctor_detail_head">
 				<img
 					src="https://www.tomsguide.fr/content/uploads/sites/2/2020/12/tony-stark-robert.jpg"
 					alt={`Image of ${data?.doctor.firstname} ${data?.doctor.lastname}`}
 					width={200}
 				/>
-				<p>Dr. {data?.doctor.firstname} {data?.doctor.lastname}</p>
-				<RatingStars rating={Math.round(Math.random() * 5)} />
+				<aside>
+					<h1 className="main-title">Dr. {data?.doctor.firstname} {data?.doctor.lastname}</h1>
+					<p className="reg-bold">{data?.doctor.specialities[0].name}</p>
+					<RatingStars rating={Math.round(Math.random() * 5)} isWhite={true} />
+				</aside>
 			</header>
 
-			<HourSelector disabledDates={dates} doctorId={Number(id!)} />
+			<section className="doctor_detail_content">
+				<div className="left">
+					<section className="doctor_detail_info">
+						<article>
+							<h2 className="second-title">Carte et information d'accès</h2>
+							<h3 className="reg-bold">Adresse</h3>
+							<p>{data?.doctor.address}</p>
+						</article>
+						<aside>
+							<img
+								src="https://www.tomsguide.fr/content/uploads/sites/2/2020/12/tony-stark-robert.jpg"
+								alt="Carte"
+							/>
+						</aside>
+					</section>
+				</div>
+
+				<div className="right">
+					<HourSelector disabledDates={dates} doctorId={Number(id!)} />
+				</div>
+			</section>
 		</Container>
 	);
 }
