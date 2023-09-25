@@ -25,6 +25,7 @@ type DisplayHour = {
 export default function HourSelector({disabledDates, doctorId}: Props) {
     const [date, setDate] = React.useState<Date>(new Date());
     const [selectedHour, setSelectedHour] = useState<number | null>(null);
+    const [isActive, setIsActive] = useState<boolean>(false);
     const {mutateAsync, isLoading, error} = useAction();
     const navigate = useNavigate();
 
