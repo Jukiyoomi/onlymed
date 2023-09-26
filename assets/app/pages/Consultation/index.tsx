@@ -1,6 +1,6 @@
 import React from 'react';
 import {useParams} from "react-router-dom";
-import useLoader from "./loader";
+import useDoctorLoader from "./loader";
 import Container from "@comps/Container";
 import RatingStars from "@comps/RatingStars";
 import HourSelector from "./HourSelector";
@@ -8,7 +8,7 @@ import HourSelector from "./HourSelector";
 export default function Consultation() {
     const {id} = useParams();
 
-	const {data, isLoading, error} = useLoader(id!);
+	const {data, isLoading, error} = useDoctorLoader(id!);
 
 	if (isLoading) return <div>Loading...</div>
 

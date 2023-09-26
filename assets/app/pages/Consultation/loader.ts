@@ -5,7 +5,7 @@ import {z} from "zod";
 
 const timestampSchema = z.array(z.number().int().positive());
 
-export default function useLoader(id: string) {
+export default function useDoctorLoader(id: string) {
     return useQuery<Doctor>({
         queryKey: ['doctor', id],
         queryFn: async () => {
