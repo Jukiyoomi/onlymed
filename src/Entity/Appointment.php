@@ -8,6 +8,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: AppointmentRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#[ORM\UniqueConstraint(name: 'unique_appointment_doctor', columns: ['planned_at', 'doctor_id'])]
 class Appointment
 {
     use TimestampTrait;
@@ -15,12 +16,16 @@ class Appointment
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-	#[Groups(['appt:read'])]
+	#[Groups(['appt:read', 'doctor:read'])]
 	private ?int $id = null;
 
     #[ORM\Column]
 	#[Groups(['appt:read'])]
     private ?\DateTimeImmutable $plannedAt = null;
+
+	#[ORM\Column]
+	#[Groups(['appt:read'])]
+	private ?int $timestamp = null;
 
     #[ORM\ManyToOne(inversedBy: 'appointments')]
     #[ORM\JoinColumn(nullable: false)]
@@ -47,6 +52,18 @@ class Appointment
 
         return $this;
     }
+
+	public function getTimestamp(): ?int
+	{
+		return $this->timestamp;
+	}
+
+	public function setTimestamp(int $timestamp): self
+	{
+		$this->timestamp = $timestamp;
+
+		return $this;
+	}
 
     public function getPatient(): ?Patient
     {

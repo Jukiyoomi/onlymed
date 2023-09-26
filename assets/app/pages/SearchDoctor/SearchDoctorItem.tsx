@@ -1,28 +1,33 @@
 import RatingStars from "@comps/RatingStars";
 import React, {PropsWithChildren} from "react";
 import Skeleton, {SkeletonTheme} from "react-loading-skeleton";
+import {Link} from "react-router-dom";
+import useSearchStore from "@store/search";
+import {Doctor} from "@schemas/doctor";
 
-type Props = {
-    doctor: any;
+export default function SearchDoctorItem({doctor}: {doctor: Doctor}) {
+    const searchTerm = useSearchStore(state => state.search);
+    const matchingSpeciality = doctor.specialities
+        .find((speciality: any) => speciality.name.toLowerCase().includes(searchTerm.toLowerCase()));
 
-}
-export default function SearchDoctorItem({doctor}: Props) {
    return (
        <div className="search_doctor">
            <img className="search_doctor_img" src="https://www.tomsguide.fr/content/uploads/sites/2/2020/12/tony-stark-robert.jpg" alt={`Image of ${doctor.firstname} ${doctor.lastname}`}/>
            <article>
                <div className="search_doctor_info">
                    <div>
-                       <h2 className="second-title">{doctor.firstname} {doctor.lastname}</h2>
+                       <Link to={`/doctors/${doctor.id}`}>
+                           <h2 className="second-title">{doctor.firstname} {doctor.lastname}</h2>
+                       </Link>
                        <p className="search_doctor_address subtitle">{doctor.address}</p>
                    </div>
 
                    <div>
-                       <p className="reg-bold">Proctologue</p>
+                       <p className="reg-bold">{matchingSpeciality!.name}</p>
                    </div>
                </div>
 
-               <RatingStars rating={Math.round(Math.random() * 5)} />
+               <RatingStars rating={Math.round(Math.random() * 5)} isWhite={false} />
            </article>
        </div>
    )

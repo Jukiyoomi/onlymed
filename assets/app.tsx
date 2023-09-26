@@ -8,6 +8,8 @@
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.scss';
 import 'react-loading-skeleton/dist/skeleton.css'
+import 'react-date-picker/dist/DatePicker.css';
+import 'react-calendar/dist/Calendar.css';
 
 // start the Stimulus application
 

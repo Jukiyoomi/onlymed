@@ -13,7 +13,7 @@ export default function Header() {
 	})
 
 	return (
-		<header>
+		<header className="default">
 			<Link to="/">
 				<img src={logo} alt="logo" />
 			</Link>
