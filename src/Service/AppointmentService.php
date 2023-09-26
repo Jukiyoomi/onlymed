@@ -31,6 +31,7 @@ class AppointmentService
 
         $newAppt->setPatient($patient);
         $newAppt->setDoctor($doctor);
+		$newAppt->setTimestamp($timestamp);
 
         try {
             $newAppt->setPlannedAt(new DateTimeImmutable($date));

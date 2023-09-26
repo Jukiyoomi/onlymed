@@ -32,14 +32,15 @@ class AppointmentController extends AbstractController
 
 		$doctorId = $content['doctorId'];
         $date = $content['date'];
+        $timestamp = $content['timestamp'];
 
-        if (!isset($doctorId) || !isset($date)) {
+        if (!isset($doctorId) || !isset($date) || !isset($timestamp)) {
             return $this->json('Missing required fields', Response::HTTP_BAD_REQUEST);
         }
 
         $doctor = $doctorService->findOneById($doctorId);
 
-        $newAppt = $appointmentService->create($patient, $doctor, $date);
+        $newAppt = $appointmentService->create($patient, $doctor, $date, $timestamp);
 
         if (is_string($newAppt)) {
             return $this->json($newAppt, Response::HTTP_BAD_REQUEST);
