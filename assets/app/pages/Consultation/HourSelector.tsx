@@ -5,11 +5,7 @@ import Button from "@comps/Button";
 import useAction from "@pages/Consultation/action";
 import {useNavigate} from "react-router-dom";
 import classNames from "classnames";
-
-type Props = {
-    disabledDates: number[],
-    doctorId: number
-}
+import {useTimestampLoader} from "@pages/Consultation/loader";
 
 type HoursProps = {
     selectedDate: string,
@@ -26,7 +22,10 @@ export default function HourSelector({disabledDates, doctorId}: Props) {
     const [date, setDate] = React.useState<Date>(new Date());
     const [selectedHour, setSelectedHour] = useState<number | null>(null);
     const [isActive, setIsActive] = useState<boolean>(false);
+
     const {mutateAsync, isLoading, error} = useAction();
+    const {data, isLoading: isLoadingTimestamp, refetch} = useTimestampLoader(String(doctorId));
+
     const navigate = useNavigate();
 
     const selectedDateRef =
@@ -42,6 +41,10 @@ export default function HourSelector({disabledDates, doctorId}: Props) {
         mutateAsync({doctorId, date: selectedDateRef, timestamp: selectedHour!}).then(() => navigate("/dashboard"));
     }
 
+    useEffect(() => {
+        if (isActive) refetch();
+    }, [isActive]);
+
     return (
         <>
             <section className="doctor_detail_date">
@@ -50,33 +53,37 @@ export default function HourSelector({disabledDates, doctorId}: Props) {
 
                 {
                     isActive ? (
-                        <>
-                            <p>Sélectionnez la date et l'heure de rendez-vous souhaités</p>
-                            <DatePicker
-                                value={date}
-                                onChange={(date) => setDate(new Date(date as Date))}
-                                minDate={new Date()}
-                                calendarIcon={<CalendarCheck />}
-                                clearIcon={<X />}
-                                format="dd/MM/yyyy"
-                            />
+                        isLoadingTimestamp ? (
+                            <p>Chargement des dates...</p>
+                        ) : (
+                            <>
+                                <p>Sélectionnez la date et l'heure de rendez-vous souhaités</p>
+                                <DatePicker
+                                    value={date}
+                                    onChange={(date) => setDate(new Date(date as Date))}
+                                    minDate={new Date()}
+                                    calendarIcon={<CalendarCheck />}
+                                    clearIcon={<X />}
+                                    format="dd/MM/yyyy"
+                                />
 
-                            <Hours selectedDate={date.toLocaleDateString()} disabledDates={disabledDates} onDateSelect={onDateSelect} />
+                                <Hours selectedDate={date.toLocaleDateString()} disabledDates={data!} onDateSelect={onDateSelect} />
 
-                            {
-                                !!selectedDateRef ? <p>Vous avez sélectionné {selectedDateRef}</p> :
-                                    <p>Veuillez sélectionner une date et une heure</p>
-                            }
-                            <Button
-                                type="primary"
-                                onClick={onClick}
-                                disabled={isLoading || !selectedDateRef}
-                            >
-                                {isLoading ? "Chargement..." : "Valider"}
-                            </Button>
+                                {
+                                    !!selectedDateRef ? <p>Vous avez sélectionné {selectedDateRef}</p> :
+                                        <p>Veuillez sélectionner une date et une heure</p>
+                                }
+                                <Button
+                                    type="primary"
+                                    onClick={onClick}
+                                    disabled={isLoading || !selectedDateRef}
+                                >
+                                    {isLoading ? "Chargement..." : "Valider"}
+                                </Button>
 
-                            {!!error && <p>{error as string}</p>}
-                        </>
+                                {!!error && <p>{error as string}</p>}
+                            </>
+                        )
                     ) : (
                         <Button type="primary" onClick={() => setIsActive(true)}>
                             Prendre rendez-vous
