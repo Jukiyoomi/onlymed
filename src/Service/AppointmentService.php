@@ -25,7 +25,12 @@ class AppointmentService
 		]);
 	}
 
-    public function create(Patient $patient, Doctor $doctor, string $date): string|Appointment
+	public function findApptTimestampsByDoctor(int $doctorId): array
+	{
+		return $this->appointmentRepository->getApptTimestampsByDoctor($doctorId);
+	}
+
+    public function create(Patient $patient, Doctor $doctor, string $date, int $timestamp): string|Appointment
     {
         $newAppt = new Appointment();
 

@@ -48,4 +48,12 @@ class AppointmentController extends AbstractController
 
 		return $this->json($newAppt, Response::HTTP_OK, [], ['groups' => 'appt:read']);
 	}
+
+	#[Route('/api/appointments/{id}', name: 'app.appts.timestamps', methods: ['GET'])]
+	public function getApptTimestamps(AppointmentService $appointmentService, int $id): JsonResponse
+	{
+		$timestamps = $appointmentService->findApptTimestampsByDoctor($id);
+
+		return $this->json($timestamps, Response::HTTP_OK, [], ['groups' => 'appt:read']);
+	}
 }
