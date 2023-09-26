@@ -21,11 +21,7 @@ class DoctorController extends AbstractController
 
 		$doctors = $doctorService->findAllByTerm($searchTerm, $zone, $offset);
 
-		return $this->json([
-			"count" => count($doctors),
-			'doctors' => $doctors,
-			'error' => null
-		], Response::HTTP_OK, [], ['groups' => 'doctor:read']);
+		return $this->json($doctors, Response::HTTP_OK, [], ['groups' => 'doctor:read']);
 	}
 
     #[Route('/api/doctors/{id}', name: 'app.doctor.details', methods: ['GET'])]
@@ -34,14 +30,9 @@ class DoctorController extends AbstractController
 		$foundDoctor = $doctorService->findOneById($id);
 
         if (!$foundDoctor) {
-            return $this->json([
-                'doctor' => null,
-                'error' => 'Doctor not found'
-            ], Response::HTTP_NOT_FOUND);
+            return $this->json('Doctor not found', Response::HTTP_NOT_FOUND);
         }
 
-		return $this->json([
-			'doctor' => $foundDoctor,
-		], Response::HTTP_OK, [], ['groups' => 'doctor:read']);
+		return $this->json($foundDoctor, Response::HTTP_OK, [], ['groups' => 'doctor:read']);
 	}
 }
