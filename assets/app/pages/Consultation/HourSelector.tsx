@@ -39,7 +39,7 @@ export default function HourSelector({disabledDates, doctorId}: Props) {
     }
 
     const onClick = () => {
-        mutateAsync({doctorId, date: selectedDateRef}).then(() => navigate("/dashboard"));
+        mutateAsync({doctorId, date: selectedDateRef, timestamp: selectedHour!}).then(() => navigate("/dashboard"));
     }
 
     return (

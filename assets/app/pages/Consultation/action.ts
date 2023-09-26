@@ -5,6 +5,7 @@ import {singleApptSchema} from "@schemas/appointment";
 type DataType = {
     date: string,
     doctorId: number,
+    timestamp: number
 }
 export default function useAction() {
     return useMutation((data: DataType) => {

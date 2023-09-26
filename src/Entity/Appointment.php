@@ -23,6 +23,10 @@ class Appointment
 	#[Groups(['appt:read'])]
     private ?\DateTimeImmutable $plannedAt = null;
 
+	#[ORM\Column]
+	#[Groups(['appt:read'])]
+	private ?int $timestamp = null;
+
     #[ORM\ManyToOne(inversedBy: 'appointments')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Patient $patient = null;
@@ -48,6 +52,18 @@ class Appointment
 
         return $this;
     }
+
+	public function getTimestamp(): ?int
+	{
+		return $this->timestamp;
+	}
+
+	public function setTimestamp(int $timestamp): self
+	{
+		$this->timestamp = $timestamp;
+
+		return $this;
+	}
 
     public function getPatient(): ?Patient
     {
