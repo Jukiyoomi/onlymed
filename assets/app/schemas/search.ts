@@ -1,8 +1,8 @@
 import {z} from "zod";
-import doctor from "@schemas/doctor";
+import doctorSchema from "@schemas/doctor";
 
 const searchSchema = z.array(
-	doctor.shape.doctor
+	doctorSchema
 );
 
 export default searchSchema;

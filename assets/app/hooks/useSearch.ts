@@ -3,6 +3,7 @@ import {useEffect} from "react";
 import useSearchStore from "@store/search";
 import wretch from "wretch";
 import searchSchema from "@schemas/search";
+import {Doctor} from "@schemas/doctor";
 
 export default function useSearch(callback: () => void) {
 	const [search, location] = useSearchStore((state) => [state.search, state.location]);
@@ -18,7 +19,7 @@ export default function useSearch(callback: () => void) {
 				.get(`/api/search?term=${searchTerm}&zone=${locationTerm}&offset=${pageParam}`)
 				.json((res) => searchSchema.parse(res))
 		},
-		getNextPageParam: (lastPage, pages) => {
+		getNextPageParam: (lastPage: Doctor[], pages: Doctor[][]) => {
 			if (lastPage.length === 0 || lastPage.length < 10) return pages.length;
 			return pages.length + 1;
 		},

@@ -4,7 +4,7 @@ import doctorSchema from "@schemas/doctor";
 export const singleApptSchema = z.object({
     id: z.number(),
     plannedAt: z.string(),
-    doctor: doctorSchema.shape.doctor
+    doctor: doctorSchema
 })
 
 const apptListSchema = z.object({
