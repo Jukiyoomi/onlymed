@@ -3,12 +3,9 @@ import React, {PropsWithChildren} from "react";
 import Skeleton, {SkeletonTheme} from "react-loading-skeleton";
 import {Link} from "react-router-dom";
 import useSearchStore from "@store/search";
+import {Doctor} from "@schemas/doctor";
 
-type Props = {
-    doctor: any;
-
-}
-export default function SearchDoctorItem({doctor}: Props) {
+export default function SearchDoctorItem({doctor}: {doctor: Doctor}) {
     const searchTerm = useSearchStore(state => state.search);
     const matchingSpeciality = doctor.specialities
         .find((speciality: any) => speciality.name.toLowerCase().includes(searchTerm.toLowerCase()));

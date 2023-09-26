@@ -16,7 +16,7 @@ class Appointment
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-	#[Groups(['appt:read'])]
+	#[Groups(['appt:read', 'doctor:read'])]
 	private ?int $id = null;
 
     #[ORM\Column]
