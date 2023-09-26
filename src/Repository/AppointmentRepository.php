@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Appointment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -38,6 +39,16 @@ class AppointmentRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+	public function getApptTimestampsByDoctor(int $id): array
+	{
+		return $this->createQueryBuilder('a')
+			->select('a.timestamp')
+			->where('a.doctor = :id')
+			->setParameter('id', $id)
+			->getQuery()
+			->getResult(AbstractQuery::HYDRATE_SCALAR_COLUMN); // avoid having the key "timestamp" for each result
+	}
 
 //    /**
 //     * @return Appointment[] Returns an array of Appointment objects

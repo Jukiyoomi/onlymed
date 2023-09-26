@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Doctor;
 use App\Repository\DoctorRepository;
 
 class DoctorService
@@ -18,4 +19,10 @@ class DoctorService
 		$numItemsPerPage = 10;
 		return $this->doctorRepository->findAllByTerm($term, $zone, $numItemsPerPage, $offset);
 	}
+
+    public function findOneById(int $id): ?Doctor
+    {
+        return $this->doctorRepository->findOneBy(['id' => $id]);
+    }
+
 }

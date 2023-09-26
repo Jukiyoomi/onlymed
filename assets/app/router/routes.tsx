@@ -2,6 +2,7 @@ import Dashboard from "@pages/Dashboard";
 import SearchDoctor from "@pages/SearchDoctor";
 import Params from "@pages/Params";
 import React from "react";
+import Consultation from "@pages/Consultation";
 
 export default [
 	{
@@ -15,6 +16,10 @@ export default [
 	{
 		path: "/dashboard/params",
 		component: <Params />
+	},
+	{
+		path: "/doctors/:id",
+		component: <Consultation />
 	},
 	{
 		path: "*",

@@ -1,24 +1,17 @@
 import {z} from "zod";
+import doctorSchema from "@schemas/doctor";
 
-const apptSchema = z.object({
+export const singleApptSchema = z.object({
     id: z.number(),
     plannedAt: z.string(),
-    doctor: z.object({
-        firstname: z.string(),
-        lastname: z.string(),
-        address: z.string(),
-        specialities: z.array(z.object({
-            id: z.number(),
-            name: z.string()
-        }))
-    })
+    doctor: doctorSchema.shape.doctor
 })
 
 const apptListSchema = z.object({
-    appointments: z.array(apptSchema)
+    appointments: z.array(singleApptSchema)
 })
 
 export default apptListSchema;
 
-export type ApptType = z.infer<typeof apptSchema>;
+export type ApptType = z.infer<typeof singleApptSchema>;
 export type ApptListType = z.infer<typeof apptListSchema>;
