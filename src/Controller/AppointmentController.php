@@ -38,6 +38,10 @@ class AppointmentController extends AbstractController
             return $this->json('Missing required fields', Response::HTTP_BAD_REQUEST);
         }
 
+		if ($timestamp < time()) {
+			return $this->json('Cannot schedule an appointment in the past', Response::HTTP_BAD_REQUEST);
+		}
+
         $doctor = $doctorService->findOneById($doctorId);
 
         $newAppt = $appointmentService->create($patient, $doctor, $date, $timestamp);
