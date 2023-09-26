@@ -1,32 +1,23 @@
 import SearchDoctorItem, {SearchDoctorLoading} from "./SearchDoctorItem";
-import React, {useEffect, useState} from "react";
+import React from "react";
 import Pagination from "@comps/Pagination";
 import Button from "@comps/Button";
-import useSearch from "@hooks/useSearch";
+import {Doctor} from "@schemas/doctor";
+import usePage from "@hooks/usePage";
 
 export default function Results() {
-	const [currentPage, setCurrentPage] = useState<number>(0);
-	const [isFirstDisplay, setIsFirstDisplay] = useState<boolean>(true);
-	const [hasFirstResult, setHasFirstResult] = useState<boolean>(false);
 	const {
-		data,
-		fetchNextPage,
-		hasNextPage,
-		fetchPreviousPage,
-		isPreviousData,
-		isInitialLoading,
-		isFetching
-	} = useSearch(() => {
-		setIsFirstDisplay(false);
-		setHasFirstResult(false);
-	});
-
-
-	useEffect(() => {
-		if (data?.pages[0]?.doctors.length > 0) {
-			setHasFirstResult(true);
+		currentPage,
+		isFirstDisplay,
+		hasFirstResult,
+		prevDisabled, goToPreviousPage,
+		nextDisabled, goToNextPage,
+		query: {
+			data,
+			isInitialLoading,
+			isFetching,
 		}
-	}, [data]);
+	} = usePage();
 
 	return (
 		<section className="result">
@@ -43,7 +34,7 @@ export default function Results() {
 								if (currentPage === id) {
 									return (
 										<React.Fragment key={id}>
-											{page.doctors.map((doctor: any) => (
+											{page.map((doctor: Doctor) => (
 													<SearchDoctorItem doctor={doctor} key={doctor.id} />
 												)
 											)}
@@ -59,10 +50,8 @@ export default function Results() {
 										<Pagination.Action>
 											<Button
 												type="primary"
-												onClick={() => {
-													fetchPreviousPage().then(r => setCurrentPage(old => old - 1));
-												}}
-												disabled={currentPage === 0}
+												onClick={goToPreviousPage}
+												disabled={prevDisabled}
 												uppercase={true}
 											>Previous page</Button>
 										</Pagination.Action>
@@ -70,10 +59,8 @@ export default function Results() {
 										<Pagination.Action>
 											<Button
 												type="primary"
-												onClick={() => {
-													fetchNextPage().then(r => setCurrentPage(old => old + 1));
-												}}
-												disabled={isPreviousData || !hasNextPage}
+												onClick={goToNextPage}
+												disabled={nextDisabled}
 												uppercase={true}
 											>Next page</Button>
 										</Pagination.Action>
