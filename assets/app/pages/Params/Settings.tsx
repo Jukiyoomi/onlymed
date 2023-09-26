@@ -4,8 +4,15 @@ import PasswordSetting from "./PasswordSetting";
 import GeneralSetting from "./GeneralSetting";
 import AccountSetting from "./AccountSetting";
 
+type SettingType = {
+	[key: string]: () => {
+		Title: string,
+		Content: JSX.Element
+	}
+}
+
 export default function Settings({currentLink}: {currentLink: string}) {
-	const Element = balancer(currentLink);
+	const Element = settingFactories[currentLink]();
 
 	return (
 		<section className="settings">
@@ -18,16 +25,9 @@ export default function Settings({currentLink}: {currentLink: string}) {
 	)
 }
 
-function balancer(type: string) {
-	switch (type) {
-		case "account":
-			return AccountSetting();
-		case "mail":
-			return MailSetting();
-		case "password":
-			return PasswordSetting();
-		case "general":
-		default:
-			return GeneralSetting();
-	}
+const settingFactories: SettingType = {
+	"account": AccountSetting,
+	"mail": MailSetting,
+	"password": PasswordSetting,
+	"general": GeneralSetting,
 }
