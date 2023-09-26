@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React from 'react';
 import {useParams} from "react-router-dom";
 import useLoader from "./loader";
 import Container from "@comps/Container";
@@ -9,11 +9,6 @@ export default function Consultation() {
     const {id} = useParams();
 
 	const {data, isLoading, error} = useLoader(id!);
-
-	const dates = useRef([
-		1695290400,
-		1697284800,
-	]).current;
 
 	if (isLoading) return <div>Loading...</div>
 
@@ -55,7 +50,7 @@ export default function Consultation() {
 				</div>
 
 				<div className="right">
-					<HourSelector disabledDates={dates} doctorId={Number(id!)} />
+					<HourSelector doctorId={Number(id!)} />
 				</div>
 			</section>
 		</Container>

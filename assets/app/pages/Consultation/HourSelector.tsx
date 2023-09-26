@@ -18,7 +18,7 @@ type DisplayHour = {
     label: string;
 }
 
-export default function HourSelector({disabledDates, doctorId}: Props) {
+export default function HourSelector({doctorId}: {doctorId: number}) {
     const [date, setDate] = React.useState<Date>(new Date());
     const [selectedHour, setSelectedHour] = useState<number | null>(null);
     const [isActive, setIsActive] = useState<boolean>(false);
