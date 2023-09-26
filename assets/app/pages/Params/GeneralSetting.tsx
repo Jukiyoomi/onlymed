@@ -15,14 +15,10 @@ type GeneralInputsType = {
 }
 
 const generalSettingsSchema = z.object({
-	firstname: z.string({
-		required_error: "L'ancienne adresse e-mail est requise."
-	}).regex(/^[a-zA-Z'\s]*$/, {
+	firstname: z.string().regex(/^[a-zA-Z'\s]*$/, {
 		message: "Le prénom ne peut contenir que des lettres."
 	}).optional(),
-	lastname: z.string({
-		required_error: "La nouvelle adresse e-mail est requise."
-	}).regex(/^[a-zA-Z'\s]*$/, {
+	lastname: z.string().regex(/^[a-zA-Z'\s]*$/, {
 		message: "Le nom ne peut contenir que des lettres."
 	}).optional(),
 })

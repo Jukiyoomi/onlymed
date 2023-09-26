@@ -6,13 +6,11 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class NameFormatSubscriber implements EventSubscriberInterface
 {
 	public function __construct(
 		private LoggerInterface $logger,
-		private TokenStorageInterface $tokenStorage
 	){}
 
 	public function onKernelController(ControllerEvent $event): void
@@ -37,12 +35,17 @@ class NameFormatSubscriber implements EventSubscriberInterface
 
 		$all = $request->request->all();
 
-		$firstname = $all['registration_form']['firstname'];
-		$lastname = $all['registration_form']['lastname'];
+        if (array_key_exists('patient_form', $all)) {
+            $formId = "patient_form";
+        } else {
+            $formId = "doctor_form";
+        }
+        $firstname = $all[$formId]['firstname'];
+        $lastname = $all[$formId]['lastname'];
 		$this->logger->info('Name Format Subscriber => Formatting name...');
 
-		if ($firstname) $all['registration_form']['firstname'] = $this->formatName($firstname);
-		if ($lastname) $all['registration_form']['lastname'] = $this->formatName($lastname);
+		if ($firstname) $all[$formId]['firstname'] = $this->formatName($firstname);
+		if ($lastname) $all[$formId]['lastname'] = $this->formatName($lastname);
 
 		$request->request->replace($all);
 	}

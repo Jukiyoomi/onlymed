@@ -1,6 +1,6 @@
 <?php
 
-namespace Integration;
+namespace App\Tests\Integration;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Faker\Factory;
@@ -20,12 +20,12 @@ class RegisterTest extends WebTestCase
 
 		$password = $faker->password();
 
-		$form['registration_form[firstname]'] = $faker->firstName();
-		$form['registration_form[lastname]'] = $faker->lastName();
-		$form['registration_form[email]'] = $faker->email();
-		$form['registration_form[password][first]'] = $password;
-		$form['registration_form[password][second]'] = $password;
-		$form['registration_form[agreeTerms]'] = true;
+		$form['patient_form[firstname]'] = $faker->firstName();
+		$form['patient_form[lastname]'] = $faker->lastName();
+		$form['patient_form[email]'] = $faker->email();
+		$form['patient_form[password][first]'] = $password;
+		$form['patient_form[password][second]'] = $password;
+		$form['patient_form[agreeTerms]'] = true;
 
 		$client->submit($form);
 
@@ -43,7 +43,7 @@ class RegisterTest extends WebTestCase
 
 		$form = $crawler->selectButton('Register')->form();
 
-		$password = $faker->password();
+		$password = $faker->password(8);
 
 		$form['doctor_form[firstname]'] = $faker->firstName();
 		$form['doctor_form[lastname]'] = $faker->lastName();
@@ -51,7 +51,7 @@ class RegisterTest extends WebTestCase
 		$form['doctor_form[phone]'] = $faker->phoneNumber();
 		$form['doctor_form[password][first]'] = $password;
 		$form['doctor_form[password][second]'] = $password;
-		$form['doctor_form[speciality]'] = '1';
+		$form['doctor_form[specialities]'] = ['1'];
 		$form['doctor_form[agreeTerms]'] = true;
 
 		$client->submit($form);

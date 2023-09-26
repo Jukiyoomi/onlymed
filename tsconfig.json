@@ -21,6 +21,7 @@
             "@img/*": ["./assets/images/*"],
             "@hooks/*": ["./assets/app/hooks/*"],
             "@router/*": ["./assets/app/router/*"],
+            "@schemas/*": ["./assets/app/schemas/*"],
         },
         "typeRoots" : ["node_modules/@types", "assets/types"]
     },

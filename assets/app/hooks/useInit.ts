@@ -1,27 +1,24 @@
 import useUserStore from "@store/user";
 import {useQuery} from "@tanstack/react-query";
 import wretch from "wretch";
+import {ZodError} from "zod";
+import userSchema, {User} from "@schemas/user";
 
-type User = {
-	id: number,
-	firstname: string,
-	lastname: string,
-	email: string,
-	userIdentifier: string,
-	username: string,
-	roles: string[],
-}
 
 export default function useInit() {
 	const setUser = useUserStore((state) => state.setUser);
 	return useQuery<User>(['user'], async () => {
 		return wretch()
 			.get('/api/dashboard')
-			.res(async (res) => {
-				const data = await res.json();
-				setUser(data.user);
-				console.log(data);
-				return data;
+			.json(async (res) => userSchema.parse(res))
+			.then((res) => {
+				setUser(res.user);
+				console.log(res.user);
+				return res;
+			})
+			.catch((e: ZodError) => {
+				console.log(e);
+				return "Une erreur est survenue. Veuillez recharger la page.";
 			})
 			.catch((e) => {
 				const parsedError = JSON.parse(e.message);

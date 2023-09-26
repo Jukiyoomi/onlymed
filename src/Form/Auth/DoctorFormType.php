@@ -8,7 +8,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Range;
+use Symfony\Component\Validator\Constraints\Count;
 
 class DoctorFormType extends UserRegistrationFormType
 {
@@ -16,18 +16,18 @@ class DoctorFormType extends UserRegistrationFormType
     {
         parent::buildForm($builder, $options);
         $builder
-			->add('speciality', EntityType::class, [
+			->add('specialities', EntityType::class, [
 				'label' => 'Speciality',
 				'class' => Speciality::class,
 				'choice_label' => 'name',
 				'required' => true,
 				'multiple' => true,
-				'mapped' => false,
+//				'mapped' => false,
 				'expanded' => false,
 				'choices' => $options['specialities'],
 				"error_bubbling" => true,
                 'constraints' => [
-                    new Range([
+                    new Count([
                         'min' => 1,
                         'minMessage' => 'You must select at least one speciality.',
                         'max' => 3,

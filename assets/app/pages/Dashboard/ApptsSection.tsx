@@ -4,20 +4,8 @@ import Accordion from "@comps/Accordion";
 import Button from "@comps/Button";
 import {useQuery} from "@tanstack/react-query";
 import wretch from "wretch";
-
-type ApptType = {
-	id: number,
-	plannedAt: string,
-	doctor: {
-		firstname: string,
-		lastname: string,
-		address: string,
-		specialities: {
-			id: number,
-			name: string
-		}[]
-	}
-};
+import {ZodError} from "zod";
+import apptListSchema, {ApptType} from "@schemas/appointment";
 
 
 export default function ApptsSection() {
@@ -34,10 +22,11 @@ export default function ApptsSection() {
 	const {isLoading, data} = useQuery<ApptType[]>(["appointments", "all"], () => {
 		return wretch()
 			.get('/api/appointments')
-			.res(async (res) => {
-				const data = await res.json();
-				console.log(data.appointments);
-				return data.appointments;
+			.json(async (res) => apptListSchema.parse(res))
+			.then((res) => res.appointments)
+			.catch((e: ZodError) => {
+				console.log(e)
+				return "Une erreur est survenue. Veuillez recharger la page.";
 			})
 			.catch((e) => {
 				const parsedError = JSON.parse(e.message);
@@ -60,12 +49,12 @@ export default function ApptsSection() {
 				{isLoading ?
 					<p>Loading...</p> :
 					labelsRef.current.map(({title, filter}, id) => (
-					<ApptList
-						key={id}
-						data={data!.filter(filter)}
-						title={title}
-					/>
-				))}
+						<ApptList
+							key={id}
+							data={data !== undefined && data.length > 0 ? data.filter(filter) : []}
+							title={title}
+						/>
+					))}
 			</Accordion.Content>
 		</Accordion>
 	)
@@ -73,6 +62,8 @@ export default function ApptsSection() {
 
 function ApptList({data, title}: {data: ApptType[], title: string}) {
 	const [isActive, toggle] = useToggle(false);
+
+	const maxRef = useRef(3);
 
 	return (
 		<div className="accordion_item">
@@ -82,7 +73,7 @@ function ApptList({data, title}: {data: ApptType[], title: string}) {
 				<>
 					<ul>
 						{data
-							.slice(0, isActive ? data.length : 3)
+							.slice(0, isActive ? data.length : maxRef.current)
 							.map((appointment) => (
 								<li key={appointment.id}>
 									<div>
@@ -96,7 +87,7 @@ function ApptList({data, title}: {data: ApptType[], title: string}) {
 								</li>
 							))}
 					</ul>
-					<Button type="secondary" onClick={() => toggle()}>
+					<Button type="secondary" onClick={() => toggle()} disabled={data.length <= maxRef.current}>
 						Voir {isActive ? "moins" : "plus"}
 					</Button>
 				</>
