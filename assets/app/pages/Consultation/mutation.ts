@@ -7,7 +7,7 @@ type DataType = {
     doctorId: number,
     timestamp: number
 }
-export default function useAction() {
+export function useApptCreateMutation() {
     return useMutation((data: DataType) => {
         return wretch("/api/appointments")
             .post(data)
