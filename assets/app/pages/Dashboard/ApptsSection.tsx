@@ -23,7 +23,7 @@ export default function ApptsSection() {
 		return wretch()
 			.get('/api/appointments')
 			.json(async (res) => apptListSchema.parse(res))
-			.then((res) => res.appointments)
+			.then((res) => res)
 			.catch((e: ZodError) => {
 				console.log(e)
 				return "Une erreur est survenue. Veuillez recharger la page.";

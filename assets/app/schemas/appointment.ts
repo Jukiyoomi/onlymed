@@ -7,9 +7,7 @@ export const singleApptSchema = z.object({
     doctor: doctorSchema
 })
 
-const apptListSchema = z.object({
-    appointments: z.array(singleApptSchema)
-})
+const apptListSchema = z.array(singleApptSchema);
 
 export default apptListSchema;
 
