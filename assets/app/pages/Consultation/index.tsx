@@ -27,7 +27,7 @@ export default function Consultation() {
 				/>
 				<aside>
 					<h1 className="main-title">Dr. {data?.firstname} {data?.lastname}</h1>
-					<p className="reg-bold">{data?.specialities[0].name}</p>
+					<p className="reg-bold">{data?.speciality.name}</p>
 					<RatingStars rating={Math.round(Math.random() * 5)} isWhite={true} />
 				</aside>
 			</header>
