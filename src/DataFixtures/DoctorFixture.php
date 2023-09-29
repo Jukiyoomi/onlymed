@@ -22,7 +22,7 @@ class DoctorFixture extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager): void
 	{
 		$faker = Factory::create("fr_FR");
-        for ($i = 0; $i < 30; $i++) {
+        for ($i = 0; $i < 50; $i++) {
              $doctor = new Doctor();
              $doctor->setFirstName($faker->firstName);
              $doctor->setLastName($faker->lastName);
@@ -30,11 +30,9 @@ class DoctorFixture extends Fixture implements DependentFixtureInterface
 			 $doctor->setAddress($faker->address);
              $doctor->setPassword($faker->password);
              $doctor->setPhone($faker->phoneNumber);
-             for ($j = 0; $j < 3; $j++) {
-                 $doctor->addSpeciality(
+                 $doctor->setSpeciality(
                      $this->specialityRepository->findRandom()
                  );
-             }
              $manager->persist($doctor);
         }
 

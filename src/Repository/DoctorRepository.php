@@ -43,7 +43,7 @@ class DoctorRepository extends ServiceEntityRepository
     {
         $qb =  $this->createQueryBuilder('d');
 		$qb
-            ->join('d.specialities', 's')
+            ->join('d.speciality', 's')
             ->where('LOWER(s.name) LIKE :term')
             ->setParameter('term', '%' . $term . '%');
 
