@@ -19,10 +19,7 @@ class AppointmentController extends AbstractController
 	{
 		$appts = $service->findAllByUser($patient->getId());
 
-		return $this->json([
-			'appointments' => $appts,
-			'error' => null
-		], Response::HTTP_OK, [], ['groups' => 'appt:read']);
+		return $this->json($appts, Response::HTTP_OK, [], ['groups' => 'appt:read']);
 	}
 
     #[Route('/api/appointments', name: 'app.appts.new', methods: ['POST'])]
