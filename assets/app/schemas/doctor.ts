@@ -1,14 +1,12 @@
 import {z} from "zod";
+import specialitySchema from "@schemas/speciality";
 
 const doctorSchema = z.object({
     id: z.number(),
     firstname: z.string(),
     lastname: z.string(),
     address: z.string(),
-    specialities: z.array(z.object({
-        id: z.number(),
-        name: z.string()
-    }))
+    speciality: specialitySchema
 });
 
 export default doctorSchema;

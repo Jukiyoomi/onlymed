@@ -16,7 +16,6 @@ class Doctor extends User
 	{
 		parent::__construct();
 		$this->roles[] = $this->role;
-		$this->specialities = new ArrayCollection();
 		$this->isVerified = false;
 	 	$this->appointments = new ArrayCollection();
 	}
@@ -27,9 +26,9 @@ class Doctor extends User
     #[ORM\Column]
     private bool $isVerified;
 
-	#[ORM\ManyToMany(targetEntity: Speciality::class, inversedBy: 'doctors')]
+	#[ORM\ManyToOne(targetEntity: Speciality::class, inversedBy: 'doctors')]
 	#[Groups(['doctor:read', 'doctor:read:one', 'appt:read'])]
-	private Collection $specialities;
+	private Speciality $speciality;
 
 	#[ORM\Column]
 	#[Groups(['doctor:read', 'doctor:read:one', 'appt:read'])]
@@ -62,26 +61,23 @@ class Doctor extends User
         return $this;
     }
 
-	public function getSpecialities(): Collection
+	/**
+	 * @return Speciality
+	 */
+	public function getSpeciality(): Speciality
 	{
-		return $this->specialities;
+		return $this->speciality;
 	}
 
-	public function addSpeciality(Speciality $speciality): self
+	/**
+	 * @param Speciality $speciality
+	 */
+	public function setSpeciality(Speciality $speciality): void
 	{
-		if (!$this->specialities->contains($speciality)) {
-			$this->specialities[] = $speciality;
-		}
-
-		return $this;
+		$this->speciality = $speciality;
 	}
 
-	public function removeSpeciality(Speciality $speciality): self
-	{
-		$this->specialities->removeElement($speciality);
 
-		return $this;
-	}
 
 	public function getAddress(): ?string
 	{

@@ -2,15 +2,10 @@ import RatingStars from "@comps/RatingStars";
 import React, {PropsWithChildren} from "react";
 import Skeleton, {SkeletonTheme} from "react-loading-skeleton";
 import {Link} from "react-router-dom";
-import useSearchStore from "@store/search";
 import {Doctor} from "@schemas/doctor";
 
 export default function SearchDoctorItem({doctor}: {doctor: Doctor}) {
-    const searchTerm = useSearchStore(state => state.search);
-    const matchingSpeciality = doctor.specialities
-        .find((speciality: any) => speciality.name.toLowerCase().includes(searchTerm.toLowerCase()));
-
-   return (
+    return (
        <div className="search_doctor">
            <img className="search_doctor_img" src="https://www.tomsguide.fr/content/uploads/sites/2/2020/12/tony-stark-robert.jpg" alt={`Image of ${doctor.firstname} ${doctor.lastname}`}/>
            <article>
@@ -23,7 +18,7 @@ export default function SearchDoctorItem({doctor}: {doctor: Doctor}) {
                    </div>
 
                    <div>
-                       <p className="reg-bold">{matchingSpeciality!.name}</p>
+                       <p className="reg-bold">{doctor.speciality.name}</p>
                    </div>
                </div>
 
