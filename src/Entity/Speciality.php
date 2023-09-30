@@ -24,7 +24,7 @@ class Speciality
     #[Groups(['doctor:read', 'appt:read'])]
     private ?string $name = null;
 
-	#[ORM\OneToMany(mappedBy: 'specialities', targetEntity: Doctor::class)]
+	#[ORM\OneToMany(mappedBy: 'speciality', targetEntity: Doctor::class)]
 
 	private Collection $doctors;
 
