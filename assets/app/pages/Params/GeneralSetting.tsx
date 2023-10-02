@@ -4,8 +4,6 @@ import {ErrorMessage} from "@hookform/error-message";
 import {z} from "zod";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {useNavigate} from "react-router-dom";
-import {useQueryClient} from "@tanstack/react-query";
 import useUserStore from "@store/user";
 import {formClient} from "../../api/wretch";
 
@@ -18,18 +16,19 @@ const generalSettingsSchema = z.object({
 	}).optional(),
 })
 
-export default function GeneralSetting() {
+type GeneralInputsType = z.infer<typeof generalSettingsSchema>
+
+export default function GeneralSetting(cb: () => void) {
 	return {
 		Title: "Informations Générales",
 		Content: (
-			<div className="settings_content settings_general">
-				<Form />
-			</div>
-		)
+				<Form callback={cb} />
+		),
+		Class: "settings_general"
 	}
 }
 
-function Form() {
+function Form({callback}: {callback: () => void}) {
 	const {
 		register, handleSubmit,
 		formState: {
@@ -40,10 +39,6 @@ function Form() {
 		resolver: zodResolver(generalSettingsSchema)
 	});
 	const user = useUserStore(state => state.user);
-
-	const navigate = useNavigate();
-
-	const queryClient = useQueryClient()
 
 	const onSubmit: SubmitHandler<GeneralInputsType> = data => {
 		console.log(data);
@@ -65,12 +60,7 @@ function Form() {
 				firstname: Boolean(data.firstname) ? data.firstname : null,
 				lastname: Boolean(data.lastname) ? data.lastname : null
 			})
-			.res(async (res) => {
-				const data = await res.json();
-				console.log(data);
-				await queryClient.invalidateQueries({queryKey: ['user']})
-				navigate("/dashboard")
-			})
+			.then(callback)
 			.catch((e) => {
 				console.log(e)
 				setError(e.path, {

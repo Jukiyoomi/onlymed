@@ -22,18 +22,17 @@ const mailSettingsSchema = z.object({
 	path: ["newMail"]
 })
 
-export default function MailSetting() {
+type MailInputsType = z.infer<typeof mailSettingsSchema>
+
+export default function MailSetting(cb: () => void) {
 	return {
 		Title: "Adresse E-mail",
-		Content: (
-			<div className="settings_content settings_mail">
-				<Form />
-			</div>
-		)
+		Content: <Form callback={cb} />,
+		Class: "settings_mail"
 	}
 }
 
-function Form() {
+function Form({callback}: {callback: () => void}) {
 	const {
 		register, handleSubmit,
 		formState: {
@@ -44,22 +43,13 @@ function Form() {
 		resolver: zodResolver(mailSettingsSchema)
 	});
 
-	const navigate = useNavigate();
-
-	const queryClient = useQueryClient()
-
 	const onSubmit: SubmitHandler<MailInputsType> = data => {
 		formClient.url("/user/email")
 			.put({
 				oldMail: data.oldMail,
 				newMail: data.newMail
 			})
-			.res(async (res) => {
-				const data = await res.json();
-				console.log(data);
-				await queryClient.invalidateQueries({queryKey: ['user']})
-				navigate("/dashboard")
-			})
+			.then(callback)
 			.catch((e) => {
 				console.log(e)
 				setError(e.path, {

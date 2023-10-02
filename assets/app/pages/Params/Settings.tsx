@@ -3,16 +3,29 @@ import MailSetting from "./MailSetting";
 import PasswordSetting from "./PasswordSetting";
 import GeneralSetting from "./GeneralSetting";
 import AccountSetting from "./AccountSetting";
+import {useNavigate} from "react-router-dom";
+import {useQueryClient} from "@tanstack/react-query";
 
 type SettingType = {
-	[key: string]: () => {
+	[key: string]: (cb: () => void) => {
 		Title: string,
 		Content: JSX.Element
 	}
 }
 
 export default function Settings({currentLink}: {currentLink: string}) {
-	const Element = settingFactories[currentLink]();
+	const navigate = useNavigate();
+
+	const queryClient = useQueryClient()
+	const currentSetting = settingFactories[currentLink];
+
+	const onFormSuccess = async () => {
+		console.log("Form success")
+		await queryClient.invalidateQueries({queryKey: ['user']})
+		navigate("/dashboard")
+	}
+
+	const Element = currentSetting(onFormSuccess);
 
 	return (
 		<section className="settings">

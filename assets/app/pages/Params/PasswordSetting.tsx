@@ -28,18 +28,17 @@ const passwordSettingsSchema = z.object({
 	path: ["newPassword"]
 })
 
-export default function PasswordSetting() {
+type PasswordInputsType = z.infer<typeof passwordSettingsSchema>
+
+export default function PasswordSetting(cb: () => void) {
 	return {
 		Title: "Modifier mon mot de passe",
-		Content: (
-			<div className="settings_content settings_password">
-				<Form />
-			</div>
-		)
+		Content: <Form callback={cb} />,
+		Class: "settings_password"
 	}
 }
 
-function Form() {
+function Form({callback}: {callback: () => void}) {
 	const {
 		register, handleSubmit,
 		formState: {
@@ -50,10 +49,6 @@ function Form() {
 		resolver: zodResolver(passwordSettingsSchema)
 	});
 
-	const navigate = useNavigate();
-
-	const queryClient = useQueryClient();
-
 	const onSubmit: SubmitHandler<PasswordInputsType> = data => {
 		formClient.url("/user/password")
 			.put({
@@ -61,12 +56,7 @@ function Form() {
 				newPassword: data.newPassword,
 				confirmPassword: data.confirmPassword
 			})
-			.res(async (res) => {
-				const data = await res.json();
-				console.log(data);
-				await queryClient.invalidateQueries({queryKey: ['user']})
-				navigate("/dashboard")
-			})
+			.then(callback)
 			.catch((e) => {
 				console.log(e)
 				setError(e.path, {
