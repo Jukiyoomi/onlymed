@@ -1,6 +1,6 @@
 import {useMutation} from "@tanstack/react-query";
-import wretch from "wretch";
-import {singleApptSchema} from "@schemas/appointment";
+import {ApptType, singleApptSchema} from "@schemas/appointment";
+import {defaultClient, validateSchema} from "../../api/wretch";
 
 type DataType = {
     date: string,
@@ -9,22 +9,8 @@ type DataType = {
 }
 export function useApptCreateMutation() {
     return useMutation((data: DataType) => {
-        return wretch("/api/appointments")
+        return defaultClient.url("/api/appointments")
             .post(data)
-            .json(async (res) => res)
-            .then((res) => singleApptSchema.parse(res))
-            .catch((err: Error) => {
-                let parsedError: string;
-                const parsedErrorMessage = JSON.parse(err.message);
-
-                if (typeof parsedErrorMessage === "string") {
-                    parsedError = parsedErrorMessage; // error from the server
-                } else {
-                    parsedError = "Une erreur est survenue. Veuillez recharger la page." // zod error
-                }
-
-                console.log(parsedError);
-                throw parsedError
-            })
+            .then((res) => validateSchema<ApptType>(singleApptSchema, res))
     })
 }

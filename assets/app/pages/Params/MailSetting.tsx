@@ -4,14 +4,7 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import Button from "@comps/Button";
 import {ErrorMessage} from "@hookform/error-message";
 import {z} from "zod";
-import wretch from "wretch";
-import {useNavigate} from "react-router-dom";
-import {useQueryClient} from "@tanstack/react-query";
-
-type MailInputsType = {
-	oldMail: string,
-	newMail: string
-}
+import {formClient} from "../../api/wretch";
 
 const mailSettingsSchema = z.object({
 	oldMail: z.string({
@@ -56,7 +49,7 @@ function Form() {
 	const queryClient = useQueryClient()
 
 	const onSubmit: SubmitHandler<MailInputsType> = data => {
-		wretch("/api/user/email")
+		formClient.url("/user/email")
 			.put({
 				oldMail: data.oldMail,
 				newMail: data.newMail
@@ -68,10 +61,9 @@ function Form() {
 				navigate("/dashboard")
 			})
 			.catch((e) => {
-				const parsedError = JSON.parse(e.message);
-				console.log(parsedError.error);
-				setError(parsedError.path, {
-					message: parsedError.error
+				console.log(e)
+				setError(e.path, {
+					message: e.error
 				});
 			})
 	};

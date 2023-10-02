@@ -7,12 +7,7 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {useNavigate} from "react-router-dom";
 import {useQueryClient} from "@tanstack/react-query";
 import useUserStore from "@store/user";
-import wretch from "wretch";
-
-type GeneralInputsType = {
-	firstname: string,
-	lastname: string
-}
+import {formClient} from "../../api/wretch";
 
 const generalSettingsSchema = z.object({
 	firstname: z.string().regex(/^[a-zA-Z'\s]*$/, {
@@ -65,7 +60,7 @@ function Form() {
 			return;
 		}
 
-		wretch("/api/user/general")
+		formClient.url("/user/general")
 			.put({
 				firstname: Boolean(data.firstname) ? data.firstname : null,
 				lastname: Boolean(data.lastname) ? data.lastname : null
@@ -77,10 +72,9 @@ function Form() {
 				navigate("/dashboard")
 			})
 			.catch((e) => {
-				const parsedError = JSON.parse(e.message);
-				console.log(parsedError.error);
-				setError(parsedError.path, {
-					message: parsedError.error
+				console.log(e)
+				setError(e.path, {
+					message: e.error
 				});
 			})
 	};

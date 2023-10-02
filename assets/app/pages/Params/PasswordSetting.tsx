@@ -4,15 +4,7 @@ import Button from "@comps/Button";
 import {ErrorMessage} from "@hookform/error-message";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {useNavigate} from "react-router-dom";
-import {useQueryClient} from "@tanstack/react-query";
-import wretch from "wretch";
-
-type PasswordInputsType = {
-	oldPassword: string,
-	newPassword: string,
-	confirmPassword: string,
-}
+import {formClient} from "../../api/wretch";
 
 const passwordSettingsSchema = z.object({
 	oldPassword: z.string({
@@ -63,7 +55,7 @@ function Form() {
 	const queryClient = useQueryClient();
 
 	const onSubmit: SubmitHandler<PasswordInputsType> = data => {
-		wretch("/api/user/password")
+		formClient.url("/user/password")
 			.put({
 				oldPassword: data.oldPassword,
 				newPassword: data.newPassword,
@@ -76,10 +68,9 @@ function Form() {
 				navigate("/dashboard")
 			})
 			.catch((e) => {
-				const parsedError = JSON.parse(e.message);
-				console.log(parsedError.error);
-				setError(parsedError.path, {
-					message: parsedError.error
+				console.log(e)
+				setError(e.path, {
+					message: e.error
 				});
 			})
 	};
