@@ -17,7 +17,7 @@ export default function ApptsSection() {
 	}]);
 	const idRef = useId();
 
-	const {isLoading, data} = useMyApptsQuery();
+	const {isLoading, data, error} = useMyApptsQuery();
 
 	return (
 		<Accordion className="appts" as="article" id={idRef}>
@@ -32,13 +32,15 @@ export default function ApptsSection() {
 			<Accordion.Content>
 				{isLoading ?
 					<p>Loading...</p> :
-					labelsRef.current.map(({title, filter}, id) => (
-						<ApptList
-							key={id}
-							data={data !== undefined && data.length > 0 ? data.filter(filter) : []}
-							title={title}
-						/>
-					))}
+					error ? <p>Erreur : {JSON.stringify(error)}</p> :
+						labelsRef.current.map(({title, filter}, id) => (
+							<ApptList
+								key={id}
+								data={data && data?.length > 0 ? data.filter(filter) : []}
+								title={title}
+							/>
+						))
+				}
 			</Accordion.Content>
 		</Accordion>
 	)
