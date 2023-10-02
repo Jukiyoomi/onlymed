@@ -15,13 +15,29 @@ class DoctorController extends AbstractController
 	#[Route('/api/search', name: 'app.search', methods: ['GET'])]
 	public function search(Request $request, DoctorService $doctorService): JsonResponse
 	{
+        $doctors = [];
+        $hasMore = false;
+
 		$offset = $request->query->get('offset');
 		$zone = $request->query->get('zone') ?? null;
 		$searchTerm = $request->query->get('term');
 
-		$doctors = $doctorService->findAllByTerm($searchTerm, $zone, $offset);
 
-		return $this->json($doctors, Response::HTTP_OK, [], ['groups' => 'doctor:read']);
+        $countDoctors = $doctorService->getCount();
+
+        if ($countDoctors > 0) {
+            $doctors = $doctorService->findAllByTerm($searchTerm, $zone, $offset);
+            $currentTotal = DoctorService::NUM_ITEMS * $offset;
+
+            if (count($doctors) > DoctorService::NUM_ITEMS) {
+                $hasMore = $currentTotal + count($doctors) <= $countDoctors;
+            }
+        }
+
+		return $this->json([
+            'doctors' => $doctors,
+            'hasMore' => $hasMore,
+        ], Response::HTTP_OK, [], ['groups' => 'doctor:read']);
 	}
 
     #[Route('/api/doctors/{id}', name: 'app.doctor.details', methods: ['GET'])]

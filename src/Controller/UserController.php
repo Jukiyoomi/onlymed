@@ -19,9 +19,7 @@ class UserController extends AbstractController
 	#[Route('/api/dashboard', name: 'app.dashboard', methods: ['GET'])]
 	public function hello(#[CurrentUser] ?User $user): JsonResponse
 	{
-		return $this->json([
-			'user' => $user,
-		], Response::HTTP_OK, [], ['groups' => 'user:read']);
+		return $this->json($user, Response::HTTP_OK, [], ['groups' => 'user:read']);
 	}
 
 	#[Route('/user/delete', name: 'app.user.delete', methods: ['GET', 'DELETE'])]
@@ -60,9 +58,7 @@ class UserController extends AbstractController
 		$user->setEmail($newMail);
 		$manager->flush();
 
-		return $this->json([
-			'user' => $user,
-		], Response::HTTP_OK, [], ['groups' => 'user:read']);
+		return $this->json([], Response::HTTP_OK);
 	}
 
 	#[Route('/api/user/password', name: 'app.user.password.edit', methods: ['PUT'])]
@@ -104,9 +100,7 @@ class UserController extends AbstractController
 
 		$manager->flush();
 
-		return $this->json([
-			'user' => $user,
-		], Response::HTTP_OK, [], ['groups' => 'user:read']);
+		return $this->json([], Response::HTTP_OK);
 	}
 
 	#[Route('/api/user/general', name: 'app.user.general.edit', methods: ['PUT'])]
@@ -117,18 +111,29 @@ class UserController extends AbstractController
 		$firstname = $parameters['firstname'];
 		$lastname = $parameters['lastname'];
 
-		if (isset($firstname) && $firstname !== $user->getFirstname()) {
-			$user->setFirstname($firstname);
+		if (isset($firstname)) {
+            if ($firstname === $user->getFirstname()) {
+                return $this->json([
+                    "error" => "Les informations n'ont pas changées",
+                    "path" => "firstname"
+                ], Response::HTTP_BAD_REQUEST, [], ['groups' => 'user:read']);
+            }
+            $user->setFirstname($firstname);
+        }
+
+        if (isset($lastname)) {
+            if ($lastname === $user->getLastname()) {
+                return $this->json([
+                    "error" => "Les informations n'ont pas changées",
+                    "path" => "lastname"
+                ], Response::HTTP_BAD_REQUEST, [], ['groups' => 'user:read']);
+            }
+            $user->setLastname($lastname);
 		}
 
-		if (isset($lastname) && $lastname !== $user->getLastname()) {
-			$user->setLastname($lastname);
-		}
 
 		$manager->flush();
 
-		return $this->json([
-			'user' => $user,
-		], Response::HTTP_OK, [], ['groups' => 'user:read']);
+		return $this->json([], Response::HTTP_OK);
 	}
 }

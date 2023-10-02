@@ -2,10 +2,8 @@ import React, {useId, useRef} from "react";
 import useToggle from "@hooks/useToggle";
 import Accordion from "@comps/Accordion";
 import Button from "@comps/Button";
-import {useQuery} from "@tanstack/react-query";
-import wretch from "wretch";
-import {ZodError} from "zod";
-import apptListSchema, {ApptType} from "@schemas/appointment";
+import {ApptType} from "@schemas/appointment";
+import {useMyApptsQuery} from "./query";
 
 
 export default function ApptsSection() {
@@ -19,21 +17,7 @@ export default function ApptsSection() {
 	}]);
 	const idRef = useId();
 
-	const {isLoading, data} = useQuery<ApptType[]>(["appointments", "all"], () => {
-		return wretch()
-			.get('/api/appointments')
-			.json(async (res) => apptListSchema.parse(res))
-			.then((res) => res)
-			.catch((e: ZodError) => {
-				console.log(e)
-				return "Une erreur est survenue. Veuillez recharger la page.";
-			})
-			.catch((e) => {
-				const parsedError = JSON.parse(e.message);
-				console.log(parsedError.error);
-				return parsedError;
-			})
-	});
+	const {isLoading, data, error} = useMyApptsQuery();
 
 	return (
 		<Accordion className="appts" as="article" id={idRef}>
@@ -48,13 +32,15 @@ export default function ApptsSection() {
 			<Accordion.Content>
 				{isLoading ?
 					<p>Loading...</p> :
-					labelsRef.current.map(({title, filter}, id) => (
-						<ApptList
-							key={id}
-							data={data !== undefined && data.length > 0 ? data.filter(filter) : []}
-							title={title}
-						/>
-					))}
+					error ? <p>Erreur : {JSON.stringify(error)}</p> :
+						labelsRef.current.map(({title, filter}, id) => (
+							<ApptList
+								key={id}
+								data={data && data?.length > 0 ? data.filter(filter) : []}
+								title={title}
+							/>
+						))
+				}
 			</Accordion.Content>
 		</Accordion>
 	)
