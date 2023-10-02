@@ -9,7 +9,8 @@ import {useQueryClient} from "@tanstack/react-query";
 type SettingType = {
 	[key: string]: (cb: () => void) => {
 		Title: string,
-		Content: JSX.Element
+		Content: JSX.Element,
+		Class?: string
 	}
 }
 
@@ -33,7 +34,10 @@ export default function Settings({currentLink}: {currentLink: string}) {
 				<h1 className="main-title">{Element.Title}</h1>
 				<hr/>
 			</div>
-			{Element.Content}
+			<div className={`settings_content ${Element.Class}`}>
+				{Element.Content}
+			</div>
+
 		</section>
 	)
 }
