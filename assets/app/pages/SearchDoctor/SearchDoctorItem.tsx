@@ -1,5 +1,5 @@
-import RatingStars from "@comps/RatingStars";
-import React, {PropsWithChildren} from "react";
+import RatingStars, {StarWrapper} from "@comps/RatingStars";
+import React from "react";
 import Skeleton, {SkeletonTheme} from "react-loading-skeleton";
 import {Link} from "react-router-dom";
 import {Doctor} from "@schemas/doctor";

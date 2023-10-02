@@ -61,6 +61,14 @@ class DoctorRepository extends ServiceEntityRepository
 		return $qb->getQuery()->getResult();
     }
 
+    public function getCount(): int
+    {
+        $qb = $this->createQueryBuilder('d');
+        $qb->select('COUNT(d.id)');
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
 //    /**
 //     * @return Doctor[] Returns an array of Doctor objects
 //     */

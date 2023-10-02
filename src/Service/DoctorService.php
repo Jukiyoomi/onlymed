@@ -25,4 +25,9 @@ class DoctorService
         return $this->doctorRepository->findOneBy(['id' => $id]);
     }
 
+    public function getCount(): int
+    {
+        return $this->doctorRepository->getCount();
+    }
+
 }
