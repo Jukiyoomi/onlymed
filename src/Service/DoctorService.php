@@ -8,6 +8,7 @@ use App\Repository\DoctorRepository;
 class DoctorService
 {
 	private DoctorRepository $doctorRepository;
+    public const NUM_ITEMS = 10;
 
 	public function __construct(DoctorRepository $doctorRepository)
 	{
@@ -16,8 +17,7 @@ class DoctorService
 
 	public function findAllByTerm(string $term, ?string $zone, int $offset): array
 	{
-		$numItemsPerPage = 10;
-		return $this->doctorRepository->findAllByTerm($term, $zone, $numItemsPerPage, $offset);
+		return $this->doctorRepository->findAllByTerm($term, $zone, self::NUM_ITEMS, $offset);
 	}
 
     public function findOneById(int $id): ?Doctor
