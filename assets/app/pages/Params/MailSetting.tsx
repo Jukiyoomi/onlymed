@@ -4,14 +4,7 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import Button from "@comps/Button";
 import {ErrorMessage} from "@hookform/error-message";
 import {z} from "zod";
-import wretch from "wretch";
-import {useNavigate} from "react-router-dom";
-import {useQueryClient} from "@tanstack/react-query";
-
-type MailInputsType = {
-	oldMail: string,
-	newMail: string
-}
+import {formClient} from "../../api/wretch";
 
 const mailSettingsSchema = z.object({
 	oldMail: z.string({
@@ -29,18 +22,17 @@ const mailSettingsSchema = z.object({
 	path: ["newMail"]
 })
 
-export default function MailSetting() {
+type MailInputsType = z.infer<typeof mailSettingsSchema>
+
+export default function MailSetting(cb: () => void) {
 	return {
 		Title: "Adresse E-mail",
-		Content: (
-			<div className="settings_content settings_mail">
-				<Form />
-			</div>
-		)
+		Content: <Form callback={cb} />,
+		Class: "settings_mail"
 	}
 }
 
-function Form() {
+function Form({callback}: {callback: () => void}) {
 	const {
 		register, handleSubmit,
 		formState: {
@@ -51,27 +43,17 @@ function Form() {
 		resolver: zodResolver(mailSettingsSchema)
 	});
 
-	const navigate = useNavigate();
-
-	const queryClient = useQueryClient()
-
 	const onSubmit: SubmitHandler<MailInputsType> = data => {
-		wretch("/api/user/email")
+		formClient.url("/user/email")
 			.put({
 				oldMail: data.oldMail,
 				newMail: data.newMail
 			})
-			.res(async (res) => {
-				const data = await res.json();
-				console.log(data);
-				await queryClient.invalidateQueries({queryKey: ['user']})
-				navigate("/dashboard")
-			})
+			.then(callback)
 			.catch((e) => {
-				const parsedError = JSON.parse(e.message);
-				console.log(parsedError.error);
-				setError(parsedError.path, {
-					message: parsedError.error
+				console.log(e)
+				setError(e.path, {
+					message: e.error
 				});
 			})
 	};

@@ -1,23 +1,33 @@
 import SearchDoctorItem, {SearchDoctorLoading} from "./SearchDoctorItem";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Pagination from "@comps/Pagination";
 import Button from "@comps/Button";
-import {Doctor} from "@schemas/doctor";
-import usePage from "@hooks/usePage";
+import useSearch from "@hooks/useSearch";
 
 export default function Results() {
+	const [currentPage, setCurrentPage] = useState<number>(0);
+	const [hasFirstResult, setHasFirstResult] = useState<boolean>(false);
+
 	const {
-		currentPage,
-		isFirstDisplay,
-		hasFirstResult,
-		prevDisabled, goToPreviousPage,
-		nextDisabled, goToNextPage,
-		query: {
-			data,
-			isInitialLoading,
-			isFetching,
+		data,
+		error,
+		isInitialLoading,
+		isFetching,
+		isPreviousData,
+		refetch
+	} = useSearch(currentPage + 1)
+
+	useEffect(() => {
+		if (data?.doctors && data.doctors.length > 0) {
+			setHasFirstResult(true);
 		}
-	} = usePage();
+	}, [data]);
+
+	if (error) return (
+		<section className="result">
+			<p className="reg-bold">Erreur : {error as string}</p>
+		</section>
+	)
 
 	return (
 		<section className="result">
@@ -27,52 +37,46 @@ export default function Results() {
 						<SearchDoctorLoading key={id} />
 					))
 				) :
-				(
-					<>
-						{
-							data?.pages.map((page, id) => {
-								if (currentPage === id) {
-									return (
-										<React.Fragment key={id}>
-											{page.map((doctor: Doctor) => (
-													<SearchDoctorItem doctor={doctor} key={doctor.id} />
-												)
-											)}
-										</React.Fragment>
-									)
-								}
-							})
-						}
-						{
-							!isFirstDisplay && (
-								hasFirstResult ? (
-									<Pagination>
-										<Pagination.Action>
-											<Button
-												type="primary"
-												onClick={goToPreviousPage}
-												disabled={prevDisabled}
-												uppercase={true}
-											>Previous page</Button>
-										</Pagination.Action>
-										<Pagination.Text as={"p"} className="reg-bold">Page {currentPage + 1}</Pagination.Text>
-										<Pagination.Action>
-											<Button
-												type="primary"
-												onClick={goToNextPage}
-												disabled={nextDisabled}
-												uppercase={true}
-											>Next page</Button>
-										</Pagination.Action>
-									</Pagination>
-								) : (
-									<div className="no-result">
-										<p className="reg-bold">No result found.</p>
-									</div>
-								)
-							)
-						}
-					</>
+				(data?.doctors?.length === 0 ?
+					(
+						<div className="no-result">
+							<p className="reg-bold">No result found.</p>
+						</div>
+					) :
+					data?.doctors.map((doctor) => (
+						<SearchDoctorItem doctor={doctor} key={doctor.id} />
+					))
+				)
+			}
+			{
+				hasFirstResult && (
+					<Pagination>
+						<Pagination.Action>
+							<Button
+								type="primary"
+								onClick={() => {
+									setCurrentPage(old => Math.max(old - 1, 0));
+								}}
+								disabled={!data || isFetching || (!hasFirstResult || currentPage === 0)}
+								uppercase={true}
+							>Previous page</Button>
+						</Pagination.Action>
+						<Pagination.Text as={"p"} className="reg-bold">Page {currentPage + 1}</Pagination.Text>
+						<Pagination.Action>
+							<Button
+								type="primary"
+								onClick={() => {
+									if (!isPreviousData && data?.hasMore) {
+										console.log("Next page")
+										setCurrentPage(old => old + 1);
+										refetch();
+									}
+								}}
+								disabled={!data || (isPreviousData || !data?.hasMore)}
+								uppercase={true}
+							>Next page</Button>
+						</Pagination.Action>
+					</Pagination>
 				)
 			}
 		</section>

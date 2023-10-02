@@ -2,10 +2,10 @@ import React, {useEffect, useState} from "react";
 import DatePicker from "react-date-picker";
 import {CalendarCheck, X} from "lucide-react";
 import Button from "@comps/Button";
-import useAction from "@pages/Consultation/action";
+import {useApptCreateMutation} from "./mutation";
 import {useNavigate} from "react-router-dom";
 import classNames from "classnames";
-import {useTimestampLoader} from "@pages/Consultation/loader";
+import {useTimestampQuery} from "./query";
 
 type HoursProps = {
     selectedDate: string,
@@ -23,8 +23,8 @@ export default function HourSelector({doctorId}: {doctorId: number}) {
     const [selectedHour, setSelectedHour] = useState<number | null>(null);
     const [isActive, setIsActive] = useState<boolean>(false);
 
-    const {mutateAsync, isLoading, error} = useAction();
-    const {data, isLoading: isLoadingTimestamp, refetch} = useTimestampLoader(String(doctorId));
+    const {mutateAsync, isLoading, error} = useApptCreateMutation();
+    const {data, isLoading: isLoadingTimestamp, refetch} = useTimestampQuery(String(doctorId));
 
     const navigate = useNavigate();
 
@@ -38,7 +38,8 @@ export default function HourSelector({doctorId}: {doctorId: number}) {
     }
 
     const onClick = () => {
-        mutateAsync({doctorId, date: selectedDateRef, timestamp: selectedHour!}).then(() => navigate("/dashboard"));
+        if (selectedHour === null) return;
+        mutateAsync({doctorId, date: selectedDateRef, timestamp: selectedHour}).then(() => navigate("/dashboard"));
     }
 
     useEffect(() => {
@@ -76,7 +77,7 @@ export default function HourSelector({doctorId}: {doctorId: number}) {
                                 <Button
                                     type="primary"
                                     onClick={onClick}
-                                    disabled={isLoading || !selectedDateRef}
+                                    disabled={isLoading || !selectedDateRef || !selectedHour}
                                 >
                                     {isLoading ? "Chargement..." : "Valider"}
                                 </Button>
