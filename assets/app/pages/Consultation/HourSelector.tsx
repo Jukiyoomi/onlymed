@@ -38,7 +38,8 @@ export default function HourSelector({doctorId}: {doctorId: number}) {
     }
 
     const onClick = () => {
-        mutateAsync({doctorId, date: selectedDateRef, timestamp: selectedHour!}).then(() => navigate("/dashboard"));
+        if (selectedHour === null) return;
+        mutateAsync({doctorId, date: selectedDateRef, timestamp: selectedHour}).then(() => navigate("/dashboard"));
     }
 
     useEffect(() => {
@@ -76,7 +77,7 @@ export default function HourSelector({doctorId}: {doctorId: number}) {
                                 <Button
                                     type="primary"
                                     onClick={onClick}
-                                    disabled={isLoading || !selectedDateRef}
+                                    disabled={isLoading || !selectedDateRef || !selectedHour}
                                 >
                                     {isLoading ? "Chargement..." : "Valider"}
                                 </Button>
