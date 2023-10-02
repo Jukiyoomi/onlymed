@@ -51,7 +51,7 @@ class RegisterTest extends WebTestCase
 		$form['doctor_form[phone]'] = $faker->phoneNumber();
 		$form['doctor_form[password][first]'] = $password;
 		$form['doctor_form[password][second]'] = $password;
-		$form['doctor_form[specialities]'] = ['1'];
+		$form['doctor_form[speciality]'] = '1';
 		$form['doctor_form[agreeTerms]'] = true;
 
 		$client->submit($form);
