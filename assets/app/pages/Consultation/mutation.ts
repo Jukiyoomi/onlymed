@@ -9,7 +9,7 @@ type DataType = {
 }
 export function useApptCreateMutation() {
     return useMutation((data: DataType) => {
-        return defaultClient.url("/api/appointments")
+        return defaultClient.url("/appointments")
             .post(data)
             .then((res) => validateSchema<ApptType>(singleApptSchema, res))
     })

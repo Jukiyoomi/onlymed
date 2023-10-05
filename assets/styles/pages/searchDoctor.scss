@@ -11,11 +11,7 @@
         max-width: vars.rem(730);
         width: 100%;
         @include vars.flexer(center, center);
-        padding: vars.rem(10);
         gap: vars.rem(5);
-        border-radius: 8px;
-        background: vars.$white;
-        box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.10);
         margin-bottom: vars.rem(50);
 
         @include vars.media(tablet-small, max) {
@@ -42,12 +38,8 @@
 
     .search_doctor {
         width: 100%;
-        background: vars.$white;
-        border-radius: vars.rem(8);
         @include vars.flexer(start, start);
-        padding: vars.rem(20);
         gap: vars.rem(10);
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
         &_img {
             border-radius: 50%;

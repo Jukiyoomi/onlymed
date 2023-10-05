@@ -48,7 +48,7 @@ export default function HourSelector({doctorId}: {doctorId: number}) {
 
     return (
         <>
-            <section className="doctor_detail_date">
+            <section className="doctor_detail_date box">
                 <h2 className="second-title">Ce médecin vous convient ?</h2>
                 <h3 className="reg-bold">N'hésitez plus !</h3>
 

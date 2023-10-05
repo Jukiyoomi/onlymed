@@ -5,7 +5,7 @@ export default function QuestionsSection() {
 	const idRef = useId();
 
 	return (
-		<Accordion className="questions right" as="article" id={idRef}>
+		<Accordion className="questions box" as="article" id={idRef}>
 			<Accordion.Action
 				className="dashboard_content_head"
 				id={idRef}

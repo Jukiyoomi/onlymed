@@ -35,7 +35,7 @@ export default function SearchDoctorBar() {
 	};
 
 	return (
-		<form className="bar" onSubmit={handleSubmit(onSubmit)}>
+		<form className="bar box" onSubmit={handleSubmit(onSubmit)}>
 			<div className="form_widget">
 				<Search color="#006D77" />
 				<input type="text" placeholder="Nom, Spécialité"
