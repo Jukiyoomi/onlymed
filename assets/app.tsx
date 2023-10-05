@@ -19,6 +19,7 @@ import {createRoot} from 'react-dom/client';
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
 import App from "@/index";
+import { createIcons, Menu } from 'lucide';
 
 const root = document.getElementById('root');
 
@@ -40,5 +41,10 @@ if (root) {
 			</QueryClientProvider>
 		</React.StrictMode>
 	);
+} else {
+	createIcons({
+		icons: {
+			Menu
+		}
+	});
 }
-
