@@ -1,5 +1,5 @@
 import {z} from "zod";
-import doctorSchema from "@schemas/doctor";
+import doctorSchema from "./doctor";
 
 export const singleApptSchema = z.object({
     id: z.number(),

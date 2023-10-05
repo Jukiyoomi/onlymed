@@ -1,10 +1,10 @@
 import React from 'react';
 import {SubmitHandler, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import Button from "@comps/Button";
+import Button from "@/components/Button";
 import {ErrorMessage} from "@hookform/error-message";
 import {z} from "zod";
-import {formClient} from "../../api/wretch";
+import {formClient} from "@/api/wretch";
 
 const mailSettingsSchema = z.object({
 	oldMail: z.string({

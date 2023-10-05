@@ -1,11 +1,11 @@
 import React from 'react';
-import Button from "@comps/Button";
+import Button from "@/components/Button";
 import {ErrorMessage} from "@hookform/error-message";
 import {z} from "zod";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import useUserStore from "@store/user";
-import {formClient} from "../../api/wretch";
+import useUserStore from "@/store/user";
+import {formClient} from "@/api/wretch";
 
 const generalSettingsSchema = z.object({
 	firstname: z.string().regex(/^[a-zA-Z'\s]*$/, {

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import DatePicker from "react-date-picker";
 import {CalendarCheck, X} from "lucide-react";
-import Button from "@comps/Button";
+import Button from "@/components/Button";
 import {useApptCreateMutation} from "./mutation";
 import {useNavigate} from "react-router-dom";
 import classNames from "classnames";

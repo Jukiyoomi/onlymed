@@ -1,5 +1,5 @@
 import React, {useId} from "react";
-import Accordion from "@comps/Accordion";
+import Accordion from "@/components/Accordion";
 
 export default function QuestionsSection() {
 	const idRef = useId();

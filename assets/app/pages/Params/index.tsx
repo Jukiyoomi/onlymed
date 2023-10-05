@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import Container from "@comps/Container";
+import Container from "@/components/Container";
 import Sidebar from "./Sidebar";
 import Settings from "./Settings";
 

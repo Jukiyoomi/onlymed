@@ -1,8 +1,8 @@
-import Dashboard from "@pages/Dashboard";
-import SearchDoctor from "@pages/SearchDoctor";
-import Params from "@pages/Params";
+import Dashboard from "@/pages/Dashboard";
+import SearchDoctor from "@/pages/SearchDoctor";
+import Params from "@/pages/Params";
 import React from "react";
-import Consultation from "@pages/Consultation";
+import Consultation from "@/pages/Consultation";
 
 export default [
 	{

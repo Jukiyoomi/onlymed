@@ -24,13 +24,8 @@ Encore
     .addEntry('app', './assets/app.tsx')
 
     .addAliases({
-        "@pages": path.resolve(__dirname, "assets/app/pages"),
-        "@comps": path.resolve(__dirname, "assets/app/components"),
+        "@": path.resolve(__dirname, "assets/app"),
         "@img": path.resolve(__dirname, "assets/images"),
-        "@store": path.resolve(__dirname, "assets/app/store"),
-        "@hooks": path.resolve(__dirname, "assets/app/hooks"),
-        "@router": path.resolve(__dirname, "assets/app/router"),
-        "@schemas": path.resolve(__dirname, "assets/app/schemas"),
     })
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
