@@ -29,7 +29,7 @@ export default function Settings({currentLink}: {currentLink: string}) {
 	const Element = currentSetting(onFormSuccess);
 
 	return (
-		<section className="settings">
+		<section className="settings box">
 			<div className="settings_header">
 				<h1 className="main-title">{Element.Title}</h1>
 				<hr/>

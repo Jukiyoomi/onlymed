@@ -5,7 +5,7 @@ export default function DocsSection() {
 	const idRef = useId();
 
 	return (
-		<Accordion className="docs right" as="article" id={idRef}>
+		<Accordion className="docs box" as="article" id={idRef}>
 			<Accordion.Action
 				className="dashboard_content_head"
 				id={idRef}

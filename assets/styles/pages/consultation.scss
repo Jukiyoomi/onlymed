@@ -43,10 +43,8 @@
 	&_info {
 		@include vars.flexer();
 		gap: vars.rem(20);
-		border-radius: vars.rem(10);
-		background: vars.$white;
+		padding: 0;
 		overflow: hidden;
-		box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.10);
 
 		article {
 			padding: vars.rem(20);
@@ -72,10 +70,6 @@
 	&_date {
 		@include vars.flexer(start, start, column);
 		gap: vars.rem(20);
-		border-radius: vars.rem(10);
-		background: vars.$white;
-		padding: vars.rem(20);
-		box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.10);
 	}
 
 	&_hours {

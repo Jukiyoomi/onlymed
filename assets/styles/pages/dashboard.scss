@@ -15,13 +15,9 @@
 		flex-wrap: wrap;
 		width: 100%;
 
-		article {
+		.accordion {
 			width: 100%;
-			background: vars.$white;
-			box-shadow: 3px 4px 5px 0 rgba(0, 0, 0, 0.10);
-			padding: vars.rem(20);
 			gap: vars.rem(20);
-			border-radius: vars.rem(10);
 			min-width: vars.rem(300);
 		}
 		&_head {

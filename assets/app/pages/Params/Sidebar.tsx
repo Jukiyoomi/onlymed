@@ -38,7 +38,7 @@ const links = [
 
 export default function Sidebar({currentLink, setCurrentLink}: {currentLink: string, setCurrentLink: (link: string) => void}) {
 	return (
-		<aside>
+		<aside className="box">
 			<ul className="sidebar">
 				{links.map((link, i) => (
 					<li key={i} className="sidebar_list">
