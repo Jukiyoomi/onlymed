@@ -3,7 +3,7 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    {{ form_start(form, { 'attr': {'class': 'form_auth'} }) }}
+    {{ form_start(form, { 'attr': {'class': 'form_auth box'} }) }}
         <h1 class="form_title main-title">Register</h1>
         <div class="form_half">
             <div class="form_widget form_half_item">
@@ -24,6 +24,9 @@
         </div>
         <div class="form_widget">
             {{ form_row(form.agreeTerms) }}
+        </div>
+        <div class="form_widget">
+            <a href="{{ path("app_login") }}">Se connecter</a>
         </div>
         <button type="submit" class="btn_full btn_primary reg-bold">Register</button>
         <p class="subtitle">

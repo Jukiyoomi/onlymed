@@ -4,13 +4,6 @@
 	@include vars.flexer(start, space-between);
 	gap: vars.rem(20);
 
-	aside {
-		border-radius: vars.rem(8);
-		background: vars.$white;
-		box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.10);
-		padding: vars.rem(20);
-	}
-
 	.sidebar {
 		@include vars.flexer(start, start, column);
 		gap: vars.rem(40);
@@ -48,10 +41,6 @@
 
 	.settings {
 		flex: 1;
-		border-radius: vars.rem(8);
-		background: vars.$white;
-		box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.10);
-		padding: vars.rem(20);
 
 		&_header {
 			margin-bottom: vars.rem(10);

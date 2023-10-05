@@ -4,13 +4,11 @@ $input-gap: 20;
 
 form {
 	&.form_auth {
-		background: vars.$white;
 		max-width: vars.rem(610);
 		@include vars.flexer(center, center);
 		flex-wrap: wrap;
 		padding: vars.rem(40);
 		gap: vars.rem($input-gap);
-		border-radius: vars.rem(8);
 		margin: 0 auto;
 	}
 

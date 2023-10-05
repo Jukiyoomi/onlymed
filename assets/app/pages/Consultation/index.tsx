@@ -38,7 +38,7 @@ export default function Consultation() {
 				{
 					isLoading ? <ConsultationLoading /> : (
 						<div className="left">
-							<section className="doctor_detail_info">
+							<section className="doctor_detail_info box">
 								<article>
 									<h2 className="second-title">Carte et information d'accès</h2>
 									<h3 className="reg-bold">Adresse</h3>
@@ -95,7 +95,7 @@ function ConsultationLoading() {
 			highlightColor={"#e1e1e1"}
 		>
 			<div className="left">
-				<section className="doctor_detail_info">
+				<section className="doctor_detail_info box">
 					<article>
 						<h2 className="second-title"><Skeleton /></h2>
 						<h3 className="reg-bold"><Skeleton /></h3>

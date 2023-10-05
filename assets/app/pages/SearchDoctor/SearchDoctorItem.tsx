@@ -6,7 +6,7 @@ import {Doctor} from "@schemas/doctor";
 
 export default function SearchDoctorItem({doctor}: {doctor: Doctor}) {
     return (
-       <div className="search_doctor">
+       <div className="search_doctor box">
            <img className="search_doctor_img" src="https://www.tomsguide.fr/content/uploads/sites/2/2020/12/tony-stark-robert.jpg" alt={`Image of ${doctor.firstname} ${doctor.lastname}`}/>
            <article>
                <div className="search_doctor_info">
@@ -33,7 +33,7 @@ export function SearchDoctorLoading() {
         <SkeletonTheme
             highlightColor={"#e1e1e1"}
         >
-            <div className="search_doctor">
+            <div className="search_doctor box">
                 <Skeleton
                     circle
                     height={150}

@@ -22,7 +22,7 @@ export default function Dashboard() {
 			<section className="dashboard_content">
 				<ApptsSection />
 
-				<aside>
+				<aside className="right">
 					<QuestionsSection />
 
 					<DocsSection />

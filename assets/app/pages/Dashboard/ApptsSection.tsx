@@ -20,7 +20,7 @@ export default function ApptsSection() {
 	const {isLoading, data, error} = useMyApptsQuery();
 
 	return (
-		<Accordion className="appts" as="article" id={idRef}>
+		<Accordion className="appts box" as="article" id={idRef}>
 			<Accordion.Action
 				className="dashboard_content_head"
 				id={idRef}
