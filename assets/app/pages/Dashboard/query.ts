@@ -1,6 +1,6 @@
 import {useQuery} from "@tanstack/react-query";
-import apptListSchema, {ApptType} from "@schemas/appointment";
-import {defaultClient, validateSchema} from "../../api/wretch";
+import apptListSchema, {ApptType} from "@/schemas/appointment";
+import {defaultClient, validateSchema} from "@/api/wretch";
 
 export function useMyApptsQuery() {
 	return useQuery<ApptType[]|undefined>({

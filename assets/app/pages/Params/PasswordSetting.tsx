@@ -1,10 +1,10 @@
 import React from 'react';
 import {z} from "zod";
-import Button from "@comps/Button";
+import Button from "@/components/Button";
 import {ErrorMessage} from "@hookform/error-message";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {formClient} from "../../api/wretch";
+import {formClient} from "@/api/wretch";
 
 const passwordSettingsSchema = z.object({
 	oldPassword: z.string({

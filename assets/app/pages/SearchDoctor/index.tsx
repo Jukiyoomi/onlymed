@@ -1,5 +1,5 @@
 import React from 'react';
-import Container from "@comps/Container";
+import Container from "@/components/Container";
 import SearchDoctorBar from "./SearchDoctorBar";
 import Results from "./Results";
 

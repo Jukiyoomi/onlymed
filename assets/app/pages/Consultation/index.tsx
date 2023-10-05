@@ -1,8 +1,8 @@
 import React from 'react';
 import {useParams} from "react-router-dom";
 import {useDoctorQuery} from "./query";
-import Container from "@comps/Container";
-import RatingStars, {StarWrapper} from "@comps/RatingStars";
+import Container from "@/components/Container";
+import RatingStars, {StarWrapper} from "@/components/RatingStars";
 import HourSelector from "./HourSelector";
 import Skeleton, {SkeletonTheme} from "react-loading-skeleton";
 

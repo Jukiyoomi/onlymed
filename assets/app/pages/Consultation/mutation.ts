@@ -1,6 +1,6 @@
 import {useMutation} from "@tanstack/react-query";
-import {ApptType, singleApptSchema} from "@schemas/appointment";
-import {defaultClient, validateSchema} from "../../api/wretch";
+import {ApptType, singleApptSchema} from "@/schemas/appointment";
+import {defaultClient, validateSchema} from "@/api/wretch";
 
 type DataType = {
     date: string,

@@ -1,8 +1,8 @@
 import React, {useId, useRef} from "react";
-import useToggle from "@hooks/useToggle";
-import Accordion from "@comps/Accordion";
-import Button from "@comps/Button";
-import {ApptType} from "@schemas/appointment";
+import useToggle from "@/hooks/useToggle";
+import Accordion from "@/components/Accordion";
+import Button from "@/components/Button";
+import {ApptType} from "@/schemas/appointment";
 import {useMyApptsQuery} from "./query";
 
 
