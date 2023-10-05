@@ -1,8 +1,8 @@
-import RatingStars, {StarWrapper} from "@comps/RatingStars";
+import RatingStars, {StarWrapper} from "@/components/RatingStars";
 import React from "react";
 import Skeleton, {SkeletonTheme} from "react-loading-skeleton";
 import {Link} from "react-router-dom";
-import {Doctor} from "@schemas/doctor";
+import {Doctor} from "@/schemas/doctor";
 
 export default function SearchDoctorItem({doctor}: {doctor: Doctor}) {
     return (

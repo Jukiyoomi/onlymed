@@ -1,7 +1,7 @@
-import useUserStore from "@store/user";
+import useUserStore from "@/store/user";
 import {useQuery} from "@tanstack/react-query";
-import userSchema from "@schemas/user";
-import {defaultClient, validateSchema} from "../api/wretch";
+import userSchema from "@/schemas/user";
+import {defaultClient, validateSchema} from "@/api/wretch";
 
 
 export default function useInit() {

@@ -1,8 +1,8 @@
 import SearchDoctorItem, {SearchDoctorLoading} from "./SearchDoctorItem";
 import React, {useEffect, useState} from "react";
-import Pagination from "@comps/Pagination";
-import Button from "@comps/Button";
-import useSearch from "@hooks/useSearch";
+import Pagination from "@/components/Pagination";
+import Button from "@/components/Button";
+import useSearch from "@/hooks/useSearch";
 
 export default function Results() {
 	const [currentPage, setCurrentPage] = useState<number>(0);

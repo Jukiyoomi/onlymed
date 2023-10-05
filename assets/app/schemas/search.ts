@@ -1,5 +1,5 @@
 import {z} from "zod";
-import doctorSchema from "@schemas/doctor";
+import doctorSchema from "./doctor";
 
 const searchSchema = z.object({
 	doctors: z.array(doctorSchema),

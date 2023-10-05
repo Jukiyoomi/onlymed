@@ -1,6 +1,6 @@
-import Button from "@comps/Button";
+import Button from "@/components/Button";
 import React from "react";
-import useSearchStore from "@store/search";
+import useSearchStore from "@/store/search";
 import {MapPin, Search} from "lucide-react";
 import {z} from "zod";
 import {SubmitHandler, useForm} from "react-hook-form";

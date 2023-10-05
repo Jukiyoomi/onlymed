@@ -1,7 +1,7 @@
 import {useQuery} from "@tanstack/react-query";
-import doctorSchema, {Doctor} from "@schemas/doctor";
+import doctorSchema, {Doctor} from "@/schemas/doctor";
 import {z} from "zod";
-import {defaultClient, validateSchema} from "../../api/wretch";
+import {defaultClient, validateSchema} from "@/api/wretch";
 
 const timestampSchema = z.array(z.number().int().positive());
 

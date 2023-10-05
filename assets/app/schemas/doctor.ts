@@ -1,5 +1,5 @@
 import {z} from "zod";
-import specialitySchema from "@schemas/speciality";
+import specialitySchema from "./speciality";
 
 const doctorSchema = z.object({
     id: z.number(),
