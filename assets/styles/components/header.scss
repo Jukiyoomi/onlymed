@@ -7,6 +7,20 @@ header.default {
 	@include vars.flexer(center, space-between);
 	position: relative;
 
+	input {
+		display: none;
+	}
+
+	label {
+		width: vars.rem(36);
+		height: vars.rem(36);
+		display: grid;
+		place-items: center;
+
+		@include vars.media(phablet) {
+			display: none;
+		}
+	}
 
 	.nav_burger {
 		color: vars.$dark-green;
@@ -31,16 +45,16 @@ header.default {
 			justify-content: center;
 			background: lightgray;
 			padding: vars.rem(10);
-			//box-shadow: 1px 3px 5px 14px rgba(0,0,0,0.09);
+			transform: translateY(-100%);
 		}
 	}
 
-	.nav_links.nav_links-open {
+	input:checked + .nav_links {
 		transition: top .5s, opacity .2s;
 		@include vars.media(phablet, max) {
 			opacity: 1;
 			top: 100%;
-			//box-shadow: 1px 3px 5px 14px rgba(0,0,0,0.09);
+			transform: translateY(0);
 		}
 	}
 }
