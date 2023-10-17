@@ -3,6 +3,7 @@
 {% block title %}Hello Doctor{% endblock %}
 
 {% block body %}
+	{% include 'components/header.html.twig' %}
 	{{ form_start(form, { 'attr': {'class': 'form_auth'} }) }}
 	<h1 class="form_title main-title">Register</h1>
 	<div class="form_half">
