@@ -51,8 +51,6 @@ function ApptList({data, title}: {data: ApptType[], title: string}) {
 
 	const maxRef = useRef(3);
 
-	const test = [...data, ...data, ...data, ...data, ...data, ...data]
-
 	return (
 		<div className="accordion_item">
 			<p className="reg-bold">{title} ({data.length})</p>
@@ -64,10 +62,10 @@ function ApptList({data, title}: {data: ApptType[], title: string}) {
 						gridTemplateColumns: "repeat(3, 1fr)",
 						gap: "10px",
 					}}>
-						{test
-							.slice(0, isActive ? test.length : maxRef.current)
-							.map((appointment, index) => (
-								<li key={index} style={{
+						{data
+							.slice(0, isActive ? data.length : maxRef.current)
+							.map((appointment) => (
+								<li key={appointment.id} style={{
 									flexDirection: "column",
 								}}>
 									<div>
@@ -77,7 +75,7 @@ function ApptList({data, title}: {data: ApptType[], title: string}) {
 								</li>
 							))}
 					</ul>
-					<Button type="secondary" onClick={() => toggle()} disabled={test.length <= maxRef.current}>
+					<Button type="secondary" onClick={() => toggle()} disabled={data.length <= maxRef.current}>
 						Voir {isActive ? "moins" : "plus"}
 					</Button>
 				</>
