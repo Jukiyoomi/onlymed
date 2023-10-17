@@ -1,13 +1,14 @@
 import React from 'react';
 import Container from "@/components/Container";
 import Button from "@/components/Button";
-import {toString} from "@/store/user";
+import useUserStore, {toString} from "@/store/user";
 import ApptsSection from "./ApptsSection";
 import QuestionsSection from "./QuestionsSection";
 import DocsSection from "./DocsSection";
 import {Link} from "react-router-dom";
 
-export default function Dashboard() {
+export default function PatientDashboard() {
+	console.log("PatientDashboard")
 	return (
 		<Container className="dashboard">
 			<section className="dashboard_header">

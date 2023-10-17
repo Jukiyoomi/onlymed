@@ -3,7 +3,7 @@ import useToggle from "@/hooks/useToggle";
 import Accordion from "@/components/Accordion";
 import Button from "@/components/Button";
 import {ApptType} from "@/schemas/appointment";
-import {useMyApptsQuery} from "./query";
+import {useMyApptsQuery} from "../query";
 
 
 export default function ApptsSection() {
@@ -17,7 +17,7 @@ export default function ApptsSection() {
 	}]);
 	const idRef = useId();
 
-	const {isLoading, data, error} = useMyApptsQuery();
+	const {isLoading, data, error} = useMyApptsQuery("patient");
 
 	return (
 		<Accordion className="appts box" as="article" id={idRef}>
