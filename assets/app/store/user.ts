@@ -1,14 +1,7 @@
 import { create } from 'zustand';
 import {devtools, persist} from "zustand/middleware";
+import {User} from "@/schemas/user";
 import {Role} from "@/schemas/role";
-
-type User = {
-	id: number;
-	firstname: string;
-	lastname: string;
-	email: string;
-	roles: string[];
-}
 
 interface State {
 	user: User|null;
