@@ -6,7 +6,7 @@ import {ErrorMessage} from "@hookform/error-message";
 import {z} from "zod";
 import {formClient} from "@/api/wretch";
 
-const mailSettingsSchema = z.object({
+const settingsSchema = z.object({
 	oldMail: z.string({
 		required_error: "L'ancienne adresse e-mail est requise."
 	}).email({
@@ -22,7 +22,7 @@ const mailSettingsSchema = z.object({
 	path: ["newMail"]
 })
 
-type MailInputsType = z.infer<typeof mailSettingsSchema>
+type InputsType = z.infer<typeof settingsSchema>
 
 export default function MailSetting(cb: () => void) {
 	return {
@@ -39,11 +39,12 @@ function Form({callback}: {callback: () => void}) {
 			errors
 		},
 		setError
-	} = useForm<MailInputsType>({
-		resolver: zodResolver(mailSettingsSchema)
+	} = useForm<InputsType>({
+		resolver: zodResolver(settingsSchema)
 	});
 
-	const onSubmit: SubmitHandler<MailInputsType> = data => {
+	const onSubmit: SubmitHandler<InputsType> = data => {
+
 		formClient.url("/user/email")
 			.put({
 				oldMail: data.oldMail,
