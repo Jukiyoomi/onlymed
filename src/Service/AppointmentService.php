@@ -18,10 +18,15 @@ class AppointmentService
 		$this->appointmentRepository = $appointmentRepository;
 	}
 
-	public function findAllByUser(int $userId): array
+	public function findAllByUser(int $userId, string $as): array
 	{
+		$key = match ($as) {
+			'patient' => 'patient',
+			'doctor' => 'doctor',
+			default => null
+		};
 		return $this->appointmentRepository->findBy([
-			'patient' => $userId
+			$key => $userId
 		]);
 	}
 

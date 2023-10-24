@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Patient;
+use App\Entity\User;
 use App\Service\AppointmentService;
 use App\Service\DoctorService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,9 +16,11 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 class AppointmentController extends AbstractController
 {
 	#[Route('/api/appointments', name: 'app.appts.read', methods: ['GET'])]
-	public function search(#[CurrentUser] ?Patient $patient, AppointmentService $service): JsonResponse
+	public function search(#[CurrentUser] ?User $user, AppointmentService $service, Request $request): JsonResponse
 	{
-		$appts = $service->findAllByUser($patient->getId());
+		$as = $request->query->get('as');
+
+		$appts = $service->findAllByUser($user->getId(), $as);
 
 		return $this->json($appts, Response::HTTP_OK, [], ['groups' => 'appt:read']);
 	}

@@ -7,7 +7,7 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import useUserStore from "@/store/user";
 import {formClient} from "@/api/wretch";
 
-const generalSettingsSchema = z.object({
+const settingsSchema = z.object({
 	firstname: z.string().regex(/^[a-zA-Z'\s]*$/, {
 		message: "Le prénom ne peut contenir que des lettres."
 	}).optional(),
@@ -16,7 +16,9 @@ const generalSettingsSchema = z.object({
 	}).optional(),
 })
 
-type GeneralInputsType = z.infer<typeof generalSettingsSchema>
+type InputsType = z.infer<typeof settingsSchema>
+
+type InputsKeys = keyof InputsType
 
 export default function GeneralSetting(cb: () => void) {
 	return {
@@ -35,12 +37,12 @@ function Form({callback}: {callback: () => void}) {
 			errors
 		},
 		setError
-	} = useForm<GeneralInputsType>({
-		resolver: zodResolver(generalSettingsSchema)
+	} = useForm<InputsType>({
+		resolver: zodResolver(settingsSchema)
 	});
 	const user = useUserStore(state => state.user);
 
-	const onSubmit: SubmitHandler<GeneralInputsType> = data => {
+	const onSubmit: SubmitHandler<InputsType> = data => {
 		console.log(data);
 		if (data.firstname === user?.firstname) {
 			setError("firstname", {
@@ -94,16 +96,16 @@ function Form({callback}: {callback: () => void}) {
 			<p className="subtitle">Si vous souhaitez garder une information comme telle, veuillez laisser le champ vide.</p>
 
 			<Button type="primary">Enregistrer</Button>
-			<ErrorMessage
-				errors={errors}
-				name="firstname"
-				render={({ message }) => <div className="form-error">Error: {message}</div>}
-			/>
-			<ErrorMessage
-				errors={errors}
-				name="lastname"
-				render={({ message }) => <div className="form-error">Error: {message}</div>}
-			/>
+			{
+				Object.keys(errors).map((key: string) => (
+					<ErrorMessage
+						key={key}
+						errors={errors}
+						name={key as InputsKeys}
+						render={({ message }) => <div className="form-error">Error: {message}</div>}
+					/>
+				))
+			}
 		</form>
 	)
 }

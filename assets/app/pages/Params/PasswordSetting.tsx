@@ -6,7 +6,7 @@ import {SubmitHandler, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {formClient} from "@/api/wretch";
 
-const passwordSettingsSchema = z.object({
+const settingsSchema = z.object({
 	oldPassword: z.string({
 		required_error: "L'ancien mot de passe est requis."
 	}).min(8, {
@@ -28,7 +28,9 @@ const passwordSettingsSchema = z.object({
 	path: ["newPassword"]
 })
 
-type PasswordInputsType = z.infer<typeof passwordSettingsSchema>
+type InputsType = z.infer<typeof settingsSchema>
+
+type InputsKeys = keyof InputsType
 
 export default function PasswordSetting(cb: () => void) {
 	return {
@@ -45,11 +47,11 @@ function Form({callback}: {callback: () => void}) {
 			errors
 		},
 		setError
-	} = useForm<PasswordInputsType>({
-		resolver: zodResolver(passwordSettingsSchema)
+	} = useForm<InputsType>({
+		resolver: zodResolver(settingsSchema)
 	});
 
-	const onSubmit: SubmitHandler<PasswordInputsType> = data => {
+	const onSubmit: SubmitHandler<InputsType> = data => {
 		formClient.url("/user/password")
 			.put({
 				oldPassword: data.oldPassword,
@@ -93,21 +95,16 @@ function Form({callback}: {callback: () => void}) {
 			</div>
 
 			<Button type="primary">Enregistrer</Button>
-			<ErrorMessage
-				errors={errors}
-				name="oldPassword"
-				render={({ message }) => <div className="form-error">Error: {message}</div>}
-			/>
-			<ErrorMessage
-				errors={errors}
-				name="newPassword"
-				render={({ message }) => <div className="form-error">Error: {message}</div>}
-			/>
-			<ErrorMessage
-				errors={errors}
-				name="confirmPassword"
-				render={({ message }) => <div className="form-error">Error: {message}</div>}
-			/>
+			{
+				Object.keys(errors).map((key: string) => (
+					<ErrorMessage
+						key={key}
+						errors={errors}
+						name={key as InputsKeys}
+						render={({ message }) => <div className="form-error">Error: {message}</div>}
+					/>
+				))
+			}
 		</form>
 	)
 }

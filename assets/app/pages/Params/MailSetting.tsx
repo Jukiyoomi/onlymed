@@ -6,7 +6,7 @@ import {ErrorMessage} from "@hookform/error-message";
 import {z} from "zod";
 import {formClient} from "@/api/wretch";
 
-const mailSettingsSchema = z.object({
+const settingsSchema = z.object({
 	oldMail: z.string({
 		required_error: "L'ancienne adresse e-mail est requise."
 	}).email({
@@ -22,7 +22,9 @@ const mailSettingsSchema = z.object({
 	path: ["newMail"]
 })
 
-type MailInputsType = z.infer<typeof mailSettingsSchema>
+type InputsType = z.infer<typeof settingsSchema>
+
+type InputsKeys = keyof InputsType
 
 export default function MailSetting(cb: () => void) {
 	return {
@@ -39,11 +41,12 @@ function Form({callback}: {callback: () => void}) {
 			errors
 		},
 		setError
-	} = useForm<MailInputsType>({
-		resolver: zodResolver(mailSettingsSchema)
+	} = useForm<InputsType>({
+		resolver: zodResolver(settingsSchema)
 	});
 
-	const onSubmit: SubmitHandler<MailInputsType> = data => {
+	const onSubmit: SubmitHandler<InputsType> = data => {
+
 		formClient.url("/user/email")
 			.put({
 				oldMail: data.oldMail,
@@ -80,16 +83,17 @@ function Form({callback}: {callback: () => void}) {
 			</div>
 
 			<Button type="primary">Enregistrer</Button>
-			<ErrorMessage
-				errors={errors}
-				name="newMail"
-				render={({ message }) => <div className="form-error">Error: {message}</div>}
-			/>
-			<ErrorMessage
-				errors={errors}
-				name="oldMail"
-				render={({ message }) => <div className="form-error">Error: {message}</div>}
-			/>
+
+			{
+				Object.keys(errors).map((key: string) => (
+					<ErrorMessage
+						key={key}
+						errors={errors}
+						name={key as InputsKeys}
+						render={({ message }) => <div className="form-error">Error: {message}</div>}
+					/>
+				))
+			}
 		</form>
 	)
 }

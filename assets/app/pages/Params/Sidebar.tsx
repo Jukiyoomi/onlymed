@@ -1,5 +1,5 @@
 import React from 'react';
-import {Mail, Settings, UserSquare, Lock} from "lucide-react";
+import {Mail, Settings, UserSquare, Lock, MapPin} from "lucide-react";
 import cn from "classnames";
 
 const links = [
@@ -9,12 +9,20 @@ const links = [
 			{
 				label: "General",
 				slug: "general",
-				icon: <Settings />
+				icon: <Settings />,
+				type: null
 			},
 			{
 				label: "Mon compte",
 				slug: "account",
-				icon: <UserSquare />
+				icon: <UserSquare />,
+				type: null
+			},
+			{
+				label: "Adresse",
+				slug: "address",
+				icon: <MapPin />,
+				type: "ROLE_DOCTOR"
 			},
 		]
 	},
@@ -24,19 +32,21 @@ const links = [
 			{
 				label: "Adresse E-mail",
 				slug: "mail",
-				icon: <Mail />
+				icon: <Mail />,
+				type: null
 			},
 			{
 				label: "Mot de passe",
 				slug: "password",
-				icon: <Lock />
-			},
+				icon: <Lock />,
+				type: null
+			}
 		]
 	},
 
 ];
 
-export default function Sidebar({currentLink, setCurrentLink}: {currentLink: string, setCurrentLink: (link: string) => void}) {
+export default function Sidebar({currentLink, setCurrentLink, type}: {currentLink: string, type: string, setCurrentLink: (link: string) => void}) {
 	return (
 		<aside className="box">
 			<ul className="sidebar">
@@ -45,7 +55,9 @@ export default function Sidebar({currentLink, setCurrentLink}: {currentLink: str
 						<h4 className="sidebar_subtitle second-title">{link.name}</h4>
 						<ul className="sidebar_sublist">
 							{link.links.map((subLink, j) => (
-								<SidebarItem subLink={subLink} currentLink={currentLink} setCurrentLink={setCurrentLink} key={j} />
+								(subLink.type === null || subLink.type === type) ?
+								<SidebarItem key={j} subLink={subLink} active={currentLink === subLink.slug} setCurrentLink={setCurrentLink}
+								/> : null
 							))}
 						</ul>
 					</li>
@@ -55,10 +67,10 @@ export default function Sidebar({currentLink, setCurrentLink}: {currentLink: str
 	)
 }
 
-function SidebarItem({subLink, currentLink, setCurrentLink}: {subLink: {label: string, slug: string, icon: JSX.Element}, currentLink: string, setCurrentLink: (link: string) => void}) {
+function SidebarItem({subLink, active, setCurrentLink}: {subLink: {label: string, slug: string, icon: JSX.Element}, active: boolean, setCurrentLink: (link: string) => void}) {
 	const classes = cn({
 		sidebar_item: true,
-		active: currentLink === subLink.slug
+		active
 	});
 
 	return (

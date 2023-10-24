@@ -31,7 +31,7 @@ class Doctor extends User
 	private Speciality $speciality;
 
 	#[ORM\Column]
-	#[Groups(['doctor:read', 'doctor:read:one', 'appt:read'])]
+	#[Groups(['user:read', 'doctor:read', 'doctor:read:one', 'appt:read'])]
 	private ?string $address = null;
 
     #[ORM\OneToMany(mappedBy: 'doctor', targetEntity: Appointment::class)]

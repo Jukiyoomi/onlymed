@@ -3,7 +3,7 @@ import useToggle from "@/hooks/useToggle";
 import Accordion from "@/components/Accordion";
 import Button from "@/components/Button";
 import {ApptType} from "@/schemas/appointment";
-import {useMyApptsQuery} from "./query";
+import {useMyApptsQuery} from "../query";
 
 
 export default function ApptsSection() {
@@ -17,7 +17,7 @@ export default function ApptsSection() {
 	}]);
 	const idRef = useId();
 
-	const {isLoading, data, error} = useMyApptsQuery();
+	const {isLoading, data, error} = useMyApptsQuery("doctor");
 
 	return (
 		<Accordion className="appts box" as="article" id={idRef}>
@@ -57,17 +57,13 @@ function ApptList({data, title}: {data: ApptType[], title: string}) {
 			{data.length === 0 ?
 				<p>Aucun rendez-vous {title.toLowerCase()}</p> :
 				<>
-					<ul>
+					<ul className="dashboard_doctor_list">
 						{data
 							.slice(0, isActive ? data.length : maxRef.current)
 							.map((appointment) => (
 								<li key={appointment.id}>
 									<div>
-										<img src="https://source.unsplash.com/user/wsanter" alt={`photo of ${appointment.doctor.firstname}` }/>
-										<div>
-											<h2 className="second-title">Dr. {appointment.doctor.firstname} {appointment.doctor.lastname}</h2>
-											<p className="subtitle">{appointment.doctor.address}</p>
-										</div>
+										<h2 className="second-title">Patient: John Doe</h2>
 									</div>
 									<p className="reg-bold">{(new Date(appointment.plannedAt)).toLocaleDateString()}</p>
 								</li>
