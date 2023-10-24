@@ -6,6 +6,7 @@ import {SubmitHandler, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import useUserStore from "@/store/user";
 import {formClient} from "@/api/wretch";
+import useAutocomplete from "@/hooks/useAutocomplete";
 
 const settingsSchema = z.object({
     address: z.string()
@@ -34,12 +35,28 @@ function Form({callback}: {callback: () => void}) {
         resolver: zodResolver(settingsSchema)
     });
     const user = useUserStore(state => state.user);
+    const {
+        state,
+        query: {
+            data, isFetching, isLoading, remove,
+        },
+        onClick,
+        handleChange
+    } = useAutocomplete(user?.address!, (e) => {
+        setError(e.path, {
+            message: e.error
+        });
+    })
 
-    const onSubmit: SubmitHandler<InputsType> = data => {
-        console.log(data);
-        formClient.url("/user/address")
-            .put(data)
-            .then(callback)
+    const onSubmit: SubmitHandler<InputsType> = () => {
+        formClient.url("/doctor/address")
+            .put({
+                address: state.search
+            })
+            .then(() => {
+                remove();
+                callback();
+            })
             .catch((e) => {
                 console.log(e)
                 setError(e.path, {
@@ -48,27 +65,40 @@ function Form({callback}: {callback: () => void}) {
             })
     };
 
+    const {onChange, ...rest} = register('address')
+
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form_half">
-                <div className="form_widget form_half_item">
-                    <label htmlFor="firstname" className="reg-bold">Nouvelle Adresse</label>
+                <div className="form_widget">
+                    <label htmlFor="address" className="reg-bold">Nouvelle Adresse</label>
                     <input
                         type="text"
                         id="address"
-                        defaultValue={user?.address}
-                        {...register('address')}
+                        value={state.search}
+                        onChange={handleChange}
+                        {...rest}
                     />
                 </div>
             </div>
             <p className="subtitle">Si vous souhaitez garder une information comme telle, veuillez laisser le champ vide.</p>
 
-            <Button type="primary">Enregistrer</Button>
+            <Button type="primary" disabled={state.mustFetch || (isFetching && isLoading)}>
+                Enregistrer {JSON.stringify(state.mustFetch)}
+            </Button>
             <ErrorMessage
                 errors={errors}
                 name="address"
                 render={({ message }) => <div className="form-error">Error: {message}</div>}
             />
+            {isFetching && isLoading ? <p>Chargement...</p> : null}
+            <ul>
+                {data?.map((prediction, id) => (
+                    <li key={id} onClick={() => onClick(prediction.description)}>
+                        <p>{prediction.description}</p>
+                    </li>
+                ))}
+            </ul>
         </form>
     )
 }
