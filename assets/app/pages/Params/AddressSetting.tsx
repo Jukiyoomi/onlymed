@@ -30,7 +30,7 @@ function Form({callback}: {callback: () => void}) {
         formState: {
             errors
         },
-        setError
+        setError, clearErrors
     } = useForm<InputsType>({
         resolver: zodResolver(settingsSchema)
     });
@@ -42,7 +42,9 @@ function Form({callback}: {callback: () => void}) {
         },
         onClick,
         handleChange
-    } = useAutocomplete(user?.address!, (e) => {
+    } = useAutocomplete(user?.address!, () => {
+        clearErrors("address");
+    }, (e) => {
         setError(e.path, {
             message: e.error
         });

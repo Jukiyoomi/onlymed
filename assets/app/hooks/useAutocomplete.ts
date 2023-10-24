@@ -4,7 +4,7 @@ import {useQuery} from "@tanstack/react-query";
 import {defaultClient, validateSchema} from "@/api/wretch";
 import {autocompleteSchema, AutocompleteType} from "@/schemas/autocomplete";
 
-export default function useAutocomplete(defaultValue: string, onError: (e: any) => void) {
+export default function useAutocomplete(defaultValue: string, onBeforeRequest: () => void, onError: (e: any) => void) {
     const [state, setState] = useState({
         search: defaultValue,
         mustFetch: false,
@@ -44,6 +44,7 @@ export default function useAutocomplete(defaultValue: string, onError: (e: any) 
 
     useEffect(() => {
         if (state.mustFetch && (searchAddress && searchAddress !== defaultValue)) {
+            onBeforeRequest()
             query.refetch()
         }
     }, [searchAddress])
