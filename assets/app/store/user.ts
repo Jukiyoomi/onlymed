@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import {devtools, persist} from "zustand/middleware";
+import {Role} from "@/schemas/role";
 
 type User = {
 	id: number;
@@ -11,7 +12,7 @@ type User = {
 
 interface State {
 	user: User|null;
-	specificRole: string|null
+	specificRole: Role|null
 }
 
 interface Actions {
@@ -31,7 +32,9 @@ const useUserStore = create<State & Actions>()(
 			setUser: (user: unknown) => (
 				set({
 					user: user as User,
-					specificRole: user ? (user as User).roles.filter(role => role !== "ROLE_USER")[0] : null
+					specificRole: user ?
+						(user as User).roles.filter(role => role !== "ROLE_USER")[0] as Role :
+						null
 				})
 			),
 		}), { name: 'user-storage' })
