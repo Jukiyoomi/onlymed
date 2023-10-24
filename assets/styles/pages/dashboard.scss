@@ -88,5 +88,15 @@
 			text-transform: capitalize;
 		}
 	}
+
+	&_doctor_list {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+		gap: vars.rem(1);
+
+		li {
+			flex-direction: column;
+		}
+	}
 }
 

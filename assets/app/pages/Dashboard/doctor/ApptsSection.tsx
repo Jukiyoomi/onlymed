@@ -57,17 +57,11 @@ function ApptList({data, title}: {data: ApptType[], title: string}) {
 			{data.length === 0 ?
 				<p>Aucun rendez-vous {title.toLowerCase()}</p> :
 				<>
-					<ul style={{
-						display: "grid",
-						gridTemplateColumns: "repeat(3, 1fr)",
-						gap: "10px",
-					}}>
+					<ul className="dashboard_doctor_list">
 						{data
 							.slice(0, isActive ? data.length : maxRef.current)
 							.map((appointment) => (
-								<li key={appointment.id} style={{
-									flexDirection: "column",
-								}}>
+								<li key={appointment.id}>
 									<div>
 										<h2 className="second-title">Patient: John Doe</h2>
 									</div>
