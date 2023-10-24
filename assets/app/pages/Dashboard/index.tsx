@@ -2,9 +2,10 @@ import React from "react";
 import useUserStore from "@/store/user";
 import DoctorDashboard from "@/pages/Dashboard/doctor";
 import PatientDashboard from "@/pages/Dashboard/patient";
+import {Role} from "@/schemas/role";
 
 type DashboardFactoryType = {
-	[key: string]: () => JSX.Element
+	[key in Role]: () => JSX.Element
 }
 
 const dashboardFactory: DashboardFactoryType = {
@@ -13,13 +14,8 @@ const dashboardFactory: DashboardFactoryType = {
 }
 
 export default function Dashboard() {
-	const user = useUserStore(state => state.user);
-
-	if (!user) return <h1>Pas de user enculé</h1>;
-
-	const userSpecificRole = user.roles.filter(role => role !== "ROLE_USER")[0]
-
-	const Element = dashboardFactory[userSpecificRole];
+	const specificRole = useUserStore(state => state.specificRole);
+	const Element = dashboardFactory[specificRole!];
 
 	return (
 		<Element />
