@@ -18,6 +18,12 @@ const links = [
 				icon: <UserSquare />,
 				type: null
 			},
+			{
+				label: "Adresse",
+				slug: "address",
+				icon: <MapPin />,
+				type: "ROLE_DOCTOR"
+			},
 		]
 	},
 	{
@@ -34,13 +40,7 @@ const links = [
 				slug: "password",
 				icon: <Lock />,
 				type: null
-			},
-			{
-				label: "Adresse",
-				slug: "address",
-				icon: <MapPin />,
-				type: "ROLE_DOCTOR"
-			},
+			}
 		]
 	},
 
