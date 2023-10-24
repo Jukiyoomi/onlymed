@@ -30,6 +30,8 @@ const settingsSchema = z.object({
 
 type InputsType = z.infer<typeof settingsSchema>
 
+type InputsKeys = keyof InputsType
+
 export default function PasswordSetting(cb: () => void) {
 	return {
 		Title: "Modifier mon mot de passe",
@@ -93,21 +95,16 @@ function Form({callback}: {callback: () => void}) {
 			</div>
 
 			<Button type="primary">Enregistrer</Button>
-			<ErrorMessage
-				errors={errors}
-				name="oldPassword"
-				render={({ message }) => <div className="form-error">Error: {message}</div>}
-			/>
-			<ErrorMessage
-				errors={errors}
-				name="newPassword"
-				render={({ message }) => <div className="form-error">Error: {message}</div>}
-			/>
-			<ErrorMessage
-				errors={errors}
-				name="confirmPassword"
-				render={({ message }) => <div className="form-error">Error: {message}</div>}
-			/>
+			{
+				Object.keys(errors).map((key: string) => (
+					<ErrorMessage
+						key={key}
+						errors={errors}
+						name={key as InputsKeys}
+						render={({ message }) => <div className="form-error">Error: {message}</div>}
+					/>
+				))
+			}
 		</form>
 	)
 }

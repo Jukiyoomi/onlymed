@@ -18,6 +18,8 @@ const settingsSchema = z.object({
 
 type InputsType = z.infer<typeof settingsSchema>
 
+type InputsKeys = keyof InputsType
+
 export default function GeneralSetting(cb: () => void) {
 	return {
 		Title: "Informations Générales",
@@ -94,16 +96,16 @@ function Form({callback}: {callback: () => void}) {
 			<p className="subtitle">Si vous souhaitez garder une information comme telle, veuillez laisser le champ vide.</p>
 
 			<Button type="primary">Enregistrer</Button>
-			<ErrorMessage
-				errors={errors}
-				name="firstname"
-				render={({ message }) => <div className="form-error">Error: {message}</div>}
-			/>
-			<ErrorMessage
-				errors={errors}
-				name="lastname"
-				render={({ message }) => <div className="form-error">Error: {message}</div>}
-			/>
+			{
+				Object.keys(errors).map((key: string) => (
+					<ErrorMessage
+						key={key}
+						errors={errors}
+						name={key as InputsKeys}
+						render={({ message }) => <div className="form-error">Error: {message}</div>}
+					/>
+				))
+			}
 		</form>
 	)
 }

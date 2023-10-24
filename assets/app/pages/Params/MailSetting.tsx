@@ -24,6 +24,8 @@ const settingsSchema = z.object({
 
 type InputsType = z.infer<typeof settingsSchema>
 
+type InputsKeys = keyof InputsType
+
 export default function MailSetting(cb: () => void) {
 	return {
 		Title: "Adresse E-mail",
@@ -81,16 +83,17 @@ function Form({callback}: {callback: () => void}) {
 			</div>
 
 			<Button type="primary">Enregistrer</Button>
-			<ErrorMessage
-				errors={errors}
-				name="newMail"
-				render={({ message }) => <div className="form-error">Error: {message}</div>}
-			/>
-			<ErrorMessage
-				errors={errors}
-				name="oldMail"
-				render={({ message }) => <div className="form-error">Error: {message}</div>}
-			/>
+
+			{
+				Object.keys(errors).map((key: string) => (
+					<ErrorMessage
+						key={key}
+						errors={errors}
+						name={key as InputsKeys}
+						render={({ message }) => <div className="form-error">Error: {message}</div>}
+					/>
+				))
+			}
 		</form>
 	)
 }

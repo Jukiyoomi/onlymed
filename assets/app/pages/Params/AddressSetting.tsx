@@ -14,6 +14,8 @@ const settingsSchema = z.object({
 
 type InputsType = z.infer<typeof settingsSchema>
 
+type InputsKeys = keyof InputsType
+
 export default function AddressSetting(cb: () => void) {
     return {
         Title: "Adresse",
@@ -88,11 +90,16 @@ function Form({callback}: {callback: () => void}) {
             <Button type="primary" disabled={state.mustFetch || (isFetching && isLoading)}>
                 Enregistrer {JSON.stringify(state.mustFetch)}
             </Button>
-            <ErrorMessage
-                errors={errors}
-                name="address"
-                render={({ message }) => <div className="form-error">Error: {message}</div>}
-            />
+            {
+                Object.keys(errors).map((key: string) => (
+                    <ErrorMessage
+                        key={key}
+                        errors={errors}
+                        name={key as InputsKeys}
+                        render={({ message }) => <div className="form-error">Error: {message}</div>}
+                    />
+                ))
+            }
             {isFetching && isLoading ? <p>Chargement...</p> : null}
             <ul>
                 {data?.map((prediction, id) => (
