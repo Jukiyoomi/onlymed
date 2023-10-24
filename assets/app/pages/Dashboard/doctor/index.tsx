@@ -11,7 +11,7 @@ export default function DoctorDashboard() {
 	return (
 		<Container className="dashboard">
 			<section className="dashboard_header">
-				<h1 className="main-title">Dr {toString()} caca</h1>
+				<h1 className="main-title">Dr {toString()}</h1>
 				<Link to="/dashboard/params">
 					<Button type="secondary">
 						Voir les options
