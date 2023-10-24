@@ -3,6 +3,7 @@ import MailSetting from "./MailSetting";
 import PasswordSetting from "./PasswordSetting";
 import GeneralSetting from "./GeneralSetting";
 import AccountSetting from "./AccountSetting";
+import AddressSetting from "./AddressSetting";
 import {useNavigate} from "react-router-dom";
 import {useQueryClient} from "@tanstack/react-query";
 
@@ -47,4 +48,5 @@ const settingFactories: SettingType = {
 	"mail": MailSetting,
 	"password": PasswordSetting,
 	"general": GeneralSetting,
+	"address": AddressSetting
 }
