@@ -6,19 +6,25 @@ use App\Repository\SpecialityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: SpecialityRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Speciality
 {
+    use TimestampTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+	#[Groups(['appt:read', 'doctor:read'])]
+	private ?int $id = null;
 
-    #[ORM\Column(length: 150)]
+    #[ORM\Column(length: 190)]
+    #[Groups(['doctor:read', 'appt:read'])]
     private ?string $name = null;
 
-	#[ORM\ManyToMany(targetEntity: Doctor::class, mappedBy: 'specialities')]
+	#[ORM\OneToMany(mappedBy: 'speciality', targetEntity: Doctor::class)]
 
 	private Collection $doctors;
 

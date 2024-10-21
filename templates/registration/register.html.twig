@@ -3,13 +3,16 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    {{ form_start(form, { 'attr': {'class': 'form_auth'} }) }}
+    {% include 'components/header.html.twig' %}
+    {{ form_start(form, { 'attr': {'class': 'form_auth box'} }) }}
         <h1 class="form_title main-title">Register</h1>
-        <div class="form_widget form_half">
-            {{ form_widget(form.firstname) }}
-        </div>
-        <div class="form_widget form_half">
-            {{ form_widget(form.lastname) }}
+        <div class="form_half">
+            <div class="form_widget form_half_item">
+                {{ form_widget(form.firstname) }}
+            </div>
+            <div class="form_widget form_half_item">
+                {{ form_widget(form.lastname) }}
+            </div>
         </div>
         <div class="form_widget">
             {{ form_widget(form.email) }}
@@ -23,6 +26,18 @@
         <div class="form_widget">
             {{ form_row(form.agreeTerms) }}
         </div>
+        <div class="form_widget">
+            <a href="{{ path("app_login") }}">Se connecter</a>
+        </div>
         <button type="submit" class="btn_full btn_primary reg-bold">Register</button>
+        <p class="subtitle">
+            Votre compte sera créé. Vous recevrez un e-mail de confirmation.
+        </p>
+
+        {% if error %}
+            {% from "components/form_error.html.twig" import form_error %}
+            {{ form_error(error.message) }}
+        {% endif %}
+
     {{ form_end(form) }}
 {% endblock %}

@@ -5,9 +5,9 @@ namespace App\Controller;
 use App\Entity\Doctor;
 use App\Entity\Patient;
 use App\Entity\User;
-use App\Form\DoctorFormType;
-use App\Form\RegistrationFormType;
-use App\Service\NameFormatterService;
+use App\Form\Auth\DoctorFormType;
+use App\Form\Auth\PatientFormType;
+use App\Service\SpecialityService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,18 +26,16 @@ class RegistrationController extends AbstractController
 		}
 
         $user = new Patient();
-        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form = $this->createForm(PatientFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-			$user->setFirstname(NameFormatterService::formatName($form->get('firstname')->getData()));
-
 			$user->setPassword(
-                $userPasswordHasher->hashPassword(
-                    $user,
-                    $form->get('password')->getData()
-                )
-            );
+				$userPasswordHasher->hashPassword(
+					$user,
+					$form->get('password')->getData()
+				)
+			);
 
 			$entityManager->persist($user);
             $entityManager->flush();
@@ -48,29 +46,26 @@ class RegistrationController extends AbstractController
 
         return $this->render('registration/register.html.twig', [
             'form' => $form->createView(),
+			'error' => $form->getErrors()->current(),
         ]);
     }
 
 	#[Route('/doctor', name: 'app_register_doctor')]
-	public function newDoctor(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+	public function newDoctor(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, SpecialityService $service): Response
 	{
 		$user = new Doctor();
-		$form = $this->createForm(DoctorFormType::class, $user);
+		$form = $this->createForm(DoctorFormType::class, $user, [
+            'specialities' => $service->findAll(),
+        ]);
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid()) {
-			$user->setFirstname(NameFormatterService::formatName($form->get('firstname')->getData()));
-
 			$user->setPassword(
 				$userPasswordHasher->hashPassword(
 					$user,
 					$form->get('password')->getData()
 				)
 			);
-
-			foreach ($form->get('speciality')->getData() as $speciality) {
-				$user->addSpeciality($speciality);
-			}
 
 			$entityManager->persist($user);
 			$entityManager->flush();
@@ -81,6 +76,7 @@ class RegistrationController extends AbstractController
 
 		return $this->render('registration/doctor.html.twig', [
 			'form' => $form->createView(),
+			'error' => $form->getErrors()->current(),
 		]);
 	}
 }

@@ -1,0 +1,70 @@
+@use '../utils' as vars;
+
+.params {
+	@include vars.flexer(start, space-between);
+	gap: vars.rem(20);
+
+	.sidebar {
+		@include vars.flexer(start, start, column);
+		gap: vars.rem(40);
+
+		&_subtitle {
+			color: vars.$dark-green;
+		}
+
+		&_list {
+			width: 100%;
+		}
+
+		&_sublist {
+			width: 100%;
+			@include vars.flexer(start, start, column);
+			gap: vars.rem(5);
+			//padding-left: vars.rem(20);
+		}
+
+		&_item {
+			width: 100%;
+			@include vars.flexer(center, start);
+			gap: vars.rem(5);
+			padding: vars.rem(10);
+			border-radius: vars.rem(8);
+			cursor: pointer;
+
+			&.active {
+				background: vars.$dark-green;
+				color: vars.$white;
+				pointer-events: none;
+			}
+		}
+	}
+
+	.settings {
+		flex: 1;
+
+		&_header {
+			margin-bottom: vars.rem(10);
+		}
+
+		h1 {
+			text-transform: capitalize;
+		}
+
+		hr {
+			opacity: 0.3;
+		}
+
+		&_account {
+			@include vars.flexer(start, start, column);
+			gap: vars.rem(10);
+		}
+
+		form {
+			width: 100%;
+		}
+
+		button {
+			margin-top: vars.rem(20);
+		}
+	}
+}

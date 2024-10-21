@@ -1,0 +1,75 @@
+@use '../utils' as vars;
+
+.search {
+    .result {
+        width: vars.rem(730);
+        @include vars.flexer(center, start, column);
+        gap: vars.rem(25);
+    }
+
+    .bar {
+        max-width: vars.rem(730);
+        width: 100%;
+        @include vars.flexer(center, center);
+        gap: vars.rem(5);
+        margin-bottom: vars.rem(50);
+
+        @include vars.media(tablet-small, max) {
+            flex-direction: column;
+        }
+
+        .form_widget {
+            @include vars.flexer(center, center);
+            border: 1px solid vars.$dark-green;
+            border-radius: 4px;
+            flex: 1;
+            min-width: vars.rem(200);
+            padding: 0 vars.rem(4);
+
+            @include vars.media(tablet-small, max) {
+                width: 100%;
+            }
+        }
+
+        input {
+            background: transparent;
+        }
+    }
+
+    .search_doctor {
+        width: 100%;
+        @include vars.flexer(start, start);
+        gap: vars.rem(10);
+
+        &_img {
+            border-radius: 50%;
+            width: vars.rem(150);
+            height: vars.rem(150);
+            object-fit: cover;
+        }
+
+        article {
+            flex: 1;
+            @include vars.flexer(start, space-between, column);
+
+            h2 {
+                color: vars.$dark-green;
+            }
+        }
+
+        &_info {
+            width: 100%;
+            @include vars.flexer(start, space-between);
+        }
+
+        &_address {
+            max-width: vars.rem(200);
+        }
+    }
+
+    .paginate {
+        @include vars.flexer(center, start, row);
+        gap: vars.rem(25);
+        width: 100%;
+    }
+}

@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping\InheritanceType;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -17,28 +18,36 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[InheritanceType('SINGLE_TABLE')]
 #[DiscriminatorColumn(name: 'discr', type: 'string')]
 #[DiscriminatorMap(['doctor' => Doctor::class, 'patient' => Patient::class])]
+#[ORM\HasLifecycleCallbacks]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    use TimestampTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+	#[Groups(['doctor:read', 'user:read', 'appt:read'])]
     private ?int $id = null;
 
-	#[ORM\Column]
+	#[ORM\Column(length: 190)]
 	#[Assert\NotBlank]
-	private string $firstname;
+    #[Groups(['doctor:read', 'user:read', 'appt:read'])]
+    private string $firstname;
 
-	#[ORM\Column]
+	#[ORM\Column(length: 190)]
 	#[Assert\NotBlank]
-	private string $lastname;
+    #[Groups(['doctor:read', 'user:read', 'appt:read'])]
+    private string $lastname;
 
-    #[ORM\Column(length: 180, unique: true)]
+    #[ORM\Column(length: 190, unique: true)]
 	#[Assert\NotBlank]
 	#[Assert\Email]
+    #[Groups(['user:read'])]
     private string $email;
 
     #[ORM\Column]
-    protected array $roles = [];
+	#[Groups(['user:read'])]
+	protected array $roles = [];
 
 	public function __construct()
 	{

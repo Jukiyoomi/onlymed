@@ -6,6 +6,7 @@ use App\Repository\DoctorRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: DoctorRepository::class)]
 class Doctor extends User
@@ -15,8 +16,8 @@ class Doctor extends User
 	{
 		parent::__construct();
 		$this->roles[] = $this->role;
-		$this->specialities = new ArrayCollection();
 		$this->isVerified = false;
+	 	$this->appointments = new ArrayCollection();
 	}
 
     #[ORM\Column(length: 150)]
@@ -25,10 +26,16 @@ class Doctor extends User
     #[ORM\Column]
     private bool $isVerified;
 
-	#[ORM\ManyToMany(targetEntity: Speciality::class, inversedBy: 'doctors')]
-	private Collection $specialities;
+	#[ORM\ManyToOne(targetEntity: Speciality::class, inversedBy: 'doctors')]
+	#[Groups(['doctor:read', 'doctor:read:one', 'appt:read'])]
+	private Speciality $speciality;
 
+	#[ORM\Column]
+	#[Groups(['user:read', 'doctor:read', 'doctor:read:one', 'appt:read'])]
+	private ?string $address = null;
 
+    #[ORM\OneToMany(mappedBy: 'doctor', targetEntity: Appointment::class)]
+    private Collection $appointments;
 
     public function getPhone(): ?string
     {
@@ -54,24 +61,58 @@ class Doctor extends User
         return $this;
     }
 
-	public function getSpecialities(): Collection
+	/**
+	 * @return Speciality
+	 */
+	public function getSpeciality(): Speciality
 	{
-		return $this->specialities;
+		return $this->speciality;
 	}
 
-	public function addSpeciality(Speciality $speciality): self
+	/**
+	 * @param Speciality $speciality
+	 */
+	public function setSpeciality(Speciality $speciality): void
 	{
-		if (!$this->specialities->contains($speciality)) {
-			$this->specialities[] = $speciality;
-		}
-
-		return $this;
+		$this->speciality = $speciality;
 	}
 
-	public function removeSpeciality(Speciality $speciality): self
-	{
-		$this->specialities->removeElement($speciality);
 
-		return $this;
+
+	public function getAddress(): ?string
+	{
+		return $this->address;
 	}
+
+	public function setAddress(?string $address): void
+               	{
+               		$this->address = $address;
+               	}
+
+    public function getAppointments(): Collection
+    {
+        return $this->appointments;
+    }
+
+    public function addAppointment(Appointment $appointment): self
+    {
+        if (!$this->appointments->contains($appointment)) {
+            $this->appointments->add($appointment);
+            $appointment->setDoctor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAppointment(Appointment $appointment): self
+    {
+        if ($this->appointments->removeElement($appointment)) {
+            // set the owning side to null (unless already changed)
+            if ($appointment->getDoctor() === $this) {
+                $appointment->setDoctor(null);
+            }
+        }
+
+        return $this;
+    }
 }

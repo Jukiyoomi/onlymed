@@ -15,8 +15,7 @@
         "jsx": "preserve",
         "incremental": true,
         "paths": {
-            "@pages/*": ["./assets/app/pages/*"],
-            "@comps/*": ["./assets/app/components/*"],
+            "@/*": ["./assets/app/*"],
             "@img/*": ["./assets/images/*"],
         },
         "typeRoots" : ["node_modules/@types", "assets/types"]

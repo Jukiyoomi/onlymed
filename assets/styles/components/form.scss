@@ -4,13 +4,11 @@ $input-gap: 20;
 
 form {
 	&.form_auth {
-		background: vars.$white;
 		max-width: vars.rem(610);
 		@include vars.flexer(center, center);
 		flex-wrap: wrap;
 		padding: vars.rem(40);
 		gap: vars.rem($input-gap);
-		border-radius: vars.rem(8);
 		margin: 0 auto;
 	}
 
@@ -29,8 +27,14 @@ form {
 	}
 
 	.form_half {
-		$half-gap: calc($input-gap / 2);
-		$half-gap-to-rem: vars.rem($half-gap);
-		width: calc(50% - $half-gap-to-rem);
+		width: 100%;
+		@include vars.flexer(start, start);
+		flex-wrap: wrap;
+		gap: vars.rem(15);
+	}
+
+	.form_half_item {
+		width: auto;
+		flex: 1;
 	}
 }

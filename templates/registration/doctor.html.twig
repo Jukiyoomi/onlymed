@@ -3,13 +3,16 @@
 {% block title %}Hello Doctor{% endblock %}
 
 {% block body %}
+	{% include 'components/header.html.twig' %}
 	{{ form_start(form, { 'attr': {'class': 'form_auth'} }) }}
 	<h1 class="form_title main-title">Register</h1>
-	<div class="form_widget form_half">
-		{{ form_widget(form.firstname) }}
-	</div>
-	<div class="form_widget form_half">
-		{{ form_widget(form.lastname) }}
+	<div class="form_half">
+		<div class="form_widget form_half_item">
+			{{ form_widget(form.firstname) }}
+		</div>
+		<div class="form_widget form_half_item">
+			{{ form_widget(form.lastname) }}
+		</div>
 	</div>
 	<div class="form_widget form_half">
 		{{ form_widget(form.email) }}
@@ -31,9 +34,15 @@
 	</div>
 	<button type="submit" class="btn_full btn_primary reg-bold">Register</button>
 	<p class="subtitle">
-		Votre compte sera créé.
+		Votre compte sera créé. Vous recevrez un e-mail de confirmation.
 		Pour des raisons de sécurité, vous devrez vérifier votre statut de médecin avant de pouvoir utiliser Onlymed.
 		Nos experts vus contacteront.
 	</p>
+
+	{% if error %}
+		{% from "components/form_error.html.twig" import form_error %}
+		{{ form_error(error.message) }}
+	{% endif %}
+
 	{{ form_end(form) }}
 {% endblock %}

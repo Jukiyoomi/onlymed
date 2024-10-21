@@ -5,6 +5,9 @@
 		position: absolute;
 		inset: 0;
 		@include vars.flexer(center, center);
+	}
+
+	&_dark {
 		background: rgba(0, 0, 0, 0.5);
 	}
 }
